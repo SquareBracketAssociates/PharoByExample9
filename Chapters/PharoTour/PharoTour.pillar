@@ -478,35 +478,30 @@ At the end of the navigation, we will get the situation depicted in
 
 +The System Browser showing the ==printString== method of class ==Object==.>file://figures/browsingprintString.png|width=100|label=fig:systemBrowser2+
 
-!!!!!Open the Browser.
+- ""Open the Browser.""
 When a new System Browser window first opens, all panes but the leftmost are
 empty. This first pane lists all known packages, which contain groups of related
 classes.
-
-!!!!!Filter packages.
+- ""Filter packages.""
 Type part of the name of the package in the left most filter. It filters the
 list of packages to be shown in the list above it. Type 'Kern' for example.
-
-!!!!!Expand the ==Kernel== package and select the ==Object== element.
+- ""Expand the ==Kernel== package and select the ==Object== element.""
 When we select a package, it causes the second pane to show a list of all of the
 classes in the selected package. You should see the hierarchy of ==ProtoObject==.
-
-!!!!!Select the ==Object== class.
+- ""Select the ==Object== class.""
 When a class is selected, the remaining two panes will be populated. The
 third pane displays the protocols of the currently selected class. These are
 convenient groupings of related methods. If no protocol is selected you should
 see all methods in the fourth pane.
-
-!!!!!Select the ==printing== protocol.
+-""Select the ==printing== protocol.""
 You may have to scroll down to find it. You can also click on the third pane and
 type ==pr==, to typeahead-find the ==printing== protocol. Now select it, and you
 will see in the fourth pane only methods related to printing.
-
-!!!!!Select the ==printString== Method.
+- ""Select the ==printString== Method.""
 Now we see in the bottom pane the source code of the ==printString== method,
 shared by all objects in the system (except those that override it).
 
-There are much better way to find a method and we will look at them now.
+There are much better way to find a method, for example, just type it in a Playground and select the word and use Implementors of it in the Code search menu item.
 
 !!!Finding Classes
 
