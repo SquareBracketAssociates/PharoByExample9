@@ -1,19 +1,18 @@
 !!About this book
 
 This version of the book is based on the previous version authored by: Andrew P. Black, Stéphane Ducasse, Oscar Nierstrasz, Damien Pollet, Damien Cassou and Marcus Denker called, ''Pharo by Example''. It is also built on the version that was issued for Pharo 50 named ''Updated Pharo by Example'' authored by: Stéphane Ducasse and edited by Dmitri Zagidulin, Nicolai Hess, and Dimitris Chloupis.
-The current version got many edits, modifications and updates to bring the book to the current version of Pharo.
 
+The current version got many edits, modifications and updates to bring the book to the current version of Pharo.
 Maintaining a book to be update to date is not an easy task. This is not just changing a 5.0 into a 9.0.
 This is a tedious and often boring work. Many aspects of Pharo from a tooling perspective have changed such as the git support with Iceberg.
 Pharo by Example is not magically updating itself but the result of work. This is why I decided, as one of the original and main author over the years, to invite Sebastijan, Gordana and Quentin to be listed as authors of Pharo by Example9.0.
 
 The following changes have been made: 
-- We introduced a new first contact chapter with a super simple counter example. It lets the reader see the most important operations to define a class, its tests and save the code.
-- We are covering briefly the new system browser, Calypso.
+- We introduced a new first contact chapter with a simple counter example. This lets the reader see the most important operations to define a class, its tests, and save the code.
+- We are covering briefly the new system browser, Calypso as well as the Pharo Launcher.
 - In addition, this book version has two new chapters covering Iceberg and package management (see Chapters *@cha:Iceberg* and *@cha:Configure*) - a new book on Pharo and git is available at *http://books.pharo.org*.
 - We simplified the SUnit chapter, since a companion book is available now at *http://books.pharo.org*/
 - Altogether we revise parts of the books that were wrong such as Morphic chapter, in previous editions and the current version has really improved over Pharo by Example 5.
-
 
 !!!What is Pharo?
 
