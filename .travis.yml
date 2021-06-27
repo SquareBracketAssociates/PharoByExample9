@@ -26,8 +26,8 @@ after_failure:
 
 after_success:
   - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-  - mv _result/pdf/index.pdf PBE8-wip.pdf
-  - bash upload.sh PBE8-wip.pdf
+  - mv _result/pdf/index.pdf PBE9-wip.pdf
+  - bash upload.sh PBE9-wip.pdf
 
 branches:
   except:
