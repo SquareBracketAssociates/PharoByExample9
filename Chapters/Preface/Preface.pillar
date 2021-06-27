@@ -1,17 +1,19 @@
-!!Preface
+!!About this book
 
 This version of the book is based on the previous version authored by: Andrew P. Black, Stéphane Ducasse, Oscar Nierstrasz, Damien Pollet, Damien Cassou and Marcus Denker called, ''Pharo by Example''. It is also built on the version that was issued for Pharo 50 named ''Updated Pharo by Example'' authored by: Stéphane Ducasse and edited by Dmitri Zagidulin, Nicolai Hess, and Dimitris Chloupis.
 The current version got many edits, modifications and updates to bring the book to the current version of Pharo.
 
-Maintaining a book to be update to date is not an easy task. This is not just changing a 5.0 into a 8.0. 
-This is a tedious and often boring work. 
-Many aspects of Pharo from a tooling perspective have changed such as the git support with Iceberg. 
-- We cover briefly the new system browser, Calypso. 
-- This book version has two new chapters covering Iceberg and package management (see Chapters *@cha:Iceberg* and *@cha:Configure*) - a new book on Pharo and git is available at *http://books.pharo.org*.
+Maintaining a book to be update to date is not an easy task. This is not just changing a 5.0 into a 9.0.
+This is a tedious and often boring work. Many aspects of Pharo from a tooling perspective have changed such as the git support with Iceberg.
+Pharo by Example is not magically updating itself but the result of work. This is why I decided, as one of the original and main author over the years, to invite Sebastijan, Gordana and Quentin to be listed as authors of Pharo by Example9.0.
+
+The following changes have been made: 
+- We introduced a new first contact chapter with a super simple counter example. It lets the reader see the most important operations to define a class, its tests and save the code.
+- We are covering briefly the new system browser, Calypso.
+- In addition, this book version has two new chapters covering Iceberg and package management (see Chapters *@cha:Iceberg* and *@cha:Configure*) - a new book on Pharo and git is available at *http://books.pharo.org*.
 - We simplified the SUnit chapter, since a companion book is available now at *http://books.pharo.org*/
 - Altogether we revise parts of the books that were wrong such as Morphic chapter, in previous editions and the current version has really improved over Pharo by Example 5.
 
-Pharo by Example is not magically updating itself but the result of work. This is why I decided, as one of the original and main author over the years, to invite Sebastijan, Gordana and Quentin to be listed as authors of Pharo by Example8.0.
 
 !!!What is Pharo?
 
@@ -32,14 +34,14 @@ reference implementation for the Seaside web development framework available at
 *http://www.seaside.st*.
 
 Pharo core contains only code that has been contributed under the MIT license.
-The Pharo project started in March 2008 as a fork of Squeak (a modern
+The Pharo project started in March 2008 as a fork of Squeak (an
 implementation of Smalltalk-80), and the first 1.0 beta version was
 released on July 31, 2009. Since then Pharo got a new version each year or year and an half. 
-The current version is Pharo 8.0, released in January 2020. 
-%[upbe8]
+The Pharo 9.0 was released in July 2021.
 
 Pharo is highly portable. Pharo can run on OS X, Windows, Linux, Android, iOS,
-and Raspberry Pi. Its virtual machine is written entirely in a subset of Pharo
+and Raspberry Pi and this on different architectures. 
+Its virtual machine is written entirely in a subset of Pharo
 itself, making it easy to simulate, debug, analyze, and change from within Pharo
 itself. Pharo is the vehicle for a wide range of innovative projects, from
 multimedia applications and educational platforms to commercial web development
@@ -60,10 +62,8 @@ Check *http://github.com/pharo-project/pharo*.
 
 !!!Who should read this book?
 
-The previous revision of this book was based on Pharo 5.0.
-This revision has been liberally updated to align with Pharo 8.0. 
-Various aspects of Pharo are presented, starting with the basics then proceeding to intermediate topics.
 
+Various aspects of Pharo are presented, starting with the basics then proceeding to intermediate topics.
 An excellent MOOC (Massive online course) is freely available for Pharo at *http://mooc.pharo.org*.
 
 This book will not teach you how to program. 
@@ -75,16 +75,13 @@ associated tools. You will be exposed to common idioms and practices, but the
 focus is on the technology, not on object-oriented design. Wherever possible,
 we will show you lots of examples.
 
-There are numerous other books on Smalltalk freely available on the web at
-*http://stephane.ducasse.free.fr/FreeBooks.html*.
 
 
 !!!! Further readings
 
 This book is not alone. Here is a litle commented list of possible other readings that you can find  at *http://books.pharo.org*.
 
-- "Learning Object-Oriented Programming, Design and TDD with Pharo". This book is teaching key aspects of object design and test driven development. If you are learning 
-Object-oriented programming this is a good for you.
+- "Learning Object-Oriented Programming, Design and TDD with Pharo". This book is teaching key aspects of object design and test driven development. If you are learning Object-oriented programming this is a good for you.
 - "Pharo with Style". This book is a must read. It discusses how to write good and readable Pharo code. In one hour, you will boost your coding standard. 
 - "The Spec UI framework". This book will show you how to develop user interface standard applications in Pharo. 
 
@@ -96,6 +93,8 @@ More technical books are:
 Then you have books to expand your mind:
 - "A simple reflective object kernel" revisits all the fundamental points of "objects all the way down" by driving you in a little journey to build 
 a little reflective language core. It is truly excellent.
+
+In addition, there are numerous other books on Smalltalk freely available on the web at *http://stephane.ducasse.free.fr/FreeBooks.html*.
 
 !!!A word of advice
 
@@ -133,7 +132,7 @@ that you may find useful:
 - Pharoers started a wiki on Pharo *https://github.com/pharo-open-documentation/pharo-wiki>https://github.com/pharo-open-documentation/pharo-wiki*
 - An Awesome catalog is maintained with projects: *https://github.com/pharo-open-documentation/awesome-pharo>https://github.com/pharo-open-documentation/awesome-pharo*
 
-- If you hear about SmalltalkHub, *http://www.smalltalkhub.com/>http://www.smalltalkhub.com/* was the equivalent of SourceForge/Github for Pharo projects for about 10 years. Many extra packages and projects for Pharo lived there. Now the community is mainly using git repositories such as github.com, gitlab and bitbucket.
+- If you hear about SmalltalkHub, *http://www.smalltalkhub.com/>http://www.smalltalkhub.com/* was the equivalent of SourceForge/Github for Pharo projects for about 10 years. Many extra packages and projects for Pharo lived there. Nowadays the community is mainly using git repositories such as github.com, gitlab and bitbucket.
 
 !!!Examples and exercises
 
@@ -150,8 +149,6 @@ its context menu choose ""print it"":
 In case you want to play with these code snippets in Pharo, you can download a
 plain text file with all the example code from the Resources sidebar of the
 original book's web site: *http://books.pharo.org/pharo-by-example*.
-
-
 
 
 !!!Acknowledgments
@@ -188,6 +185,5 @@ Finally we want to thank Inria for its steady and important financial support, a
 team members for the constant energy pushing Pharo forward.
 
 Super special thanks to Damien Pollet for this great book template.
-
 
 S. Ducasse, S. Kaplar, Gordana Rakic, and Q. Ducasse
