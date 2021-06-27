@@ -240,7 +240,7 @@ Windows or Linux) or ==Shift-Option== (on OS X) while clicking.
 
 +Action Click (right click) brings the contextual menu.>file://figures/operating.png|width=60|label=fig:operating+
 
-+Meta-Clicking on a window opens the Halos.>file://figures/addHalo.png|width=100|label=fig:halos+
++Meta-Clicking on a window opens the Halos.>file://figures/addHalo.png|width=700|label=fig:halos+
 
 !!!Sending Messages
 
@@ -264,7 +264,7 @@ Pharo is based on the concept of sending messages to objects.
 The Pharo objects are like your soldiers ready to obey once you send them a message they can understand. 
 We will see how an object can understand a message, later on.
 
-+PharoTutorial is a simple interactive tutorial to learn about Pharo.>file://figures/ProfStef.png|width=60|label=fig:ProfStef+
++ProfStef is a simple interactive tutorial to learn about Pharo syntax.>file://figures/ProfStef.png|width=60|label=fig:ProfStef+
 
 If you talk to Pharoers for a while, you will notice that they generally do not
 use expressions like ''call an operation'' or ''invoke a method'', as developers
@@ -281,42 +281,37 @@ later on.
 !!!Saving, Quitting and Restarting a Pharo Session
 
 You can exit Pharo at any point, by closing the Pharo window as you do any other
-application window. Additionally you can use the ""World Menu"" and select
-either ==Save and quit== or ==Quit== in the ""Pharo"" submenu.
+application window. Additionally you can use the menu bar or the ""World Menu"" and select
+either ==Save and quit== or ==Quit==.
 
 In any case, Pharo will display a prompt to ask you about saving your image. If
 you do save your image and reopen it, you will see that things are ''exactly''
-as you left them. This happens because the image file stores all the objects
-(edited text, window positions, added methods... of course because they are all
-objects) that Pharo has loaded into your memory so that nothing is lost on exit.
+as you left them.
+This happens because the image file stores all the objects (edited text, window positions, added methods... of course because they are all objects) that Pharo has loaded into your memory so that nothing is lost on exit.
 
 When you start Pharo for the first time, the Pharo virtual machine loads the
-image file that you specified. This file contains a snapshot of a large number
-of objects, including a vast amount of pre-existing code and programming tools
-(all of which are objects). As you work with Pharo, you will send messages to
-these objects, you will create new objects, and some of these objects will die
-and their memory will be reclaimed (garbage-collected).
+image file that you specified. 
+This file contains a snapshot of a large number of objects, including a vast amount of pre-existing code and programming tools (all of which are objects). 
+As you work with Pharo, you will send messages to these objects, you will create new objects, and some of these objects will die and their memory will be reclaimed (garbage-collected).
 
 When you quit Pharo, you will normally save a snapshot that contains all of your
-objects. If you save normally, you will overwrite your old image file with the
-new snapshot. Alternatively, you may save the image under a new name.
+objects. 
+If you save normally, you will overwrite your old image file with the
+new snapshot. 
+Alternatively, you may save the image under a new name.
 
-As mentioned earlier, in addition to the ==.image== file, there is also a
-==.changes== file. This file contains a log of all the changes to the source
-code that you have made using the standard tools. Most of the time you do not
-need to worry about this file at all. As we shall see, however, the ==.changes==
-file can be very useful for recovering from errors, or replaying lost changes.
-More about this later!
+As mentioned earlier, in addition to the ==.image== file, there is also a ==.changes== file.
+This file contains a log of all the changes to the source code that you have made using the standard tools.
+Most of the time you do not need to worry about this file at all. 
+As we shall see, however, the ==.changes== file can be very useful for recovering from errors, or replaying lost changes. More about this later!
 
 It may seem like the image is the key mechanism for storing and managing
-software projects, but that is not the case. As we shall see soon, there are
-much better tools for managing code and sharing software developed by teams.
-Images are very useful, but you should learn to be very cavalier about creating
-and throwing away images, since versioning tools like ==Monticello== and ==Iceberg== offer much
-better ways to manage versions and share code amongst developers. In addition,
-if you need to persist objects, you can use several systems such as ==Fuel== (a
-fast object binary serializer), ==STON== (a textual object serializer) or a
-database.
+software projects, but that is not the case. 
+As we shall see soon, there are much better tools for managing code and sharing software developed by teams. 
+Images are very useful, but you should learn to be very cavalier about creating and throwing away images, since versioning tools ==Iceberg== offer much
+better ways to manage versions and share code amongst developers. 
+In addition, if you need to persist objects, you can use several systems such as ==Fuel== (a
+fast object binary serializer), ==STON== (a textual object serializer) or a database.
 
 !!!Playgrounds and Transcripts
 
@@ -483,7 +478,7 @@ At the end of the navigation, we will get the situation depicted in
 
 +The System Browser showing the ==printString== method of class ==Object==.>file://figures/browsingprintString.png|width=100|label=fig:systemBrowser2+
 
-!!!!!Open the Browser by selecting ==World > Tools > System Browser==.
+!!!!!Open the Browser.
 When a new System Browser window first opens, all panes but the leftmost are
 empty. This first pane lists all known packages, which contain groups of related
 classes.
