@@ -151,14 +151,14 @@ The general pattern for launching Pharo from a terminal is:
 <Pharo executable> <path to Pharo image>
 ]]]
 
-!!!!!Linux command line.
+!!!!Linux command line.
 For Linux, assuming that you're in the unzipped ==pharo9.0== folder:
 
 [[[
 ./pharo shared/Pharo9.0.image
 ]]]
 
-!!!!!OS X command line.
+!!!!OS X command line.
 For OS X, assuming that you're in the directory with the unzipped
 ==Pharo9.0.app== bundle:
 
@@ -171,7 +171,7 @@ select 'Show Package Contents' to get access to the image. If you need this
 often, just download a separated image/changes pair and drop that image into the
 ==Pharo9.0.app==.
 
-!!!!!Windows command line.
+!!!!Windows command line.
 For Windows, assuming that you're in the unzipped ==Pharo9.0== folder:
 
 [[[
@@ -207,7 +207,7 @@ To do so, simply import your .image and its associated .changes files using the 
 
 Once Pharo is running, you should see a single large window, possibly containing some open playground windows (see Figure *@fig:worldMenu*). You might notice a menu bar, but Pharo also makes use of context-dependent pop-up menus.
 
-+Clicking anywhere on the Pharo window background activates the World Menu.>file://figures/Pharo80.png|width=100|label=fig:worldMenu+
++Clicking anywhere on the Pharo window background activates the World Menu.>file://figures/Pharo80.png|width=80|label=fig:worldMenu+
 
 Clicking anywhere on the background of the Pharo window will display the
 ""World Menu"", which contains many of the Pharo tools, utilities and settings.
@@ -240,7 +240,7 @@ Windows or Linux) or ==Shift-Option== (on OS X) while clicking.
 
 +Action Click (right click) brings the contextual menu.>file://figures/operating.png|width=60|label=fig:operating+
 
-+Meta-Clicking on a window opens the Halos.>file://figures/addHalo.png|width=700|label=fig:halos+
++Meta-Clicking on a window opens the Halos.>file://figures/addHalo.png|width=70|label=fig:halos+
 
 !!!Sending Messages
 
@@ -248,15 +248,12 @@ Open a ""Playground"" from the ""Browse"" menu.
 The ""Playground"" tool will open (you may recognize it as the ""Workspace"" tool, from previous versions of Pharo). 
 We can use ""Playground"" to quickly execute Pharo code. 
 
-Enter the following code in it, then right click and select ==Do it==:
 
-[[[caption=Open ProfStef in the ==Playground==.|label=src:pharoTutorial
-	ProfStef go.
-]]]
+Type the following expression ==ProfStef go== code in the ""Playground"", then perform a ==Do it== as shown in Figure *@fig:pharotutorial*. 
 
 +Executing an expression is simple with the ==Do it== menu item.>file://figures/PharoTutorialOption.png|width=60|label=fig:pharotutorial+
 
-This expression will trigger the Pharo tutorial (as shown in Figure *@fig:ProfStef*). 
+This expression will trigger the ProfStef tutorial (as shown in Figure *@fig:ProfStef*). 
 It is a simple and interactive tutorial that will teach you the basics of Pharo.
 
 Congratulations, you have just sent your first message!
@@ -266,6 +263,7 @@ We will see how an object can understand a message, later on.
 
 +ProfStef is a simple interactive tutorial to learn about Pharo syntax.>file://figures/ProfStef.png|width=60|label=fig:ProfStef+
 
+!!!! About vocabulary.
 If you talk to Pharoers for a while, you will notice that they generally do not
 use expressions like ''call an operation'' or ''invoke a method'', as developers
 do in other programming languages. 
@@ -318,17 +316,17 @@ fast object binary serializer), ==STON== (a textual object serializer) or a data
 Let us start with some exercises:
 
 # Close all open windows within Pharo.
-# Open a Transcript and a Playground/workspace. (The Transcript can be opened from the ==World > Tools > ...== submenu.)
-# Position and resize the transcript and playground windows so that the playground just overlaps the transcript (see Figure *@fig:HelloWorld*).
+# Look in the menu and open a Transcript and a Playground.
+# Position and resize the transcript and playground windows so that the playground just overlaps the Transcript (see Figure *@fig:HelloWorld*).
 
 You can resize windows by dragging one of the corners. At any time only one
 window is active; it is in front and has its border highlighted.
 
-!!!!!About Transcript.
+!!!!About Transcript.
 The ==Transcript== is an object that is often used for logging system messages.
 It is a kind of ''system console''.
 
-!!!!!About Playground.
+!!!!About Playground.
 ==Playgrounds== are useful for typing snippets of code that you would like to
 experiment with. You can also use playgrounds simply for typing any text
 that you would like to remember, such as to-do lists or instructions for anyone
@@ -336,7 +334,7 @@ who will use your image.
 
 Type the following text into the playground:
 [[[
-	Transcript show: 'hello world'; cr.
+Transcript show: 'hello world'; cr.
 ]]]
 
 Try double-clicking at various points on the text you have just typed. Notice
@@ -350,7 +348,7 @@ Select the text you have typed, right click and select ==Do it==. Notice how the
 text "hello world" appears in the transcript window (See Figure
 *@fig:HelloWorld*). Do it again.
 
-+Executing an expresssion: displaying a string in the Transcript.>file://figures/HelloWorld_new.png|width=100|label=fig:HelloWorld+
++Executing an expresssion: displaying a string in the Transcript.>file://figures/HelloWorld_new.png|width=90|label=fig:HelloWorld+
 
 !!!Keyboard Shortcuts
 
@@ -358,9 +356,7 @@ If you want to evaluate an expression, you do not always have to right click.
 Instead, you can use keyboard shortcuts shown in menu items. Even though Pharo
 may seem like a mouse driven enviroment it contains over 200 shortcuts that
 allow you operate a variaty of tools, as well as the facility to assign a
-keyboard shortcut to any of the 110000 methods contained in the Pharo image. To
-have a look at the available shortcuts go to World Menu ==>== System ==>==
-Keymap Browser.
+keyboard shortcut to any of the 110 000 methods contained in the Pharo image. 
 
 Depending on your platform, you may have to press one of the modifier keys which
 are Control, Alt, and Command. We will use ==CMD== in the rest of the book: so
@@ -435,33 +431,33 @@ Other right-click options that may be used are the following:
 - ==Code search== offers several options provided by System Browser, such as browsing the source code of an expression, searching for senders and implementors, and so on.
 
 
-!!!The System Browser
+!!!Calypso: The System Browser
 
 The ==System Browser==, also known as "Class Browser", is one of the key tools
 used for programming. As we shall see, there are several interesting browsers
 available for Pharo, but this is the basic one you will find in any image. The
 current implementation of the System Browser is called Calypso. Previous version of the System Browser was called Nautilus.
 
-!!!Opening the System Browser on a Given Method
+!!!!Opening the System Browser on a Given Method
 
-+The System Browser showing the ==factorial== method of class ==Integer==.>file://figures/system-browser-annotated.png|width=100|label=fig:systemBrowser+
++The System Browser showing the ==slowFactorial== method of class ==Integer==.>file://figures/system-browser-annotated.pdf|width=100|label=fig:systemBrowser+
 
 This is not the usual way that we open a browser on a method: we use more
 advanced tools! But for the sake of this exercise, execute the following code
 snippet:
 
 [[[
-ClyFullBrowser openOnMethod: Integer>>#factorial
+ClyFullBrowser openOnMethod: Integer>>#slowFactorial
 ]]]
 
-It will open a system browser on the method ==factorial==. We should get a
+It will open a system browser on the method ==slowFactorial==. We should get a
 System Browser like in Figure *@fig:systemBrowser*. The title bar indicates that
 we are browsing the class ==Integer== and its method ==factorial==. Figure
 *@fig:systemBrowser* shows the different entities displayed by the browser:
 packages, classes, protocols, methods and method definition.
 
 In Pharo, the default System Browser is Calypso. However, it is possible to
-have other System Browsers installed in the Pharo enviroment such as AltBrowser.
+have other System Browsers installed in the Pharo enviroment.
 Each System Browser may have its own GUI that may be very different from the
 Calypso GUI. From now on, we will use the terms ==Browser==, ==System Browser==
 and ==Calypso== interchangeably.
@@ -472,34 +468,18 @@ Pharo has ""Spotter"" (see below) to navigate the system. Now we just want to
 show you the working flow of the System Browser. Usually with ""Spotter"" we go
 directly to the class or the method.
 
-Let us look how to find the ==printString== method defined in class ==Object==.
+Let us take the slow path to find the ==printString== method defined in class ==Object==.
 At the end of the navigation, we will get the situation depicted in
 *@fig:systemBrowser2*.
 
 +The System Browser showing the ==printString== method of class ==Object==.>file://figures/browsingprintString.png|width=100|label=fig:systemBrowser2+
 
-- ""Open the Browser.""
-When a new System Browser window first opens, all panes but the leftmost are
-empty. This first pane lists all known packages, which contain groups of related
-classes.
-- ""Filter packages.""
-Type part of the name of the package in the left most filter. It filters the
-list of packages to be shown in the list above it. Type 'Kern' for example.
-- ""Expand the ==Kernel== package and select the ==Object== element.""
-When we select a package, it causes the second pane to show a list of all of the
-classes in the selected package. You should see the hierarchy of ==ProtoObject==.
-- ""Select the ==Object== class.""
-When a class is selected, the remaining two panes will be populated. The
-third pane displays the protocols of the currently selected class. These are
-convenient groupings of related methods. If no protocol is selected you should
-see all methods in the fourth pane.
--""Select the ==printing== protocol.""
-You may have to scroll down to find it. You can also click on the third pane and
-type ==pr==, to typeahead-find the ==printing== protocol. Now select it, and you
-will see in the fourth pane only methods related to printing.
-- ""Select the ==printString== Method.""
-Now we see in the bottom pane the source code of the ==printString== method,
-shared by all objects in the system (except those that override it).
+-""Open the Browser."" When a new System Browser window first opens, all panes but the leftmost are empty. This first pane lists all known packages, which contain groups of related classes.
+-""Filter packages."" Type part of the name of the package in the left most filter. It filters the list of packages to be shown in the list above it. Type 'Kern' for example.
+-""Expand the ==Kernel== package and select the ==Object== element."" When we select a package, it causes the second pane to show a list of all of the classes in the selected package. You should see the hierarchy of ==ProtoObject==.
+-""Select the ==Object== class."" When a class is selected, the remaining two panes will be populated. The third pane displays the protocols of the currently selected class. These are convenient groupings of related methods. If no protocol is selected you should see all methods in the fourth pane.
+-""Select the ==printing== protocol."" You may have to scroll down to find it. You can also click on the third pane and type ==pr==, to typeahead-find the ==printing== protocol. Now select it, and you will see in the fourth pane only methods related to printing.
+-""Select the ==printString== Method."" Now we see in the bottom pane the source code of the ==printString== method, shared by all objects in the system (except those that override it).
 
 There are much better way to find a method, for example, just type it in a Playground and select the word and use Implementors of it in the Code search menu item.
 
@@ -509,28 +489,14 @@ There are several ways to find a class in Pharo. The first, as we have just
 seen above, is to know (or guess) what package it is in, and to navigate to it
 using the browser.
 
-A second way is to send the ==browse== message to the class, asking it to open a
+A second way is to send the ==browse== message to and instance or the class itself, asking it to open a
 browser on itself. Suppose we want to browse the class ==Point==.
 
-!!!Using the Message ==browse==
+-""Using the Message ==browse==."" Type ==Point browse== into a playground and ==Do it==. A browser will open on the ==Point== class. You can do the same with ==10@20== (an instance of the class ==Point==).
 
-Type ==Point browse== into a playground and ==Do it==. A browser will open on
-the ==Point== class.
+-""Using ==CMD-b== to Browse."" There is also a keyboard shortcut ==CMD-b== (browse) that you can use in any text pane; select the word and press ==CMD-b==. Use this keyboard shortcut to browse the class ==Point==.
 
-!!!Using ==CMD-b== to Browse
-
-There is also a keyboard shortcut ==CMD-b== (browse) that you can use in any
-text pane; select the word and press ==CMD-b==. Use this keyboard shortcut to
-browse the class ==Point==.
-
-Notice that when the ==Point== class is selected but no protocol or method is
-selected, instead of the source code of a method, we see a class definition.
-This is nothing more than an ordinary message that is sent to the parent class,
-asking it to create a subclass. Here we see that the class ==Object== is being
-asked to create a subclass named ==Point== with two instance variables, class
-variables, and to put the class ==Point== in the
-==Kernel-BasicObjects== package. If you click on the ==Comments== button at the
-bottom of the class pane, you can see the class comment in a dedicated pane.
+Notice that when the ==Point== class is selected but no protocol or method is selected, instead of the source code of a method, we see a class definition. This is nothing more than an ordinary message that is sent to the parent class, asking it to create a subclass. If you click on the ==Comments== button at the bottom of the class pane, you can see the class comment in a dedicated pane.
 
 %+The Boolean class with the comments section>file://figures/Boolean.png|width=100|label=fig:boolean+
 In addition the system supports the following mouse shortcuts
