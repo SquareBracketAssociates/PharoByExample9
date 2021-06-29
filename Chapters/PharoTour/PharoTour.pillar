@@ -539,22 +539,6 @@ to how we use System Browser. Spotter categorizes its search results: for
 example, classes are under Classes category, methods under the Implementors
 category, help topics under Help Topics category, etc.
 
-Clicking on the right arrow will take us to our selection and create a tab on
-top that we can click to go back to where we were. Depending on what we click
-on, we step into our selection and are exposed to more categories.
-
-For example, if our selection is the ==Point== class, we will dive inside a
-group of categories made for instance methods, class methods, super instance
-methods etc.
-
-The interface is fully controllable through the keyboard. The user can move with
-==Up==/==Down== arrows between items or ==Cmd-Shift-Up==/==Cmd-Shift-Down==
-arrows (note that on Windows and Linux ==Cmd== key is the ==Alt== key) through
-categories. At the same time, the search field has the focus, so the user can
-switch seamlessly between selecting items and refining the search. Pressing
-==Enter== on a selection opens the System Browser on that specific selected
-search result.
-
 !!!Using 'Find class' in System Browser
 In the SystemBrowser you can also search for a class via its name. For example,
 suppose that you are looking for some unknown class that represents dates and
@@ -579,16 +563,15 @@ in the current time, you might expect that there would be a method called "now",
 or containing "now" as a substring. But where might it be? ""Spotter"" and
 ""Finder"" can help you.
 
-!!!!!Spotter.
-
+!!!! Spotter. 
 With ""Spotter"" you can also find methods. Either by getting a class and
 navigating or using category such as:
 
 - ==#implementor a method name== will display all the methods that are implemented and have the same name. For example you will get all the ==do:== methods.
 - ==#selector a method name== will display all the selectors that matches this name
 
-!!!!!With Finder.
-Select ==World Menu > Tools > Finder==. Type ==now== in the top left search box,
+!!!! With Finder. 
+Open the Finder available from the menu Browse. Type ==now== in the top left search box,
 click ==Search== (or just press the ==Enter== key). You should see a list of
 results similar to the one in Figure *@fig:finder*.
 
@@ -603,7 +586,7 @@ in the code pane on the bottom. It is also possible to search for the exact matc
 
 !!!Finding Methods Using Examples
 
-You can also open the ==Finder== that is available from the ==World > Tools...==
+You can also open the ==Finder== that is available from the ==Browse==
 menu, and type part of the name of the class and change the Selectors to Classes
 in the right combo box. The Finder is more useful for other types of
 code searches such as find methods based on examples.
@@ -784,7 +767,7 @@ When you've finished implementing the method, do not forget to compile it using
 ==Proceed== simply continues on running the test suite, and does not re-run the
 failed method.
 
-!!!!!Does this method work?
+!!!!Does this method work?
 Let's run the tests and see. Click on ==Run Selected== again in the Test Runner,
 and this time you should see a green bar and text indicating that all of the
 tests ran with no failures and no errors. When you get to a green bar, it's a
