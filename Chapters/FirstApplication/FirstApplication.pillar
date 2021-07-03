@@ -2,17 +2,17 @@
 @cha:firstApp
 
 In this chapter, we will develop a simple game: LightsOut
-(*http://en.wikipedia.org/wiki/Lights_Out_(game)*). Along the way we will show
-most of the tools that Pharo programmers use to construct and debug their
-programs, and show how programs are shared with other developers. We will see
-the browser, the object inspector, the debugger and the way to version code. 
+(*http://en.wikipedia.org/wiki/Lights_Out_(game)*). 
+Along the way we will show most of the tools that Pharo programmers use to construct and debug their
+programs, and show how programs are shared with other developers. 
+We will define a buggy method and show you how to fix it.
+We will present the browser, the object inspector, the debugger and the way to version code. 
 
-In Pharo you can develop in a traditional way, by defining a class, then its
-instance variables, then its methods. However, in Pharo your development flow
-can be much more productive than that! You can define instance variables and
-methods on the fly. You can also code in the debugger using the exact context of
-currently executed objects. This chapter will sketch such alternate way and show
-you how you can be really productive.
+In Pharo you can develop in a traditional way, by defining a class, then its instance variables, then its methods. 
+However, in Pharo your development flow can be much more productive than that! You can define instance variables and
+methods on the fly. 
+You can also code in the debugger using the exact context of currently executed objects. 
+This chapter will sketch such alternate way and show you how you can be really productive.
 
 +The Lights Out game board.>file://figures/gameLO.png|width=30|label=fig:gameLO+
 
@@ -24,17 +24,17 @@ We have to show how to handle errors and find bugs.
 !!!The Lights Out game
 
 To show you how to use Pharo's programming tools, we will build a simple game
-called ""Lights Out"". The game board consists of a rectangular array of light
-yellow cells. When you click on one of the cells, the four surrounding cells
-turn blue. Click again, and they toggle back to light yellow. The object of the
-game is to turn blue as many cells as possible.
+called ""Lights Out"".
+The game board consists of a rectangular array of light yellow cells.
+When you click on one of the cells, the four surrounding cells turn blue. 
+Click again, and they toggle back to light yellow.
+ The object of the game is to turn blue as many cells as possible.
 
-""Lights Out"" is made up of two kinds of objects: the game board itself,
-and 100 individual cell objects. The Pharo code to implement the game will
-contain two classes: one for the game and one for the cells. We will now show
-you how to define these classes using the Pharo programming tools.
+""Lights Out"" is made up of two kinds of objects: the game board itself, and 100 individual cell objects. 
+The Pharo code to implement the game will contain two classes: one for the game and one for the cells. 
+We will now show you how to define these classes using the Pharo development tools.
 
-!!!Creating a new Package
+!!!Creating a new package
 @fstApp:Packages
 
 We have already seen the browser in Chapter
@@ -129,18 +129,11 @@ hypotheses are correct.
 !!!!! Class comments.
 For the class comment, the Pharo class comment template gives a good idea of a
 strong class comment. Read it! It is based on CRC for Class Responsibility
-Collaborators. So in a nutshell the comments state the responsibility of the
-class in a couple of sentences and how it collaborates with other classes to
-achieve this responsibilities. In addition we can state the API (main messages
-an object understands), give an example (usually in Pharo we define examples as
-class methods), and some details about internal representation or implementation
-rationale.
-
-Select the comment button and define a class comment following this template
-
-
-
-
+Collaborators. 
+So in a nutshell the comments state the responsibility of the class in a couple of sentences and how it collaborates with other classes to
+achieve this responsibilities. 
+In addition we can state the API (main messages an object understands), give an example (usually in Pharo we define examples as
+class methods), and some details about internal representation or implementation rationale.
 
 !!!Adding methods to a class
 
@@ -234,7 +227,7 @@ value of the instance variable is shown in the right column (see Figure
 If you click on an instance variable the inspector will open a new pane with the
 detail of the instance variable (see Figure *@fig:inspectBounds*).
 
-+An LOCell open in world.>file://figures/LOCellOpenInWorld.png|width=80|label=fig:LOCellOpenInWorld+
++A ==LOCell== opened in the ""World"".>file://figures/LOCellOpenInWorld.png|width=80|label=fig:LOCellOpenInWorld+
 
 !!!!! Executing expressions.
 The bottom pane of the inspector is a mini-playground. It's useful because in
@@ -339,11 +332,11 @@ Define the method ==cellsPerSide== in the debugger. Do not forget to compile the
 method definition by using ""Accept"". You should obtain a situation as shown by
 Figure *@fig:cellPerSideInDebugger*. If you press the button ""Proceed"" the
 program will continue its execution - here it will stop since we did not define
-the method ==newCellAt:==. We could use the same process but for now we stop to
-explain a bit what we did so far. Close the debugger, and look at the class
-definition once again (which you can do by clicking on ""LOGame"" on the second
-pane of the ""System Browser""), you will see that the browser has modified it
-to include the instance variable ==cells==.
+the method ==newCellAt:==. 
+
+We could use the same process but for now we stop to explain a bit what we did so far. 
+Close the debugger, and look at the class definition once again (which you can do by clicking on ""LOGame"" on the second
+pane of the ""System Browser""), you will see that the browser has modified it to include the instance variable ==cells==.
 
 
 !!! Studying the initialize method

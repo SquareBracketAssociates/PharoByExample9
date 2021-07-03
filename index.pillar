@@ -5,11 +5,13 @@ ${inputFile:path=Chapters/PharoTour/PharoTour.pillar}$
 %upbe9 stef
 
 ${inputFile:path=Chapters/Counter/Exo-Counter.pillar}$
+%upbe9 stef
 
 ${inputFile:path=Chapters/FirstApplication/FirstApplication.pillar}$
 
 ${inputFile:path=Chapters/IcebergIntro/StartedWithIceberg.pillar}$ 
 %cha:Iceberg
+
 ${inputFile:path=Chapters/IcebergIntro/FirstConfiguration.pillar}$
 %@cha:configure
 
