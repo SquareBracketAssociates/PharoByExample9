@@ -751,7 +751,7 @@ creates a generic method that is tagged as to be implemented (see Figure
 *@fig:shoutShouldBeImplemented*).
 
 Now let's define the method that will make the test succeed! Right inside the
-debugger edit the ==shout== method with this definition (as shown in Figure *@shoutInDBG*):
+debugger edit the ==shout== method with this definition (as shown in Figure *@fig:shoutInDBG*):
 
 [[[
 shout
