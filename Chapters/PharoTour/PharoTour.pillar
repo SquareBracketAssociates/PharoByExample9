@@ -751,7 +751,7 @@ creates a generic method that is tagged as to be implemented (see Figure
 *@fig:shoutShouldBeImplemented*).
 
 Now let's define the method that will make the test succeed! Right inside the
-debugger edit the ==shout== method with this definition:
+debugger edit the ==shout== method with this definition (as shown in Figure *@shoutInDBG*):
 
 [[[
 shout
@@ -763,6 +763,8 @@ appends an exclamation mark to an upper-case version of whatever String object
 the shout message was sent to. The ==^== tells Pharo that the expression that
 follows is the answer to be returned from the method, in this case the new
 concatenated string.
+
++Defining the ==shout== method right inside the debugger.>file://figures/shoutInDebuggerForReal.png|width=70|label=fig:shoutInDBG+
 
 When you've finished implementing the method, do not forget to compile it using
 ==CMD-s== and you can press ==Proceed== and continue with the tests. Note that
