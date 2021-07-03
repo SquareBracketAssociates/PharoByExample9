@@ -1,8 +1,8 @@
-%reviewed SD: 4th of march upbe9
+%upbe9 stef
 ${inputFile:path=Chapters/Preface/Preface.pillar}$
 
 ${inputFile:path=Chapters/PharoTour/PharoTour.pillar}$
-%Reviewed finished
+%upbe9 stef
 
 ${inputFile:path=Chapters/Counter/Exo-Counter.pillar}$
 

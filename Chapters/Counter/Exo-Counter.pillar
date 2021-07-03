@@ -1,14 +1,19 @@
 !! Developing a simple counter
 
 To get started in Pharo, we invite you to implement a simple counter by following the steps given below. 
-In this exercise you will learn how to create packages classes, method, instances. 
+In this exercise you will learn how to create packages, classes, methods, and instances. 
 You will learn how to define tests and more. 
-This simple tutorial covers most of the important actions that we do when developing in Pharo. 
+This simple tutorial covers most of the important actions that we do when developing in Pharo.
 You can also watch the companion videos available in the Pharo mooc at *http://mooc.pharo.org*: they illustrate this tutorial in a more lively manner.
+Just pay attention that the videos are for Pharo 80 and some details are different in Pharo 90.
 
-Note that the development flow promoted by this little tutorial is ''traditional'' in the sense that you will define a package, a class, ''then'' define its instance variable ''then'' define its methods ''and'' finally execute it. We show also how you can save your code on git hosting services such as github using Iceberg.  Now in Pharo, developers often follows a ''totally'' different style (that we call live coding or Xtreme TDD) where they execute an expression that raises errors and they code in the debugger and let the system define some instance variables and methods on the fly for them. 
+Note that the development flow promoted by this little tutorial is ''traditional'' in the sense that you will define a package, a class, ''then'' define its instance variable ''then'' define its methods ''and'' finally execute it. 
+We show also how you can save your code with git hosting services such as github using Iceberg. 
+Now in Pharo, developers often follows a ''totally'' different style that we call Xtreme TDD:  they execute an expression that raises errors.
+Such errors are caught by the debugger and the developer can code directly in the debugger and let the system define some instance variables and methods on the fly for them. 
 
-Once you will have finish this tutorial, you will feel more confident with Pharo and we strongly suggest you to try the other style. 
+Once you will have finish this tutorial, you will feel more confident with Pharo and we strongly suggest you to try the other style.
+Again there is a video showing this powerful alternate flow of coding.
 
 !!! Our use case
 
@@ -27,8 +32,6 @@ counter count = 1
 Now we will develop all the mandatory class and methods to support this scenario.
 
 +Package created and class creation template.>file://figures/CounterPackageCreated.png|label=figpackageCreated+
-
-!!! Create your own class
 
 In this part, you will create your first class. In Pharo, a class is defined in a package. You will create a package then a class. The steps we will do are the same ones every time you create a class, so memorize them well. 
 
@@ -67,15 +70,17 @@ Figure *@figclassCreated* illustrates the resulting situation that the browser s
 
 The tool runs automatically some code critic and some of them are just inaccurate, so do not care for now. 
 
-As we are disciplined developers, we add a comment to ==Counter== class by clicking Comment button. You can write the following comment:
+As we are disciplined developers, we add a comment to ==Counter== class by clicking Comment pane and the Edit / View comment toggle. You can write the following comment:
 
 [[[
-Counter is a simple concrete class which supports incrementing and decrementing a counter.
+`Counter` is a simple concrete class which supports incrementing and decrmenting. 
 Its API is 
-- decrement, increment
-- count
-Its creation API is message startingAt: 
+- `decrement` and `increment`
+- `count`
+Its creation message is `startAt:`
 ]]]
+
+The comment are written in Microdown a markdown dialect and they are nicely rendered.
 
 Select menu item 'accept' to store this class comment in the class.
 
@@ -311,7 +316,7 @@ Again save your work before starting the next step.
 
 We would like to show you the difference between an instance method (i.e. sent to instances) and a class method (i.e., to a class).
 In fact the only difference is the place to define them. An instance method is defined in the instance side of Code Browser while class methods
-are defined on the class side (Pressing the button Class). 
+are defined on the class side -- pressing the ""Class"" button. 
 
 Define a different instance creation method named ==startingAt:==. This method receives an integer as argument and returns an instance of ==Counter== with the specified value.
 
@@ -321,9 +326,6 @@ Let us define a test:
 TestCounter >> testCounterStartingAt5
 	self assert: (Counter startingAt: 5) count equals: 5
 ]]]
-
-
-
 
 Here the message ==startingAt:== is sent to the class ==Counter== itself.
 
@@ -362,7 +364,7 @@ Counter >> printOn: aStream
 
 Note that the method ==printOn:== is used when you print an object using print it (See Figure *@figBetterDescription*) or click on ==self== in an inspector.
 
-+Better description.>file://figures/CounterBetterDescription.png|label=figBetterDescription+
++Counter instance better description.>file://figures/CounterBetterDescription.png|label=figBetterDescription+
 
 We let you define a method for this method. A tip send the message ==printString== to ==Counter new== to get its string representation.
 
@@ -412,5 +414,8 @@ This will enable you to work remotely and collaborately.
 
 In this tutorial you learned how to define packages, classes, methods, and define tests.
 The flow of programming that we chose for this first tutorial is similar to most of programming languages.
-In Pharo you can use a different flow that is based on defining a test first, executing it and when the execution raises error to define the corresponding classes, methods, and instance variable often from inside the debugger. 
-We suggest you now to redo the exercise following the second companion video.
+However in Pharo, smart and agile developers use use a different flow: It is based on defining a test first, executing it and when the execution raises an error to define the corresponding classes, methods, and instance variable often from inside the debugger. 
+This is a super powerful flow because you get all the mandartory information and this is a productivity boost.
+
+We suggest you now to redo the exercise by defining a test first, executing it and defining method in the debugger. 
+Watch the second counter video of the Pharo mooc available at *http://mooc.pharo.org* to understand the flow.
