@@ -793,3 +793,5 @@ syntax, even though you may not understand it all yet.
 -The ""System Browser"" is the main tool for browsing Pharo code and for developing new code.
 -The ""Test runner"" is a tool for running unit tests, and aids in Test Driven Development.
 -The ""Debugger"" allows you to examine errors and exceptions (such as errors or failures encountered when running tests). You can even create new methods right in the debugger.
+-The ""Finder"" allows you to look for classes, methods and more. In addition it lets you find methods based on the actual object receiving the message, the message arguments and returned object.
+-"Spotter" is a powerful to navigate the system and find information.
