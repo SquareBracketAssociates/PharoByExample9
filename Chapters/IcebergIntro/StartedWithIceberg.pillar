@@ -4,10 +4,11 @@ In this chapter we explain how you can publish your project on Github using Iceb
 We do not explain basic concepts like commit, push/pull, merging, or cloning.
 
 A strong precondition before reading this chapter is that you must be able to publish from the command line
-to the ==git== hosting service that you want to use. If you cannot do not expect Iceberg to fix it magically for you. Now if you have some problems with SSH configuration (which is the default with Github) you can either use HTTPS or have a look in ''Manage your code with Iceberg'' booklet. Let us get started.
+to the ==git== hosting service that you want to use. If you cannot do not expect Iceberg to fix it magically for you.
+Now if you have some problems with SSH configuration (which is the default with Github) you can either use HTTPS or have a look in ''Manage your code with Iceberg'' booklet. Let us get started.
 
 !!! For the impatient
-If you do not want to read everything, here is the executive summary.
+If you do not want to read everything, here is an executive summary:
 
 - Create a project on Github or any git-based platform.
 - [Optional] Configure Iceberg to use custom ssh keys.
@@ -26,13 +27,13 @@ As ==git== is a distributed versioning system, you need a ''local'' clone of the
 
 +A distributed versioning system.>file://figures/commit_in_workflow.pdf|width=75|label=commit_in_workflow+
 
-!!! Create a new project on Github
+!!!! Create a new project on Github
 While you can save locally first and then later create a remote repository, in this chapter we first create a new project on Github. Figure *@onGithub* shows the creation of a project on Github.
 The order does not really matter. What is different is that you should use different options when add a repository to Iceberg as we will show later.
 
 +Create a new project on Github.>file://figures/onGitHub.png|width=75|label=onGithub+
 
-!!! [Optional] SSH setup: Tell Iceberg to use your keys
+!!!! [Optional] SSH setup: Tell Iceberg to use your keys
 To be able to commit to your ==git== project, you should either use HTTPS or you will need to set up valid credentials in your system. In case you use SSH (the default way), you will need to make sure those keys are available to your Github account and also that the shell adds them for smoother communication with the server.s
 
 
@@ -51,6 +52,7 @@ IceCredentialsProvider sshCredentials
 
 @@note ""Pro Tip:"" this can be used too in case you have a non-default key file. You just need to replace ==id_rsa== with your file name.
 
+Now we are ready to have a look at Iceberg the layer managing git in Pharo.
 
 !!! Iceberg ''Repositories'' browser
 
@@ -83,8 +85,8 @@ We specify the owner, project, and physical location where the local clone and =
 
 
 Iceberg has now added your project to its list of managed projects and cloned an empty repository to your disk. You will see the status of your project, as in Figure *@FirstTimeCloned*. Here is a breakdown of what you are seeing:
-- MyCoolProjectWithPharo has a star and is green. This usually means that you have changes which haven't been committed yet, but may also happen in unrelated edge cases like this one. Don't worry about this for now.
-- The Status of the project is 'No Project Found' and this is more important. This is normal since the project is empty. Iceberg cannot find its metadata. We will fix this soon.
+- ==MyCoolProjectWithPharo== has a star and is green. This usually means that you have changes which haven't been committed yet, but may also happen in unrelated edge cases like this one. Don't worry about this for now.
+- The Status of the project is =='No Project Found'== and this is more important. This is normal since the project is empty. Iceberg cannot find its metadata. We will fix this soon.
 
 +Just after cloning an empty project, Iceberg reports that the project is missing information.>file://figures/S6-ProjectNotFound.png|width=75|label=FirstTimeCloned+
 
@@ -98,7 +100,7 @@ when you will clone again, you will see that Iceberg will just report that the p
 
 
 
-!!! Repair to the rescue
+!!!! Repair to the rescue
 
 Iceberg is a smart tool that tries to help you fix the problems you may encounter while working with ==git==.
 As a general principle, each time you get a status with red text (such as "No Project Found" or "Detached Working Copy"), you should ask Iceberg to fix it using the ""Repair"" command.
@@ -111,7 +113,7 @@ Setting your repository the right way makes it extremely hard to lose any piece 
 
 +Create project metadata action and explanation.>file://figures/S8-RepairFirst.png|width=75|label=RepairFirst+
 
-!!! Create project metadata
+!!!! Create project metadata
 Iceberg reported that it could not find the project because some meta data were missing such as the format of the code encodings and the example location inside the repository. When we activate the repair command we get Figure *@RepairFirst*.  It shows the "Create project metadata" action and its explanation.
 
 
@@ -127,7 +129,7 @@ Do that by pressing the + icon. You will be prompted to specify the folder for c
 
 +Resulting situation with a src folder.>file://figures/S9-MetaData3.png|width=50|label=metadatasrc2+
 
-After accepting the project details, Iceberg shows you the files that you will be committing as shown in Figure *@PublishingMetaData*
+After accepting the project details, Iceberg shows you the files that you will be committing as shown in Figure *@PublishingMetaData*.
 
 +Details of metadata commit.>file://figures/S9-MetaData4.png|width=75|label=PublishingMetaData+
 
