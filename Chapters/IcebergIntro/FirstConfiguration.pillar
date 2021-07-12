@@ -4,7 +4,7 @@ Versioning code is just the first part of making sure that you and others can re
 In this chapter we describe how to define a baseline, a project map that you will use to define dependencies
 within your project and dependencies to other projects.
 We also show how to add a good ==.gitignore== file.
-In the next chapter we will show how to configure your project to get more out of the services offered within the Github ecosystem such as Travis-ci to execute automatically your tests.
+In the next chapter we will show how to configure your project to get more out of the services offered within the Github ecosystem such as Github actions to execute automatically your tests.
 
 We start by showing you how you can commit your code if you did not create your remote repository first.
 
@@ -143,7 +143,7 @@ Figure *@architecture* shows the architecture of the system.
 
 
 !!! Conclusion
-We show how to package your code correclty.
+We show how to package your code correctly.
 It will help you to reload it.
 
 
