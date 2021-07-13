@@ -1,14 +1,16 @@
-!! Publishing your first Pharo project
+!! Publishing and packaging your first Pharo project
 @cha:Iceberg
 In this chapter we explain how you can publish your project on Github using Iceberg.
-We do not explain basic concepts like commit, push/pull, merging, or cloning.
+Iceberg is a tool and library that supports the handling of git and it does more than just saving files and publishing them to a git repository. 
+Then we will briefly show how to make sure that you or other developers can load your code 
+without having to understand the internal dependencies.
 
-A strong precondition before reading this chapter is that you must be able to publish from the command line
-to the ==git== hosting service that you want to use. If you cannot do not expect Iceberg to fix it magically for you.
-Now if you have some problems with SSH configuration (which is the default with Github) you can either use HTTPS or have a look in ''Manage your code with Iceberg'' booklet. Let us get started.
+We will not explain basic concepts like commit, push/pull, merging, or cloning, please refer to a git tutorial for this.
+A strong precondition before reading this chapter is that you must be able to publish from the command line to the ==git== hosting service that you want to use. If you cannot, do not expect Iceberg to fix it magically for you.
+Now if you have some problems with SSH configuration (which is the default with Github) you can either use HTTPS or have a look in ''Manage your code with Iceberg'' booklet that you can find on *http://books.pharo.org*. Let us get started.
 
 !!! For the impatient
-If you do not want to read everything, here is an executive summary:
+If you do not want to read everything, here is an executive summary of how to get your code published:
 
 - Create a project on Github or any git-based platform.
 - [Optional] Configure Iceberg to use custom ssh keys.
@@ -16,26 +18,32 @@ If you do not want to read everything, here is an executive summary:
 -- Optionally but strongly recommanded, in the cloned repository, create a directory named ==src== on your file system. This is a good convention.
 - In Iceberg, open your project and add your packages.
 - Commit your project.
-- [Optional] Add a baseline to ease loading your project. 
+- [Optional] Add a baseline to ease loading your project.
 - Push your change to your remote repository.
 
-You are done. Now we can explain calmly.
+You are done. Now we can explain such steps calmly.
 
 !!! Basic Architecture
 
-As ==git== is a distributed versioning system, you need a ''local'' clone of the repository and a ''working copy''. Your working copy and local repository are usually on your machine. This is to this local repository that your changes will be commited to before being pushed to remote repositories (Figure *@commit_in_workflow*). We will see in the next Chapter that the situation is a bit more complex and that Iceberg is hiding the extra complexity for us. 
+As ==git== is a distributed versioning system, you need a ''local'' clone of the repository and a ''working copy''. 
+Your working copy and local repository are usually on your machine.
+This is to this local repository that your changes will be commited to before being pushed to remote repositories (Figure *@commit_in_workflow*).
+With Pharo, the situation is a bit more complex and Iceberg is hiding the extra complexity for us. In a nutshell, in Pharo classes and methods are objects that get modified on the fly. When you modify a class source code, the git working copy is not automatically modified. 
+It is like if in Pharo you get two working copies: the object one and the git-file based one.
+The job of Iceberg is to make sure both work well together and are synchronisez and that you do not have to worry about it.
 
-+A distributed versioning system.>file://figures/commit_in_workflow.pdf|width=75|label=commit_in_workflow+
++Git: A distributed versioning system.>file://figures/commit_in_workflow.pdf|width=75|label=commit_in_workflow+
 
 !!!! Create a new project on Github
-While you can save locally first and then later create a remote repository, in this chapter we first create a new project on Github. Figure *@onGithub* shows the creation of a project on Github.
-The order does not really matter. What is different is that you should use different options when add a repository to Iceberg as we will show later.
+While you can save locally first and then later create a remote repository, we first create a new project on Github -- we explain later the other scenario.
+Figure *@onGithub* shows the creation of a project on Github.
+The order does not really matter.
+What is different is that you should use different options when add a repository to Iceberg as we will show later.
 
 +Create a new project on Github.>file://figures/onGitHub.png|width=75|label=onGithub+
 
 !!!! [Optional] SSH setup: Tell Iceberg to use your keys
-To be able to commit to your ==git== project, you should either use HTTPS or you will need to set up valid credentials in your system. In case you use SSH (the default way), you will need to make sure those keys are available to your Github account and also that the shell adds them for smoother communication with the server.s
-
+To be able to commit to your ==git== project, you should either use HTTPS or you will need to set up valid credentials in your system. In case you use SSH (the default way), you will need to make sure those keys are available to your Github account and also that the shell adds them for smoother communication with the server.
 
 Go to settings browser, search for "Use custom SSH keys" and enter your data there as shown in Figure *@UseCustom*).
 
@@ -61,7 +69,7 @@ It shows that for now you do not have defined nor loaded any project.
  It shows the Pharo project and indicates that it could not find its local repository by displaying 'Local repository missing'.
 
 First you do not have to worry about the Pharo project or repository if you do not want to contribute to Pharo.
-So just go ahead. Now if you want to understand what is happening here is the explanation.
+So just go ahead. Now if you want to understand what is happening here is the explanation:s
 The Pharo system does not have any idea where it should look for the ==git== repository corresponding to the source of the classes it contains. Indeed, the image you are executing may have been built somewhere, patched or not many times. Now Pharo is fully operational without having a local repository. You can browse system classes and methods because Pharo has its own internal source management. This warning just indicates that if you want to version Pharo system code using ==git== then you should indicate to the system where the clone and working copy are located on your local machine.
 So if you do not plan to modify and version the Pharo system code, you do not have to worry.
 
@@ -84,7 +92,8 @@ We specify the owner, project, and physical location where the local clone and =
 +Cloning a project hosted on Github via HTTPS.>file://figures/S5-AddWithHTTPS.png|width=75|label=CloningHTTPS+
 
 
-Iceberg has now added your project to its list of managed projects and cloned an empty repository to your disk. You will see the status of your project, as in Figure *@FirstTimeCloned*. Here is a breakdown of what you are seeing:
+Iceberg has now added your project to its list of managed projects and cloned an empty repository to your disk. 
+You will see the status of your project, as in Figure *@FirstTimeCloned*. Here is a breakdown of what you are seeing:
 - ==MyCoolProjectWithPharo== has a star and is green. This usually means that you have changes which haven't been committed yet, but may also happen in unrelated edge cases like this one. Don't worry about this for now.
 - The Status of the project is =='No Project Found'== and this is more important. This is normal since the project is empty. Iceberg cannot find its metadata. We will fix this soon.
 
@@ -102,19 +111,20 @@ when you will clone again, you will see that Iceberg will just report that the p
 
 !!!! Repair to the rescue
 
-Iceberg is a smart tool that tries to help you fix the problems you may encounter while working with ==git==.
+Iceberg is a smart tool that helps you fix the problems you may encounter while working with ==git==.
 As a general principle, each time you get a status with red text (such as "No Project Found" or "Detached Working Copy"), you should ask Iceberg to fix it using the ""Repair"" command.
 
 Iceberg cannot solve all situations automatically, but it will propose and explain possible repair actions.
 The actions are ranked from most to least likely to be right one.
-Each action has a displayed explanation on the situation and the consequences of the using it.
+Each action has a displayed explanation on the situation and the consequences of using it.
 It is always a good idea to read them.
 Setting your repository the right way makes it extremely hard to lose any piece of code with Iceberg and Pharo is general since Pharo contains its own copy of the code.
 
 +Create project metadata action and explanation.>file://figures/S8-RepairFirst.png|width=75|label=RepairFirst+
 
 !!!! Create project metadata
-Iceberg reported that it could not find the project because some meta data were missing such as the format of the code encodings and the example location inside the repository. When we activate the repair command we get Figure *@RepairFirst*.  It shows the "Create project metadata" action and its explanation.
+Iceberg reported that it could not find the project because some meta data were missing such as the format of the code encodings and the example location inside the repository.
+When we activate the repair command, we get Figure *@RepairFirst*.  It shows the "Create project metadata" action and its explanation.
 
 
 When you choose to create the project metadata, Iceberg shows you the filesystem of your project as well as the repository format as shown in Figure *@Tonel*. Tonel is the preferred format for Pharo projects.
@@ -123,7 +133,8 @@ It has been designed to be Windows and file system friendly. Change it only if y
 +Showing where the metadata will be saved and the format encodings.>file://figures/S9-MetaData1.png|width=65|label=Tonel+
 
 Before accepting the changes, it is a good idea to add a source (==src==) folder to your repository.
-Do that by pressing the + icon. You will be prompted to specify the folder for code as shown in Figure *@metadatasrc*. Iceberg will show you the exact structure of your project as shown in Figure *@metadatasrc2*.
+Do that by pressing the + icon. You will be prompted to specify the folder for code as shown in Figure *@metadatasrc*. Do not forget to select the ==src== folder once you created it. 
+Iceberg will show you the exact structure of your project as shown in Figure *@metadatasrc2*.
 
 +Adding a src repository for code storage.>file://figures/S9-MetaData2.png|width=50|label=metadatasrc+
 
@@ -133,7 +144,8 @@ After accepting the project details, Iceberg shows you the files that you will b
 
 +Details of metadata commit.>file://figures/S9-MetaData4.png|width=75|label=PublishingMetaData+
 
-Once you have committed the metadata, Iceberg shows you that your project has been repaired but is not loaded as shown in Figure *@ProjectWithCommits*. This is normal since we haven't added any packages to our project yet. You can optionally push your changes to your remote repository.
+Once you have committed the metadata, Iceberg shows you that your project has been repaired but is not loaded as shown in Figure *@ProjectWithCommits*. This is normal since we haven't added any packages to our project yet.
+You can optionally push your changes to your remote repository.
 
 Your local repository is ready, let's move on to the next part.
 
