@@ -1,12 +1,12 @@
 !! Syntax in a nutshell
 @cha:syntax
 
-Pharo adopts a syntax very close to that of its ancestor, Smalltalk. The syntax
-is designed so that program text can be read aloud as though it were a kind of
-pidgin English. The following method of the class ==Week== shows an example of
-the syntax. It checks whether ==DayNames== already contains the argument, i.e.,
-if this argument represents a correct day name. If this is the case, it
-will assign it to the class variable ==StartDay==.
+Pharo adopts a syntax very close to that of its ancestor, Smalltalk.
+The syntax is designed so that program text can be read aloud as though it were a kind of
+pidgin English.
+The following method of the class ==Week== shows an example of the syntax.
+It checks whether ==DayNames== already contains the argument, i.e., if this argument represents a correct day name. 
+If this is the case, it will assign it to the class variable ==StartDay==.
 
 [[[
 startDay: aSymbol
@@ -16,14 +16,13 @@ startDay: aSymbol
       ifFalse: [ self error: aSymbol, ' is not a recognised day name' ]
 ]]]
 
-Pharo's syntax is minimal. Essentially there is syntax only for sending messages
-(i.e., expressions). Expressions are built up from a very small number of
-primitive elements (message sends, assignments, closures, returns...). There are
-only 6 reserved keywords, i.e., pseudo-variables, and there are no dedicated syntax constructs for control structures or declaring new
-classes. Instead, nearly everything is achieved by sending messages to objects.
+Pharo's syntax is minimal. Essentially there is syntax only for sending messages (i.e., expressions). 
+Expressions are built up from a very small number of primitive elements (message sends, assignments, closures, returns...).
+There are only 6 reserved keywords, i.e., pseudo-variables, and there are no dedicated syntax constructs for control structures or declaring new classes.
+Instead, nearly everything is achieved by sending messages to objects.
 For instance, instead of an if-then-else control structure, conditionals are
-expressed as messages (such as ==ifTrue:==) sent to Boolean objects. New
-subclasses are created by sending a message to their superclass.
+expressed as messages (such as ==ifTrue:==) sent to Boolean objects.
+New subclasses are created by sending a message to their superclass.
 
 !!! Syntactic elements
 
@@ -77,7 +76,7 @@ case. This indicates to the reader that the variable has a private scope.
 variables, class variables, pool dictionaries or class names. ==Transcript== is
 a global variable, an instance of the class ==ThreadSafeTranscript==.
 
-""The current object."" ==self== is a pseudo-variable that refers to the object that receives 
+""The message receiver."" ==self== is a pseudo-variable that refers to the object that receives 
 the message (that led to the execution of the method using ==self==).
 It gives us a way send messages to it. We call ==self== "the receiver" because this object
 will receive the message that causes the method to be executed. Finally, ==self== is called a
@@ -156,23 +155,18 @@ unary message ==close== to the same receiver.
 
 The basic classes ==Number==, ==Character==, ==String== and ==Boolean== are described in Chapter *: Basic Classes>../BasicClasses/BasicClasses.pillar@cha:basicClasses*.
 
-!!!! For the purists. 
-We named the language elements expressions. At the level of the compiler it is not fully correct. 
-For example returns are not expressions but statements. 
-This is a detail when learning the language and more a concern of the language compiler and designer. 
-
 
 !!!Pseudo-variables
 
 In Pharo, there are 6 pseudo-variables: ==nil==, ==true==,
-==false==, ==self==, ==super==, and ==thisContext==. They are called
-pseudo-variables because they are predefined and cannot be assigned to.
+==false==, ==self==, ==super==, and ==thisContext==. 
+They are called pseudo-variables because they are predefined and cannot be assigned to.
 ==true==, ==false==, and ==nil== are constants, while the values of ==self==,
 ==super==, and ==thisContext== vary dynamically as code is executed.
 
 - ==true== and ==false== are the unique instances of classes ==True== and ==False== which are the subclasses of class ==Boolean==. See Chapter *: Basic Classes>../BasicClasses/BasicClasses.pillar@cha:basicClasses* for more details.
 
-- ==self== always refers to the receiver of the message and denotes the object in which the corresponding method will be executed.  Therefore, the value of ==self== dynamically changes during the program execution, but can not be assigned in the code.
+- ==self== always refers to the receiver of the message and denotes the object in which the corresponding method will be executed. Therefore, the value of ==self== dynamically changes during the program execution, but can not be assigned in the code.
 
 - ==super== also refers to the receiver of the message too, but when you send a message to ==super==, the method-lookup changes so that it starts from the superclass of the class containing the method that sends message to ==super==. For further details see Chapter *: The Pharo Object Model>../PharoObjectModel/PharoObjectModel.pillar@cha:model*.
 
@@ -192,7 +186,7 @@ Here we give a brief overview on message kinds and ways for sending and executin
 #''Keyword'' messages take an arbitrary number of arguments. ==2 raisedTo: 6 modulo: 10== sends the message consisting of the message selector ==raisedTo:modulo:== and the arguments 6 and 10 to the object 2. Keyword message selectors consist of a series of alphanumeric keywords, where each keyword starts with a lower-case letter and ends with a colon.
 
 
-!!!!Message precedence.
+!!!!Message precedence
 Unary messages have the highest precedence, then binary messages, and finally keyword messages, while brackets can be used to change the evaluation order.
 
 Thus, in the following example we first send ==factorial== to 3 which will give us result 6. Afterwards we send ==\+ 6== to 1 which gives the result 7, and finally we send ==raisedTo: 7== to 2.
@@ -512,7 +506,7 @@ expression ==super + aNumber== will be evaluated and its value returned.
 	^ super + aNumber
 ]]]
 
-!!!! Pragmas. 
+!!!! Pragmas
 In Pharo, the angle bracket syntax is also used for method annotations called pragmas.
 Once a method has been annotated with a pragma, the annotations can be collected using a collection (see the class ==PragmaCollector==).
 
