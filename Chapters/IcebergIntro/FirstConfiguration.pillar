@@ -1,7 +1,7 @@
-!! Configure your project nicely
-@cha:Configure
+!!! Configure your project nicely
+@sec:Configure
 Versioning code is just the first part of making sure that you and others can reload your code.
-In this chapter we describe how to define a baseline, a project map that you will use to define dependencies
+we describe how to define a baseline, a project map that you will use to define dependencies
 within your project and dependencies to other projects.
 We also show how to add a good ==.gitignore== file.
 In the next chapter we will show how to configure your project to get more out of the services offered within the Github ecosystem such as Github actions to execute automatically your tests.
@@ -90,32 +90,6 @@ Metacello new
 
 For projects with metadata, like the one we just created, that's it.
 Notice that we not only mention the Github pass but also added the code folder (here ==src==).
-
-!!! [Optional] Add a nice .gitignore file
-
-Iceberg automatically manages files such as .gitignore.
-[[[
-# For Pharo 70 and up
-# http://www.pharo.org
-# Since Pharo 70 all the community is moving to git.
-
-# image, changes and sources
-*.changes
-*.sources
-*.image
-
-# Pharo Debug log file and launcher metadata
-PharoDebug.log
-pharo.version
-meta-inf.ston
-
-# Since Pharo 70, all local cache files for Monticello package cache, playground, epicea... are under the pharo-local
-/pharo-local
-
-# Metacello-github cache
-/github-cache
-github-*.zip
-]]]
 
 
 !!! Going further:  Understanding the architecture

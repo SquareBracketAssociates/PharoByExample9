@@ -15,9 +15,7 @@ ${inputFile:path=Chapters/FirstApplication/FirstApplication.pillar}$
 
 ${inputFile:path=Chapters/IcebergIntro/StartedWithIceberg.pillar}$ 
 %cha:Iceberg
-
-${inputFile:path=Chapters/IcebergIntro/FirstConfiguration.pillar}$
-%@cha:configure
+%upbe9 stef
 
 %reviewed SD: 4th of march
 ${inputFile:path=Chapters/SyntaxNutshell/SyntaxNutshell.pillar}$
