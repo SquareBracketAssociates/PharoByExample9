@@ -287,7 +287,7 @@ Metacello new
 For projects with metadata, like the one we just created, that's it.
 Notice that we not only mention the Github path but also added the code folder (here ==src==).
 
-!!! Going further:  Understanding the architecture
+!!! Stepping back...
 
 As ==git== is a distributed versioning system, you need a local clone of your repository.
 In general you edit your working copy located on your hard-drive and you commit to your local clone, and from there you push to remote repositories like Github. We explain here the specificity of managing Pharo with git.
@@ -300,7 +300,7 @@ When you use ==git== command lines,  you have to understand that there is the co
 Now the interesting part is that Iceberg manages all this for you transparently.
 All the synchronization between these two working copies is done behind the scene.
 
-Figure *@architecture* shows the architecture of the system.
+The architecture of the system is as follows:
 
 - You have your code in the Pharo image.
 - Pharo is acting as a working copy (it contains the contents of the local ==git== repository).
@@ -308,10 +308,10 @@ Figure *@architecture* shows the architecture of the system.
 - Iceberg manages the publication of your code to remote repositories.
 - Iceberg manages the re-synchronization of your image with the ==git== local repository, ==git== remote repositories and the ==git== working copy.
 
-+Architecture.>file://figures/architecture.png|width=75|label=architecture+
 
 
 !!! Conclusion
-We show how to package your code correctly.
-It will help you to reload it.
+This chapter presented the most important aspects of how to publish and package your code correctly.
+It will help you to reload it. 
+Now you are ready to take advantage of git-based services, such as the continuous integration of Github Actions. 
 
