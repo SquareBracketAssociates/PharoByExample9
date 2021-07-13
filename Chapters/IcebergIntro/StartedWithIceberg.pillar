@@ -193,10 +193,10 @@ Then we asked Iceberg to add a project by cloning it from Github.
 Now you may ask yourself what is the process to publish first your project locally without a pre-existing repository. Let us try it.
 This is actually simple.
 
-!!!! Create a new repository.
+!!!! Create a new repository
 When you add a new repository use the 'New repository' option as shown in *@NewRepo*.
 
-!!!! Add a remote.
+!!!! Add a remote
 If you want to commit to a remote repository, you will have to add it using the ''Repository'' browser. 
 You can access this browser through the associated menu item or the icon.
 The ''Repository'' browser gives you access to the ==git== repositories associated with your project: you can access, manage branches and also add or remove remote repositories. 
@@ -211,7 +211,7 @@ Pressing on the 'Add remote' iconic button adds a remote by filling the needed i
 
 +Adding a remote using the ''Repository'' browser of your project (HTTP version).>file://figures/S14-AddingRemote-HTTP.png|width=50|label=OpeningRepositoryBrowser2+
 
-!!!! Push to the remote.
+!!!! Push to the remote
 Now you can push your changes and versions to the remote repository using the Push iconic button.
 Once you have pushed you can see that you have one remote as shown in Figure *@PushedFromReport*.
 
@@ -262,19 +262,19 @@ A more elaborated web resources about baseline possibility is available at: *htt
 !!! Loading from an existing repository
 There are several ways to load your versioned code into a new Pharo image.
 
-!!!! Loading baseline ysing Iceberg.
+!!!! Loading baseline using Iceberg
 To load a project interactively, you can use the metacello menu item of Iceberg.
 It lets you load a baseline and execute it to load the project packages. 
 This way you are sure that all the subprojects are loaded.
 
-!!!! Manual load.
+!!!! Manual load
 Sometimes you may need to load a given package or you project may not have defined a baseline yet.
 You can use Iceberg to load a specific package as follows: 
 - Add the project using Iceberg as we previously explained.
 - Open the "Working copy" browser by double clicking on the project line in the repositories browser.
 - Select a package and manually load it.
 
-!!!! Scripting the load.
+!!!! Scripting the load
 The second way is to make use of Metacello scripts.
 
 [[[
