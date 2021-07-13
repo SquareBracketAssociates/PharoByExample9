@@ -184,23 +184,14 @@ Iceberg has been designed to guide you so please listen to it unless you really 
 You are now ready to use services offered around Github to improve your code control and quality!
 
 
-!!! Configure your project nicely
-@sec:Configure
-Versioning code is just the first part of making sure that you and others can reload your code.
-We will describe how to define a ''baseline'': a project map that you will use to define dependencies
-within your project and dependencies to other projects.
-We also show how to add a good ==.gitignore== file.
-In the next chapter we will show how to configure your project to get more out of the services offered within the Github ecosystem such as Github actions to execute automatically your tests.
-
-We start by showing you how you can commit your code if you did not create your remote repository first.
-
 +Creating a local repository without pre-existing remote repository.>file://figures/S12-NewRepository.png|width=75|label=NewRepo+
 
 !!! What if I did not create a remote repository
 
-In the previous chapter we started by creating a remote repository on Github.
+We started by creating a remote repository on Github.
 Then we asked Iceberg to add a project by cloning it from Github.
-Now you may ask yourself what is the process to publish first your project locally without a pre-existing repository. This is actually simple.
+Now you may ask yourself what is the process to publish first your project locally without a pre-existing repository. Let us try it.
+This is actually simple.
 
 !!!! Create a new repository.
 When you add a new repository use the 'New repository' option as shown in *@NewRepo*.
@@ -216,9 +207,9 @@ Figure *@OpeningRepositoryBrowser* shows the repository browser on our project.
 
 Pressing on the 'Add remote' iconic button adds a remote by filling the needed information that you can find in your Github project. Figure *@OpeningRepositoryBrowser* shows it for the sample project using SSH and  Figure *@OpeningRepositoryBrowser2* for HTTPS.
 
-+Adding a remote using the ''Repository'' browser of your project (SSH version).>file://figures/S14-AddingRemote.png|width=75|label=OpeningRepositoryBrowser+
++Adding a remote using the ''Repository'' browser of your project (SSH version).>file://figures/S14-AddingRemote.png|width=50|label=OpeningRepositoryBrowser+
 
-+Adding a remote using the ''Repository'' browser of your project (HTTP version).>file://figures/S14-AddingRemote-HTTP.png|width=75|label=OpeningRepositoryBrowser2+
++Adding a remote using the ''Repository'' browser of your project (HTTP version).>file://figures/S14-AddingRemote-HTTP.png|width=50|label=OpeningRepositoryBrowser2+
 
 !!!! Push to the remote.
 Now you can push your changes and versions to the remote repository using the Push iconic button.
@@ -226,10 +217,22 @@ Once you have pushed you can see that you have one remote as shown in Figure *@P
 
 +Once you pushed you changes to the remote repository.>file://figures/S15-PushedFromReport.png|width=75|label=PushedFromReport+
 
+
+!!! Configure your project nicely
+@sec:Configure
+Versioning code is just the first part of making sure that you and other developers can reload your code.
+We will describe how to define a ''baseline'': a project map that you will use to define dependencies
+within your project and dependencies to other projects.
+In the next chapter we will show how to configure your project to get more out of the services offered within the Github ecosystem such as Github actions to execute automatically your tests.
+
+We start by showing you how you can commit your code if you did not create your remote repository first.
+
+
+
 !!! Defining a ==BaselineOf==
 
-A ''baseline'' is a description of the architecture of a project.
-You will express the dependencies between your packages and other projects so that all the dependent projects are loaded without the user having to understand them or the links between them.
+A ''baseline'' is a description of a project architecture.
+You express the dependencies between your packages and other projects so that all the dependent projects are loaded without the user having to understand them or the links between them.
 
 A baseline is expressed as a subclass of ==BaselineOf== and packaged in a package named =='BaselineOfXXX'== (where 'XXX' is the name of your project).
 So if you have no dependencies, you can have something like this.
@@ -257,15 +260,22 @@ A more elaborated web resources about baseline possibility is available at: *htt
 
 
 !!! Loading from an existing repository
-Once you have a repository you committed code to and would like to load it into a new Pharo image, there are two ways to work this out.
+There are several ways to load your versioned code into a new Pharo image.
+
+!!!! Loading baseline ysing Iceberg.
+To load a project interactively, you can use the metacello menu item of Iceberg.
+It lets you load a baseline and execute it to load the project packages. 
+This way you are sure that all the subprojects are loaded.
 
 !!!! Manual load.
-- Add the project as explained in the first chapter
-- Open the working copy browser by double clicking on the project line in the repositories browser.
+Sometimes you may need to load a given package or you project may not have defined a baseline yet.
+You can use Iceberg to load a specific package as follows: 
+- Add the project using Iceberg as we previously explained.
+- Open the "Working copy" browser by double clicking on the project line in the repositories browser.
 - Select a package and manually load it.
 
 !!!! Scripting the load.
-The second way is to make use of Metacello. However, this will only work if you have already created a ==BaselineOf==. In this case, you can just execute the following snippet:
+The second way is to make use of Metacello scripts.
 
 [[[
 Metacello new
@@ -275,8 +285,7 @@ Metacello new
 ]]]
 
 For projects with metadata, like the one we just created, that's it.
-Notice that we not only mention the Github pass but also added the code folder (here ==src==).
-
+Notice that we not only mention the Github path but also added the code folder (here ==src==).
 
 !!! Going further:  Understanding the architecture
 
