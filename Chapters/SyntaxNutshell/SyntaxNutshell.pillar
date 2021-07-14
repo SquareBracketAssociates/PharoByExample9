@@ -103,7 +103,7 @@ characters. However, unlike a string, a literal symbol is guaranteed to be
 globally unique. There is only one ==Symbol== object ==#Hello== but there may be
 multiple ==String== objects with the value =='Hello'==.
 
-""Compile-time literal arrays."" are defined by ==#( )==, surrounding space-separated
+""Compile-time literal arrays."" They are defined by ==#( )==, surrounding space-separated
 literals. Everything within the parentheses must be a compile-time constant. For
 example, ==#(27 (true) abc 1+2)== is a literal array of 6 elements: the
 integer 27, the compile-time array containing the object ==true== (non-changeable Boolean), the symbol
@@ -112,13 +112,13 @@ integer 27, the compile-time array containing the object ==true== (non-changeabl
 ""Run-time dynamic arrays."" Curly braces =={ }== define a dynamic array whose elements are expressions, separated by periods, and evaluated at run-time.
 So =={ 1. 2. 1 + 2 }== defines an array with elements 1, 2, and 3 the result of evaluating ==1+2==.
 
-""Comments."" are enclosed in double quotes \" \". "hello" is a comment, not a
+""Comments."" They are enclosed in double quotes \" \". "hello" is a comment, not a
 string, and is ignored by the Pharo compiler. Comments may span multiple lines but they cannot be nested.
 
 ""Local variable definitions."" Vertical bars ==| |== enclose the declaration of
 one or more local variables before the beginning of a method or a block body.
 
-""Assignment."" ==:= == assigns an object to a variable.
+""Assignment."" The two characters ==:= == specify that a variable refers to an object.
 
 ""Blocks."" Square brackets ==[ ]== define a block, also known as a block
 closure or a lexical closure, which is a first-class object representing a
@@ -181,8 +181,7 @@ As we described, there are three kinds of messages in Pharo with predefined prec
 Here we give a brief overview on message kinds and ways for sending and executing them, while more detailed description is provided in Chapter *: Understanding messages>../UnderstandingMessage/UnderstandingMessage.pillar@chapterUnderstandingMessage*.
 
 #''Unary'' messages take no argument. ==1 factorial== sends the message ==factorial== to the object 1. Unary message selectors consist of alphanumeric characters, and start with a lower case letter.
-#''Binary'' messages take exactly one argument. ==1 \+ 2== sends the message ==\+== with argument 2 to the object 1. Binary message selectors consist of one or more characters from the following set: 
-== + - / \ * ~ < > = @ \% \| \& \? ,==
+#''Binary'' messages take exactly one argument. ==1 \+ 2== sends the message ==\+== with argument 2 to the object 1. Binary message selectors consist of one or more characters from the following set: == + - / \ * ~ < > = @ \% \| \& \? ,==
 #''Keyword'' messages take an arbitrary number of arguments. ==2 raisedTo: 6 modulo: 10== sends the message consisting of the message selector ==raisedTo:modulo:== and the arguments 6 and 10 to the object 2. Keyword message selectors consist of a series of alphanumeric keywords, where each keyword starts with a lower-case letter and ends with a colon.
 
 
