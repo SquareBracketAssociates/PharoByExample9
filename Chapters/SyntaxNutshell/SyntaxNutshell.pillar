@@ -158,11 +158,9 @@ The basic classes ==Number==, ==Character==, ==String== and ==Boolean== are desc
 
 !!!Pseudo-variables
 
-In Pharo, there are 6 pseudo-variables: ==nil==, ==true==,
-==false==, ==self==, ==super==, and ==thisContext==. 
+In Pharo, there are 6 pseudo-variables: ==nil==, ==true==, ==false==, ==self==, ==super==, and ==thisContext==. 
 They are called pseudo-variables because they are predefined and cannot be assigned to.
-==true==, ==false==, and ==nil== are constants, while the values of ==self==,
-==super==, and ==thisContext== vary dynamically as code is executed.
+==true==, ==false==, and ==nil== are constants, while the values of ==self==, ==super==, and ==thisContext== vary dynamically as code is executed.
 
 - ==true== and ==false== are the unique instances of classes ==True== and ==False== which are the subclasses of class ==Boolean==. See Chapter *: Basic Classes>../BasicClasses/BasicClasses.pillar@cha:basicClasses* for more details.
 
@@ -196,7 +194,8 @@ Thus, in the following example we first send ==factorial== to 3 which will give 
 ]]]
 
 
-Precedence aside, for the messages of the same kind, execution is strictly from left to right. Hence, as we have two binary messages, the following example return 9 and not 7.
+Precedence aside, for the messages of the same kind, execution is strictly from left to right. 
+Hence, as we have two binary messages, the following example return 9 and not 7.
 
 [[[example=true
 1 + 2 * 3
@@ -212,8 +211,8 @@ Parentheses must be used to alter the order of evaluation as follows:
 
 !!!Sequences and cascades
 
-All expressions may be composed in sequences separated by period, while message sends may be also composed in cascades by semi-colons. A period separated
-sequence of expressions causes each expression in the series to be evaluated as a separate ''statement'', one after the other.
+All expressions may be composed in sequences separated by period, while message sends may be also composed in cascades by semi-colons.
+A period separated sequence of expressions causes each expression in the series to be evaluated as a separate ''statement'', one after the other.
 
 [[[example=true
 Transcript cr.
@@ -223,35 +222,30 @@ Transcript cr
 
 This will send ==cr== to the ==Transcript== object, then send to Transcript the message ==show: 'hello world'==, and finally send it another ==cr==, again.
 
-When a series of messages is being sent to the ''same'' receiver, then this can be expressed more succinctly as a ''cascade''. The receiver is specified just
-once, and the sequence of messages is separated by semi-colons as follows:
+When a series of messages is being sent to the ''same'' receiver, then this can be expressed more succinctly as a ''cascade''.
+The receiver is specified just once, and the sequence of messages is separated by semi-colons as follows:
 
 [[[example=true
 Transcript
-  cr;
-  show: 'hello world';
-  cr
+	cr;
+	show: 'hello world';
+	cr
 ]]]
 
 This cascade has precisely the same effect as the sequence in the previous example.
 
-
 !!!Method syntax
 
-Whereas expressions may be evaluated anywhere in Pharo (for example, in a
-playground, in a debugger, or in a browser), methods are normally defined in a
-browser window, or in the debugger. Methods can also be filed in from an
-external medium, but this is not the usual way to program in Pharo.
+Whereas expressions may be evaluated anywhere in Pharo (for example, in a playground, in a debugger, or in a browser), methods are normally defined in a browser window, or in the debugger.
+Methods can also be filed in from an external medium, but this is not the usual way to program in Pharo.
 
-Programs are developed one method at a time, in the context of a given class. A
-class is defined by sending a message to an existing class, asking it to create
-a subclass, so there is no special syntax required for defining classes.
+Programs are developed one method at a time, in the context of a given class.
+A class is defined by sending a message to an existing class, asking it to create a subclass, so there is no special syntax required for defining classes.
 
-Here is the method ==lineCount== defined in the class ==String==. The usual
-''convention'' is to refer to methods as ==ClassName>>methodName==. Here the
-method is then ==String>>lineCount==. Note that ==ClassName>>methodName== is not
-part of the Pharo syntax just a convention used in books to clearly define a
-method within a class in which it is defined.
+Here is the method ==lineCount== defined in the class ==String==.
+The usual ''convention'' is to refer to methods as ==ClassName>>methodName==.
+Here the method is then ==String>>lineCount==. Note that ==ClassName>>methodName== is not
+part of the Pharo syntax just a convention used in books to clearly define a method within a class in which it is defined.
 
 [[[
 String >> lineCount
@@ -265,29 +259,24 @@ String >> lineCount
 ]]]
 
 Syntactically, a method consists of:
-#the method pattern, containing the name (i.e., ==lineCount==) and any parameters (none in this example)
+#the method pattern, containing the name (i.e., ==lineCount==) and any parameters (none in this example),
 #comments which may occur anywhere, but the convention is to put one at the top that explains what the method does
-#declarations of local variables (i.e., ==cr== and ==count==); and
-#any number of expressions separated by dots (here there are four)
+#declarations of local variables (i.e., ==cr== and ==count==), and
+#any number of expressions separated by dots (here there are four).
 
-The execution of any expression preceded by a ==^== (a caret or upper
-arrow, which is ==Shift-6== for most keyboards) will cause the method to exit at
-that point, returning the value of the expression that follows the ==^==. A method that terminates
-without explicitly returning value of some expression will implicitly return ==self== object.
+The execution of any expression preceded by a ==^== (a caret or upper arrow, which is ==Shift-6== for most keyboards) will cause the method to exit at that point, returning the value of the expression that follows the ==^==.
+A method that terminates without explicitly returning value of some expression will implicitly return ==self== object.
 
-Parameters and local variables should always start with lower case letters. Names
-starting with upper-case letters are assumed to be global variables. Class
-names, like ==Character==, for example, are simply global variables referring to
-the object representing that class.
+Parameters and local variables should always start with lower case letters.
+Names starting with upper-case letters are assumed to be global variables.
+Class names, like ==Character==, for example, are simply global variables referring to the object representing that class.
 
 !!!Block syntax
 
-Blocks (lexical closures) provide a mechanism to defer the execution of
-expressions. A block is essentially an anonymous function with a definition
-context. A block is executed by sending it the message ==value==. The block
-answers the value of the last expression in its body, unless there is an
-explicit return (with ^) in which case it returns the value of the returned
-expression.
+Blocks (lexical closures) provide a mechanism to defer the execution of expressions. 
+A block is essentially an anonymous function with a definition context. 
+A block is executed by sending it the message ==value==.
+The block answers the value of the last expression in its body, unless there is an explicit return (with ==^==) in which case it returns the value of the returned expression.
 
 [[[example=true
 [ 1 + 2 ] value
@@ -300,27 +289,28 @@ expression.
 >>> 33
 ]]]
 
-Blocks may have parameters each of which is declared with a leading colon. A
-vertical bar separates the parameters declaration from the body of the block.
-To evaluate a block with one parameter, you must send it the message ==value:== with
-one argument. A two-parameter block must be evaluated by sending ==value:value:== with two arguments, and so on, up
+Blocks may have parameters each of which is declared with a leading colon.
+A vertical bar separates the parameters declaration from the body of the block.
+To evaluate a block with one parameter, you must send it the message ==value:== with one argument.
+A two-parameter block must be evaluated by sending ==value:value:== with two arguments, and so on, up
 to 4 arguments.
 
 [[[example=true
 [ :x | 1 + x ] value: 2
 >>> 3
 ]]]
+
 [[[example=true
 [ :x :y | x + y ] value: 1 value: 2
 >>> 3
 ]]]
 
-If you have a block with more than four parameters, you must use
-==valueWithArguments:== and pass the arguments in an array. However, a block with a
-large number of parameters is often a sign of a design problem.
+If you have a block with more than four parameters, you must use ==valueWithArguments:== and pass the arguments in an array. 
+However, a block with a large number of parameters is often a sign of a design problem.
 
-In blocks there may be also declared local variables, surrounded by vertical bars,
-just like local variable declarations in a method. Local variables are declared after arguments and vertical bar separator, and before the block body. In the following example, ==x==  ==y== are parameters, and ==z== is local variable.
+In blocks there may be also declared local variables, surrounded by vertical bars, just like local variable declarations in a method.
+Local variables are declared after arguments and vertical bar separator, and before the block body.
+In the following example, ==x==  ==y== are parameters, and ==z== is local variable.
 
 [[[example=true
 [ :x :y |
@@ -330,9 +320,8 @@ just like local variable declarations in a method. Local variables are declared 
 >>> 3
 ]]]
 
-Blocks are actually lexical closures, since they can refer to variables of the
-surrounding environment. The following block refers to the variable ==x== of its
-enclosing environment:
+Blocks are actually lexical closures, since they can refer to variables of the surrounding environment.
+The following block refers to the variable ==x== of its enclosing environment:
 
 [[[example=true
 | x |
@@ -341,21 +330,20 @@ x := 1.
 >>> 3
 ]]]
 
-Blocks are instances of the class ==BlockClosure==. This means that they are
-objects, so they can be assigned to variables and passed as arguments just like
+Blocks are instances of the class ==BlockClosure==.
+This means that they are objects, so they can be assigned to variables and passed as arguments just like
 any other object.
 
 !!!Conditionals and loops
 
-Pharo offers no special syntax for control constructs. Instead, these are
-typically expressed by sending messages to booleans, numbers and collections,
-with blocks as arguments.
+Pharo offers no special syntax for control constructs.
+Instead, these are typically expressed by sending messages to booleans, numbers and collections, with blocks as arguments.
 
 
 !!!! Some conditionals
 Conditionals are expressed by sending one of the messages ==ifTrue:==,
-==ifFalse:== or ==ifTrue:ifFalse:== to the result of a boolean expression. See
-Chapter *: Basic Classes>../BasicClasses/BasicClasses.pillar@cha:basicClasses*,
+==ifFalse:== or ==ifTrue:ifFalse:== to the result of a boolean expression.
+See Chapter *: Basic Classes>../BasicClasses/BasicClasses.pillar@cha:basicClasses*,
 for more about booleans.
 
 [[[example=true
@@ -366,10 +354,8 @@ for more about booleans.
 ]]]
 
 !!!! Some loops
-Loops are typically expressed by sending messages to blocks, integers or
-collections. Since the exit condition for a loop may be repeatedly evaluated, it
-should be a block rather than a boolean value. Here is an example of a very
-procedural loop:
+Loops are typically expressed by sending messages to blocks, integers or collections.
+Since the exit condition for a loop may be repeatedly evaluated, it should be a block rather than a boolean value. Here is an example of a very procedural loop:
 
 [[[example=true
 n := 1.
@@ -397,8 +383,8 @@ n
 ]]]
 
 We can also send the message ==to:do:== to a number which then acts as the
-initial value of a loop counter. The two arguments are the upper bound, and a
-block that takes the current value of the loop counter as its argument:
+initial value of a loop counter.
+The two arguments are the upper bound, and a block that takes the current value of the loop counter as its argument:
 
 [[[example=true
 result := String new.
@@ -408,16 +394,15 @@ result
 ]]]
 
 !!!! High-order iterators
-Collections comprise a large number of different
-classes, many of which support the same protocol. The most important messages
-for iterating over collections include ==do:==, ==collect:==, ==select:==,
-==reject:==, ==detect:== and ==inject:into:==. These messages represent high-level
-iterators that allow one to write very compact code.
+Collections comprise a large number of different classes, many of which support the same protocol.
+The most important messages
+for iterating over collections include ==do:==, ==collect:==, ==select:==, ==reject:==, ==detect:== and ==inject:into:==.
+These messages represent high-level iterators that allow one to write very compact code.
 
-An ""Interval"" is a collection that lets one iterate over a sequence of numbers
-from the starting point to the end. ==1 to: 10== represents the interval from 1
-to 10. Since it is a collection, we can send the message ==do:== to it. The
-argument is a block that is evaluated for each element of the collection.
+An ""Interval"" is a collection that lets one iterate over a sequence of numbers from the starting point to the end. 
+==1 to: 10== represents the interval from 1 to 10.
+Since it is a collection, we can send the message ==do:== to it.
+The argument is a block that is evaluated for each element of the collection.
 
 [[[example=true
 result := String new.
@@ -426,9 +411,8 @@ result
 >>> '1 2 3 4 5 6 7 8 9 10 '
 ]]]
 
-==collect:== builds a new collection of the same size, transforming each
-element. You can think of ==collect:== as the Map in the MapReduce
-programming mode).
+==collect:== builds a new collection of the same size, transforming each element.
+You can think of ==collect:== as the Map in the MapReduce programming.
 
 [[[example=true
 (1 to:10) collect: [ :each | each * each ]
@@ -440,27 +424,28 @@ the elements of the iterated collection that satisfies, or not, respectively, th
 
 ==detect:== returns the first element in the collection that satisfies the condition. 
 
-Don't forget that strings are also collections (of characters), so you can iterate over all
-the characters.
+Don't forget that strings are also collections (of characters), so you can iterate over all the characters.
 
 [[[example=true
 'hello there' select: [ :char | char isVowel ]
 >>> 'eoee'
 ]]]
+
 [[[example=true
 'hello there' reject: [ :char | char isVowel ]
 >>> 'hll thr'
 ]]]
+
 [[[example=true
 'hello there' detect: [ :char | char isVowel ]
 >>> $e
 ]]]
 
-Finally, you should be aware that collections also support a functional-style
-fold operator in the ==inject:into:== method. You can also think of it as the
-Reduce in the MapReduce programming model. This lets you generate a cumulative
-result using an expression that starts with a seed value and injects each
-element of the collection. Sums and products are typical examples.
+Finally, you should be aware that collections also support a functional-style fold operator in the ==inject:into:== method.
+You can also think of it as the Reduce in the MapReduce programming model. 
+This lets you generate a cumulative result using an expression that starts with a seed value and injects each
+element of the collection.
+Sums and products are typical examples.
 
 [[[example=true
 (1 to: 10) inject: 0 into: [ :sum :each | sum + each]
@@ -472,16 +457,16 @@ This is equivalent to ==0\+\1\+2\+3\+4\+5\+6\+7\+8\+9\+10==.
 More about collections can be found in Chapter
 *: Collections>../Collections/Collections.pillar@cha:collections*.
 
-!!! Method annotations: Primitives and pragmas
-In Pharo methods can be annotated too. Method annotation are delimitated by ==\<== and ==\>==.
-There are used for two main scenarios: execution specific metadata for the primitives of the language and 
-metadata. 
+!!!Method annotations: Primitives and pragmas
+In Pharo methods can be annotated too.
+Method annotation are delimitated by ==\<== and ==\>==.
+There are used for two main scenarios: execution specific metadata for the primitives of the language and  metadata. 
 
 !!!! Primitives
 In Pharo everything is an object, and everything happens by sending messages.
-Nevertheless, at certain points we hit rock bottom. Certain objects can only get
-work done by invoking virtual machine primitives. Such primitives are essential primitives
-since they cannot be expressed in Pharo.
+Nevertheless, at certain points we hit rock bottom.
+Certain objects can only get work done by invoking virtual machine primitives.
+Such primitives are essential primitives since they cannot be expressed in Pharo.
 
 For example, the following are all implemented as primitives: memory allocation
 (==new==, ==new:==), bit manipulation (==bitAnd:==, ==bitOr:==, ==bitShift:==),
@@ -492,8 +477,8 @@ When a method with a primitive is executed, the primitive code is executed in pl
 A method using such a primitive may include additional Pharo code, which will be
 executed only if the primitive fails (for the case the primitive is an optional one).
 
-In the following example,  we see the code for ==SmallInteger>>+==. If the primitive fails, the
-expression ==super + aNumber== will be evaluated and its value returned.
+In the following example,  we see the code for ==SmallInteger>>+==.
+If the primitive fails, the expression ==super + aNumber== will be evaluated and its value returned.
 
 [[[
 + aNumber
