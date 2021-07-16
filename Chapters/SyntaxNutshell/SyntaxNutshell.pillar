@@ -260,7 +260,7 @@ String >> lineCount
 
 Syntactically, a method consists of:
 #the method pattern, containing the name (i.e., ==lineCount==) and any parameters (none in this example),
-#comments which may occur anywhere, but the convention is to put one at the top that explains what the method does
+#comments which may occur anywhere, but the convention is to put one at the top that explains what the method does,
 #declarations of local variables (i.e., ==cr== and ==count==), and
 #any number of expressions separated by dots (here there are four).
 
