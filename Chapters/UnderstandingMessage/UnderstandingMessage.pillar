@@ -59,19 +59,18 @@ The table shows several examples of message sends. You should note that:
 Pharo defines a few simple rules to determine the order in which the messages are sent.
 These rules are based on the distinction between 3 different kinds of messages:
 -''Unary messages'' are messages that are sent to an object without any other information. For example in ==3 factorial==, ==factorial== is a unary message. A sent unary message may execute a basic unary operation or an arbitrary functionality, but it is always sent without arguments.
--''Binary messages'' are messages consisting of operators (often arithmetic) and executing basic binary operations.
-They are binary because they always involve only two objects: the receiver and the argument object. For example in ==10 + 20==, ==+== is a binary message sent to the receiver ==10== with argument ==20==.
--''Keyword messages'' are messages consisting of one or more keywords, each ending with a colon (==:==) and taking an argument.  For example in ==anArray at: 1 put: 10==, the keyword ==at:== takes the argument ==1== and the keyword ==put:== takes the argument ==10==. 
+-''Binary messages'' are messages consisting of operators (often arithmetic) and executing basic binary operations. They are binary because they always involve only two objects: the receiver and the argument object. For example in ==10 + 20==, ==+== is a binary message sent to the receiver ==10== with argument ==20==.
+-''Keyword messages'' are messages consisting of one or more keywords, each ending with a colon (==:==) and taking an argument.  For example in ==anArray at: 1 put: 10==, the message selector is ==at:put:==. The keyword ==at:== takes the argument ==1== and the keyword ==put:== takes the argument ==10==. 
 
 It is important to note that:
 - There are no keyword messages that are sent without arguments. All messages that are sent without arguments are unary ones.
-- There is a difference between keyword messages that are sent with exactly one argument and binary ones - a keyword message send may execute an arbitrary functionality.
+- There is a difference between keyword messages that are sent with exactly one argument and binary ones - Basically a keyword message contains a colon to identify each of its arguments.
 
 !!!!Unary messages
 
 Unary messages are messages that do not require any argument.
 They follow the syntactic template: ==receiver messageName==.
-The selector is simply made up of a succession of characters not containing ==:== (''e.g.'', ==factorial==, ==open==, ==class==).
+The selector is simply made up of a succession of characters not containing a colon ()==:==) ''e.g.'', ==factorial==, ==open==, ==class==.
 
 [[[example=true
 89 sin
@@ -144,9 +143,9 @@ Note that ==\-\-== is not allowed for parsing reasons.
 
 !!!!Keyword messages
 
-Keyword messages are messages that require one or more arguments and whose selector consists of one or more keywords each ending in ==\:==.
+Keyword messages are messages that require one or more arguments and whose selector consists of one or more keywords each ending in a colon (==\:==).
 
-In the following example, message ==between:and:== is composed of two keywords: ==between:== and ==and:==. The full message is ==between:and:== and it is sent to number.
+In the following example, message ==between:and:== is composed of two keywords: ==between:== and ==and:==. The full message selector is ==between:and:== and it is sent to numbers.
 
 [[[example=true
 2 between: 0 and: 10
@@ -276,7 +275,7 @@ Decomposing the execution of aPen color: Color yellow
  As an exercise we let you decompose the execution of the message send ==Pen new go: 100 + 20== which is composed of one unary, one keyword and one binary message (see Figure *@fig:uunKeyBin*).
 
 !!!!Parentheses first
-Parenthesised messages are sent prior to other messages.
+Messages within parentheses are sent prior to other messages.
 
 @@important (Msg) > Unary > Binary > Keyword
 
@@ -427,15 +426,13 @@ to + which produces the correct behaviour."
 
 +Equivalent messages using parentheses.>file://figures/uunKeyBinPar.png|width=80+
 
-@@todo is this a "caption" of the table? Figures around move and separate it from the table...
-""Table : Message sends and their fully parenthesized equivalents""
 |!Implicit precedence |!Explicitly parenthesized equivalent
 |aPen color: Color yellow | aPen color: (Color yellow)
 | aPen go: 100 \+ 20= | Pen go: (100 \+ 20)
 | aPen penSize: aPen penSize \+ 2 | aPen penSize: ((aPen penSize) \+ 2)
 | 2 factorial \+ 4 | (2 factorial) \+ 4
 
-Note that the first rule stating that unary messages are sent prior to binary and keyword messages avoids the need to put explicit parentheses around them. Table above shows message sends written following the rules and equivalent message sends if the rules would not exist. Both message sends result in the same effect or return the same value.
+Note that the first rule stating that unary messages are sent prior to binary and keyword messages avoid the need to put explicit parentheses around them. Table above shows message sends written following the rules and equivalent message sends if the rules would not exist. Both message sends result in the same effect or return the same value.
 
 !!!Hints for identifying keyword messages
 
