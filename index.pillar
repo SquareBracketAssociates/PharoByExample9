@@ -17,10 +17,9 @@ ${inputFile:path=Chapters/IcebergIntro/StartedWithIceberg.pillar}$
 ${inputFile:path=Chapters/SyntaxNutshell/SyntaxNutshell.pillar}$
 %upbe9 stef
 
-
 %reviewed SD: 4th of march
 ${inputFile:path=Chapters/UnderstandingMessage/UnderstandingMessage.pillar}$
-
+%upbe9 stef
 
 %reviewed SD: 6th of march
 ${inputFile:path=Chapters/PharoObjectModel/PharoObjectModel.pillar}$
