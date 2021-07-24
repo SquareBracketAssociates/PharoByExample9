@@ -48,25 +48,40 @@ the curious reader.
 
 Here are two examples.
 
-[[[example=true|caption=Sending ==+ 4== to ==3==, yields the object ==7==.
+[[[example=true|caption=Sending ==+ 4== to ==3== yields the object ==7==.
 3 + 4
 >>> 7
 ]]]
 
-[[[example=true|caption=Sending ==factorial== to ==20==, yields a large number.
+[[[example=true|caption=Sending ==factorial== to ==20== yields a large number.
 20 factorial
 >>> 2432902008176640000
 ]]]
 
-The object ==7== is different than the object returned by ==20 factorial==. ==7== is an instance of ==SmallInteger== 
-while ==20 factorial== is an instance of ==LargePositiveInteger==. 
+The object ==7== is different than the object returned by ==20 factorial==. 
+==7== is an instance of ==SmallInteger== while ==20 factorial== is an instance of ==LargePositiveInteger==. 
 But because they are both polymorphic objects (they know how to answer to the same set of messages), none of the code, not even the implementation of ==factorial==, needs to know about this.
 
 Coming back to ''everything is an object'' rule, perhaps the most fundamental
 consequence of this rule is that classes are objects too. Classes are not
 second-class objects: they are really first-class objects that you can send
-messages to, inspect, and change. This means that Pharo is a truly reflective
-system, which gives a great deal of expressive power to developers.
+messages to, inspect, and change as any object.
+
+From the point of view of sending a message, there is no difference between an instance such as ==7== and a class.
+The following example shows that we can send the message ==today== to the class ==Date== to obtain the current date of the system.
+
+[[[example=true|caption=Sending ==today== to class ==Date== yields the current date
+Date today printString
+>>> '24 July 2021'
+]]]
+
+The following example shows that we can ask a class for the instance variables its instances will have - note that the message ==allInstVarNames== returns the inherited instance variables too.
+
+[[[example=true|caption=Sending ==allInstVarNames== to class ==Date== returns the instance variables 
+that an instance of the class will have (including inherited ones).
+Date allInstVarNames 
+>>> #(#start #duration)
+]]]
 
 @@important Classes are objects too. We interact the same way with classes and objects, simply by sending messages to them.
 
@@ -118,34 +133,30 @@ Now we will briefly present how we specify the structure and behavior of
 instances.
 
 !!!!Instance variables
+Instance variables are accessed by name in any of the instance methods of the
+class that defines them, and also in the methods defined in its subclasses.
+This means that Pharo instance variables are similar to ''protected'' variables in
+C\+\+ and Java.
+However, we prefer to say that they are private, because it is considered bad style in Pharo to access an instance variable directly from a subclass.
 
-Instance variables in Pharo are private to the ''instance'' itself. This is in
-contrast to Java and C\+\+, which let instance variables (also known as
-''fields'' or ''member variables'') to be accessed by any other instance that
-happens to be of the same class. We say that the ''encapsulation boundary'' of
-objects in Java and C\+\+ is the class, whereas in Pharo it is the instance.
+!!!!Instance-based encapsulation
+Instance variables in Pharo are private to the ''instance'' itself.
+This is in contrast to Java and C\+\+, which let instance variables (also known as ''fields'' or ''member variables'') to be accessed by any other instance that happens to be of the same class.
+We say that the ''encapsulation boundary'' of objects in Java and C\+\+ is the class, whereas in Pharo it is the instance.
 
 In Pharo, two instances of the same class cannot access each other's instance
-variables unless the class defines ''accessor methods''. There is no language
-syntax that provides direct access to the instance variables of any other
-object. (Actually, a mechanism called reflection does provide a way to ask
-another object for the values of its instance variables; meta-programming is
-intended for writing tools like the object inspector, whose sole purpose is to
-look inside other objects.)
-
-Instance variables can be accessed by name in any of the instance methods of the
-class that defines them, and also in the methods defined in its subclasses. This
-means that Pharo instance variables are similar to ''protected'' variables in
-C\+\+ and Java. However, we prefer to say that they are private, because it is
-considered bad style in Pharo to access an instance variable directly from a
-subclass.
+variables unless the class defines ''accessor methods''.
+There is no language syntax that provides direct access to the instance variables of any other
+object.
+Actually, a mechanism called reflection provides a way to ask another object for the values of its instance variables.
+Reflection is at the root of meta-programming which is used for writing tools like the object inspector.
 
 !!!!Instance encapsulation example
 
 The method ==distanceTo:== of the class ==Point== computes the distance between the receiver and
-another point. The instance variables ==x== and ==y== of the receiver are
-accessed directly by the method body. However, the instance variables of the
-other point must be accessed by sending it the messages ==x== and ==y==.
+another point.
+The instance variables ==x== and ==y== of the receiver are accessed directly by the method body.
+However, the instance variables of the other point must be accessed by sending it the messages ==x== and ==y==.
 
 [[[label=scr:distance|caption=Distance between two points.
 Point >> distanceTo: aPoint
@@ -173,6 +184,13 @@ record in a database, or on another computer in a distributed system.
 As long as
 it can respond to the messages ==x== and ==y==, the code of method ==distanceTo:==
 (shown above) will still work.
+
+
+
+
+
+
+
 
 !!!!Methods
 
