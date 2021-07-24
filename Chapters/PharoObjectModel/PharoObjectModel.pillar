@@ -854,6 +854,7 @@ It means that the value of this extra instance variable will describe the instan
 Point class allInstVarNames
 >>>  "#(#superclass #methodDict #format #layout #organization #subclasses #name #classPool #sharedPools #environment #category)"
 ]]]
+
 [[[example=true|label=scr:instance|caption=New state for classes.
 WebServer class allInstVarNames
 >>>  "#(#superclass #methodDict #format #layout #organization #subclasses #name #classPool #sharedPools #environment #category #uniqueInstance)"
@@ -893,14 +894,17 @@ Using ==self== ensures that this will happen, since ==self== will be bound to th
 Note also that ==WebServer== and ==ReliableWebServer== will each have a different value for their
 ==uniqueInstance== instance variable.
 
-!!!! A note on lazy initialization.
-''Do not over-use the lazy initialization pattern.'' The setting of initial
+!!!A note on lazy initialization
+
+'The setting of initial
 values for instances of objects generally belongs in the ==initialize== method.
 Putting initialization calls only in ==initialize== helps from a readability
 perspective \-\- you don't have to hunt through all the accessor methods to see
 what the initial values are. Although it may be tempting to instead initialize
 instance variables in their respective accessor methods (using ==ifNil:==
 checks), avoid this unless you have a good reason.
+
+'Do not over-use the lazy initialization pattern.'' 
 
 For example, in our ==uniqueInstance== method above, we used lazy initialization
 because users won't typically expect to call ==WebServer initialize==. Instead,
@@ -909,8 +913,6 @@ this, lazy initialization makes sense. Similarly, if a variable is expensive to
 initialize (opening a database connection or a network socket, for example),
 you will sometimes choose to delay that initialization until you actually need
 it.
-
-
 
 !!!Shared variables
 Now we will look at an aspect of Pharo that is not so easily covered by our five
@@ -1141,7 +1143,7 @@ Similarly, a class is considered abstract if one of its methods is abstract.
 Nothing actually prevents you from creating an instance of an abstract class;
 everything will work until an abstract method is invoked.
 
-!!!!!Example: the abstract class ==Magnitude==
+!!! Example: the abstract class ==Magnitude==
 
 ==Magnitude== is an abstract class that helps us to define objects that can be
 compared to each other. Subclasses of ==Magnitude== should implement the
@@ -1153,7 +1155,7 @@ the following script.
 %*@scr:MagnitudeLessThan*.
 
 [[[label=scr:MagnitudeLessThan|caption===Magnitude>> <==.
-< aMagnitude
+Magnitude >> < aMagnitude
     "Answer whether the receiver is less than the argument."
 
     ^self subclassResponsibility
@@ -1162,7 +1164,7 @@ the following script.
 By contrast, the method ==>=== is concrete, and is defined in terms of ==<==.
 
 [[[label=scr:MagnitudeGTE|caption===Magnitude>> >===.
->= aMagnitude
+Magnitude >> >= aMagnitude
     "Answer whether the receiver is greater than or equal to the argument."
 
     ^(self < aMagnitude) not
@@ -1181,7 +1183,7 @@ method definition below).
 ==~=== and others.
 
 [[[label=scr:characterLessThan|caption===Character>> <===.
-< aCharacter
+Character >> < aCharacter
     "Answer true if the receiver's value < aCharacter's value."
 
     ^self asciiValue < aCharacter asciiValue
