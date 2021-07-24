@@ -181,8 +181,7 @@ whether the argument ==aPoint== is an instance of the same class as the
 receiver.
 The argument object might be represented in polar coordinates, or as a
 record in a database, or on another computer in a distributed system. 
-As long as
-it can respond to the messages ==x== and ==y==, the code of method ==distanceTo:==
+As long as it can respond to the messages ==x== and ==y==, the code of method ==distanceTo:==
 (shown above) will still work.
 
 
@@ -206,9 +205,9 @@ Protocols have no semantics from the language view point.
 They are just folders in which methods are stored.
 Some common protocol names have been established by convention, for example, ==accessing== for all
 accessor methods and ==initialization== for establishing a consistent initial state for the object.
-The protocol ==private== is sometimes used to group methods that should not be seen from outside.
+The protocol ==private== is sometimes used to group methods that should not be relied on.
 Nothing, however, prevents you from sending a message that is implemented by such a "private" method.
-
+However, it means that the developer may change or remove such private method.
 
 !!!Every class has a superclass
 
@@ -247,12 +246,11 @@ ProtoObject superclass
 >>> nil
 ]]]
 
-Traditionally the root of an inheritance hierarchy is the class ==Object==
-(since everything is an object).
-In Pharo, the root is actually a class called ==ProtoObject==, but you will normally not pay any attention to this class.
-==ProtoObject== encapsulates the minimal set of messages that all objects ''must'' have and ==ProtoObject== is designed to raise as many as possible
-errors (to support proxy definition). 
-However, most classes inherit from ==Object==, which defines many additional messages that almost all objects understand and respond to. 
+Traditionally the root of the inheritance hierarchy is the class ==Object==, since everything is an object.
+Most classes inherit from ==Object==, which defines many additional messages that almost all objects understand and respond to. 
+
+In Pharo, the root of the inheritance tree is actually the class ==ProtoObject==, but you will normally not pay any attention to this class.
+The class ==ProtoObject== encapsulates the minimal set of messages that all objects ''must'' have and ==ProtoObject== is designed to raise as many as possible errors (to support proxy definition). 
 Unless you have a very good reason to do otherwise, when creating application classes you should normally subclass ==Object==, or one of its subclasses.
 
 A new class is normally created by sending the message ==subclass: instanceVariableNames: ...== to an existing class as shown in *@scr:point*.
@@ -267,26 +265,19 @@ Object subclass: #Point
 ]]]
 
 
-
-
-
 !!!Everything happens by sending messages
 
 This rule captures the essence of programming in Pharo.
 
-In procedural programming (and in some static features of some object-oriented languages such as Java), the choice of which piece of code to execute when a procedure is called is made by the caller. 
+In procedural programming (and in some static features of some object-oriented languages such as Java), the choice of which method to execute when a procedure is called is made by the caller. 
 The caller chooses the procedure to execute ''statically'', by name.
 In such a case there is no lookup or dynamicity involved.
 
-In Pharo, we do ''not'' "invoke methods". Instead, we ''send messages.'' 
-This is just a terminology point but it is significant. It implies that this is not the responsibility of the client to select the method to be executed, it is the one of the receiver of the message.
-
-When sending a message, we do not decide which method will be executed. Instead,
-we ''tell'' an object to do something for us by sending it a message. A message
-is nothing but a name and a list of arguments. The receiver then decides how to
-respond by selecting its own ''method'' for doing what was asked. Since
-different objects may have different methods for responding to the same message,
-the method must be chosen ''dynamically'', when the message is received.
+In Pharo when we send a message, the caller does not decide which method will be executed. 
+Instead, we ''tell'' an object to do something by sending it a message.
+A message is nothing but a name and a list of arguments.
+The ''receiver'' then decides how to respond by selecting its own ''method'' for doing what was asked.
+Since different objects may have different methods for responding to the same message, the method must be chosen ''dynamically'', when the message is received.
 
 [[[example=true|caption=Sending message ==+== with argument 4 to integer 3.
 3 + 4
@@ -298,17 +289,22 @@ the method must be chosen ''dynamically'', when the message is received.
 ]]]
 
 As a consequence, we can send the ''same message'' to different objects, each of
-which may have ''its own method'' for responding to the message. We do not tell
-the ==SmallInteger== ==3== or the ==Point== ==(1@2)== how to respond to the
-message ==\+ 4==. Each has its own method for ==\+==, and responds to ==\+ 4==
-accordingly.
+which may have ''its own method'' for responding to the message.
+
+In the previous examples, we do not decide how the ==SmallInteger== ==3== or the ==Point== ==(1@2)== should respond to the message ==\+ 4==. We let the objet decide: Each has its own method for ==\+==, and responds to ==\+ 4== accordingly.
+
+!!!! Vocabulary point. 
+In Pharo, we do ''not''  say that we "invoke methods". Instead, we ''send messages.'' 
+This is just a vocabulary point but it is significant. It implies that this is not the responsibility of the client to select the method to be executed, it is the one of the receiver of the message.
+
 
 !!!! About other computation.
-''Nearly'' everything in Pharo happens by sending messages. At some point action must take place:
+''Nearly'' everything in Pharo happens by sending messages.
+At some point action must take place:
 
 - ''Variable declarations'' are not message sends. In fact, variable declarations are not even executable. Declaring a variable just causes space to be allocated for an object reference.
-- ''Variable accesses'' are just access to the value of a variable.
-- ''Assignments'' are not message sends. An assignment to a variable causes that variable name to be freshly bound in the scope of its definition.
+- ''Variable accesses'' are just accesses to the value of a variable.
+- ''Assignments'' are not message sends. An assignment to a variable causes that variable name to be freshly bound to the result of the expression in the scope of its definition.
 - ''Returns'' are not message sends. A return simply causes the computed result to be returned to the sender.
 - ''Pragmas'' are not message sends. They are method annotations.
 
@@ -319,8 +315,9 @@ Other than these few exceptions, pretty much everything else does truly happen b
 One of the consequences of Pharo's model of message sending is that it
 encourages a style in which objects tend to have very small methods and delegate
 tasks to other objects, rather than implementing huge, procedural methods that
-assume too much responsibility. Joseph Pelrine expresses this principle
-succinctly as follows:
+assume too much responsibility.
+
+Joseph Pelrine expresses this principle succinctly as follows:
 
 @@note Don't do anything that you can push off onto someone else.
 
@@ -329,9 +326,9 @@ objects. In Pharo there are only dynamic message sends. For example, instead of
 providing static class operations, we simply send messages to classes (which
 are simply objects).
 
-In particular, since there are no ''public fields'' in Pharo, the only way to update an instance variable of another object is to send
-it a message asking that it update its own field. 
-Of course, providing setter and getter methods for all the instance variables of an object is not good object-oriented style. 
+In particular, since there are no ''public fields'' in Pharo, the only way to update an instance variable of another object is to send it a message asking that it update its own field. 
+Of course, providing setter and getter methods for all the instance variables of an object is not good object-oriented style, because clients can access to the internal state of objects.
+
 Joseph Pelrine also states this very nicely:
 
 @@note Don't let anyone else play with your data.
@@ -350,8 +347,8 @@ The lookup process is quite simple:
 # The class of the receiver looks up the method to use to handle the message.
 # If this class does not have that method defined, it asks its superclass, and so on, up the inheritance chain.
 
-It is essentially as simple as that. Nevertheless there are a few questions that
-need some care to answer:
+It is essentially as simple as that. 
+Nevertheless there are a few questions that need some care to answer:
 - ''What happens when a method does not explicitly return a value?''
 - ''What happens when a class reimplements a superclass method?''
 - ''What is the difference between ==self== and ==super== sends?''
@@ -359,8 +356,7 @@ need some care to answer:
 
 The rules for method lookup that we present here are conceptual; virtual machine
 implementors use all kinds of tricks and optimizations to speed up method
-lookup. That's their job, but you should never be able to detect that they are
-doing something different from our rules.
+lookup.
 
 First let us look at the basic lookup strategy, and then consider these further
 questions.
@@ -446,13 +442,12 @@ Now, this is a perfectly ordinary, dynamic message send, so the lookup starts ag
 As it turns out, ==Object== implements ==doesNotUnderstand:==. 
 This method will create a new ==MessageNotUnderstood== object which is capable of starting a Debugger in the current execution context.
 
-Why do we take this convoluted path to handle such an obvious error? 
-Well, this offers developers an easy way to intercept such errors and take alternative action. 
+Why do we take this convoluted path to handle such an obvious error?
+Well, this offers developers an easy way to intercept such errors and take alternative action.
 One could easily override the method ==Object>>doesNotUnderstand:== in any subclass of ==Object== and provide a different way of handling the error.
 
 In fact, this can be an easy way to implement automatic delegation of messages from one object to another. 
-A ==Delegator== object could simply delegate all messages it does not understand to another object whose responsibility it is to
-handle them, or raise an error itself!
+A delegating object could simply delegate all messages it does not understand to another object whose responsibility it is to handle them, or raise an error itself!
 
 
 !!!About returning self
@@ -519,23 +514,23 @@ BorderedMorph >> initialize
 
 We need ==super== sends to compose inherited behaviour that would otherwise be overridden.
 
-@@important It is a good practice that an ==initialize== method start by sending ==super initialize==.
+@@important It is a good practice that an ==initialize== method starts by sending ==super initialize==.
 
 !!!Self and super sends
 
 ==self== represents the receiver of the message and the lookup of the method
-starts in the class of the receiver. Now what is ==super==? ==super== is
-''not'' the superclass! It is a common and natural mistake to think this. It is
-also a mistake to think that lookup starts in the superclass of the class of the
-receiver.
+starts in the class of the receiver. Now what is ==super==? ==super== is ''not'' the superclass!
+It is a common and natural mistake to think this.
+It is also a mistake to think that lookup starts in the superclass of the class of the receiver.
 
 @@important ==self== represents the receiver of the message and the method lookup starts in the class of the receiver.
 
 !!!!! How do ==self== sends differ from ==super== sends?
 
-Like ==self==, ==super== represents the receiver of the message. Yes you read it
-well! The only thing that changes is the method lookup. Instead of lookup
-starting in the class of the receiver, it starts in the ''superclass of the
+Like ==self==, ==super== represents the receiver of the message.
+Yes you read it well!
+The only thing that changes is the method lookup.
+Instead of lookup starting in the class of the receiver, it starts in the ''superclass of the
 class of the method where the ==super== send occurs''.
 
 @@important ==super== represents the receiver of the message and the method lookup starts in the superclass of the class of the method where the ==super== send occurs.
@@ -614,8 +609,7 @@ This would have caused lookup to start from ==BorderedMorph==, resulting in an
 infinite loop!
 
 If you think carefully about ==super== send and Figure *@fig:constructorStringLookup*, you will realize that ==super== bindings are static: all that matters is the class in which the text of the ==super== send is found. 
-By contrast, the meaning of ==self== is dynamic: it always represents the receiver of the currently executing message. This means that ''all'' messages
-sent to ==self== are looked up by starting in the receiver's class.
+By contrast, the meaning of ==self== is dynamic: it always represents the receiver of the currently executing message. This means that ''all'' messages sent to ==self== are looked up by starting in the receiver's class.
 
 @@important A ==super== send triggers a method lookup starting in the ''superclass of the class of the method performing the ==super== send''. We say that super sends are ''static'' because just looking at the method we know the class where the lookup should start (the class above the class containing the method).
 
@@ -623,18 +617,17 @@ sent to ==self== are looked up by starting in the receiver's class.
 !!!The instance and class sides
 
 Since classes are objects, they have their own instance variables and their
-own methods. We call these ''class instance variables'' and ''class methods'',
-but they are really no different from ordinary instance variables and methods:
-They simply operate on different objects (classes in this case). An instance
-variable describes instance state and a method describes instance behavior.
+own methods. 
+We call these ''class instance variables'' and ''class methods'', but they are really no different from ordinary instance variables and methods:
+They simply operate on different objects (classes in this case). 
+An instance variable describes instance state and a method describes instance behavior.
 Similarly, class instance variables are just instance variables defined by a
 metaclass (a class whose instances are classes):
 - ''Class instance variables'' describe the state of classes. An example is the superclass instance variable that describes the superclass of a given class.
 - ''Class methods'' are just methods defined by a metaclass and that will be executed on classes. Sending the message ==now== to the class ==Date== is defined on the (meta)class ==Date class==. This method is executed with the class ==Date== as receiver.
 
 
-A class and its metaclass are two separate classes, even though the former is an
-instance of the latter. 
+A class and its metaclass are two separate classes, even though the former is an instance of the latter. 
 However, this is largely irrelevant to you as a programmer: you are concerned with defining the behavior of your objects and the classes that create them.
 
 +Browsing a class and its metaclass.>file://figures/colorInstanceClassSide.png|label=fig:colorInstanceClassSide|width=90+
