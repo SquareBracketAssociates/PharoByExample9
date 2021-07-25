@@ -896,15 +896,14 @@ Note also that ==WebServer== and ==ReliableWebServer== will each have a differen
 
 !!!A note on lazy initialization
 
-'The setting of initial
-values for instances of objects generally belongs in the ==initialize== method.
+The setting of initial values for instances of objects generally belongs in the ==initialize== method.
 Putting initialization calls only in ==initialize== helps from a readability
 perspective \-\- you don't have to hunt through all the accessor methods to see
 what the initial values are. Although it may be tempting to instead initialize
 instance variables in their respective accessor methods (using ==ifNil:==
 checks), avoid this unless you have a good reason.
 
-'Do not over-use the lazy initialization pattern.'' 
+''Do not over-use the lazy initialization pattern.''
 
 For example, in our ==uniqueInstance== method above, we used lazy initialization
 because users won't typically expect to call ==WebServer initialize==. Instead,

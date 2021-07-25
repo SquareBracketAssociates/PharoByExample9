@@ -23,6 +23,7 @@ ${inputFile:path=Chapters/UnderstandingMessage/UnderstandingMessage.pillar}$
 
 %reviewed SD: 6th of march
 ${inputFile:path=Chapters/PharoObjectModel/PharoObjectModel.pillar}$
+%upbe9 stef
 
 %To be finished
 ${inputFile:path=Chapters/PharoObjectModel/Traits.pillar}$
