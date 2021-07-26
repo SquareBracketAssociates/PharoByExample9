@@ -1,11 +1,11 @@
 !!SUnit: Tests in Pharo
 @cha:sunit
 
-SUnit is a minimal yet powerful framework that supports the creation and deployment of tests. 
+SUnit is a minimal yet powerful framework that supports the creation and validation of tests. 
 As might be guessed from its name, the design of SUnit focussed on ''Unit Tests'', but in fact it can be used for integration tests and
 functional tests as well.
-SUnit was originally developed by Kent Beck and subsequently extended by Joseph Pelrine and others to incorporate the notion of
-a resource (discussed below).
+SUnit was originally developed by Kent Beck and subsequently extended by Joseph Pelrine and many contributors. 
+SUnit is the mother of all the other xUnit framework.
 
 This chapter is as short as possible to show you that tests are simple. 
 For a more in depth description of SUnit and different approaches of testing you can read the book: ''Testing in Pharo'' available at *http://books.pharo.org*.
@@ -19,7 +19,7 @@ Finally, we look at the implementation of SUnit, so that you can understand how 
 
 !!!Introduction
 
-The interest in testing and Test Driven Development is not limited to Pharo.
+The interest in testing and Test-Driven Development is not limited to Pharo.
  Automated testing has become a hallmark of the ''Agile software development'' movement, and any software developer concerned with improving
 software quality would do well to adopt it.
 Indeed, developers in many languages have come to appreciate the power of unit testing, and versions of ''xUnit'' now exist for every programming language.
@@ -27,13 +27,8 @@ Indeed, developers in many languages have come to appreciate the power of unit t
 Neither testing, nor the building of test suites, is new.
 By now, everybody knows that tests are a good way to catch errors. 
 eXtreme Programming, by making testing a core practice and by emphasizing ''automated'' tests, has helped to make testing productive and fun, rather than a chore that programmers dislike.
-The Pharo community has a long tradition of testing because of the incremental style of development supported by its programming environment. In traditional Pharo development, the programmer would write tests in a playground as soon as a method was finished.
-Sometimes a test would be incorporated as a comment at the head of the method that it exercised, or tests that needed some set up would be included as example methods in the class.
-The problem with these practices is that tests in a playground are not available to other programmers who modify the code.
-Comments and example methods are better in this respect, but there is still no easy way to keep track of them and to run them automatically. Tests that are not run do not help you to find bugs! 
-Moreover, an example method does not inform the reader of the expected result: you can run the example and see the (perhaps surprising) result, but you will not know if the observed behaviour is correct.
 
-SUnit is valuable because it allows us to write tests that are self-checking:
+SUnit is valuable because it allows us to write ''executable'' tests that are self-checking:
 the test itself defines what the correct result should be. 
 It also helps us to organize tests into groups, to describe the context in which the tests must run, and to run a group of tests automatically. In less than two minutes you can write tests using SUnit, so instead of writing small code snippets in a playground, we encourage you to use SUnit and get all the advantages of stored and automatically executable tests.
 
@@ -75,24 +70,12 @@ Now you can start to fix the bug: the tests will tell you when you are done.
 Writing good tests is a skill that can be learned by practicing.
 Let us look at the properties that tests should have to get the maximum benefit.
 
-''Tests should be repeatable.'' You should be able to run a test as often as you
-want, and always get the same answer.
+- ''Tests should be repeatable.'' You should be able to run a test as often as you want, and always get the same answer.
+- ''Tests should run without human intervention''. You should be able to run them unattended.
+- ''Tests should tell a story.'' Each test should cover one aspect of a piece of code. A test should act as a scenario that you or someone else can read to understand a piece of functionality.
+- ''Tests should be validate one aspect.'' When a test fails it should show that a single aspect is broken. Indeed if a test covers multiple aspects, first it will break more often and second it will force developer to understand a larger set of options when fixing.
 
-''Tests should run without human intervention''. You should be able to run them
-unattended.
-
-''Tests should tell a story.'' Each test should cover one aspect of a piece of
-code. A test should act as a scenario that you or someone else can read to
-understand a piece of functionality.
-
-''Tests should have a change frequency lower than that of the functionality they
-cover''.
-You do not want to have to change all your tests every time you modify your application. 
-One way to achieve this is to write tests based on the public interfaces of the class that you are testing.
-It is OK to write a test for a private ''helper'' method if you feel that the method is complicated enough to
-need the test, but you should be aware that such a test may have to be changed, or thrown away entirely, when you think of a better implementation.
-
-One consequence of such properties is that the number of tests should be somewhat proportional to the number of functions to be tested: changing one aspect of the system should not break all the tests but only a limited number.
+One consequence of such properties is that the number of tests should be somewhat proportional to the number of aspects to be tested: changing one aspect of the system should not break all the tests but only a limited number.
 This is important because having 100 tests fail should send a much stronger message than having 10 tests fail. However, it is not always possible to achieve this ideal: in particular, if a change breaks the initialization of an object,
 or the set-up of a test, it is likely to cause all of the tests to fail.
 
@@ -105,20 +88,18 @@ us conceptualize the functionality of a class and to design its interface.
 Moreover, test-first development gives us the courage to go fast, because we are
 not afraid that we will forget something important.
 
-Writing tests is not difficult in itself.
-Now let's write our first test, and show you the benefits of using SUnit.
+
 
 !!!!SUnit by example
-
-Before going into the details of SUnit, we will show a step by step example. 
+Writing tests is not difficult in itself.
+Now let's write our first test, and show you the benefits of using SUnit.
 We use an example that tests the class ==Set==.
-Try entering the code as we go along.
+Write the code and execute the tests as we go along.
 
 !!!Step 1: Create the test class
 
-First you should create a new subclass of ==TestCase== called
-==MyExampleSetTest==. Add two instance variables so that your new class looks
-like this:
+First you should create a new subclass of ==TestCase== called ==MyExampleSetTest==. 
+Add two instance variables so that your new class looks like this:
 
 [[[label=scr:exSet|caption=An Example Set Test class|language=Smalltalk
 TestCase subclass: #MyExampleSetTest
