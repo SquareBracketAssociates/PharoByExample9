@@ -185,7 +185,7 @@ not be true.
 The easiest way to run the tests is directly from the browser. 
 Simply click on the icon of the class name, or on an individual test method, and select ''Run
 tests (t)'' or press the icon.
-The test methods will be flagged green or red, depending on whether they pass or not (as shown in *@fig:browsertests*).
+The test methods will be flagged green or red, depending on whether they pass or not (as shown in Figure  *@fig:browsertests*).
 
 +Running SUnit tests from the System Browser.>file://figures/updatedBrowserTests.png|width=80|label=fig:browsertests+
 
@@ -213,7 +213,6 @@ running a test method with a ''Do it'' from the browser, as shown below.
 %caption=Executable comments in test methods
 [[[
 MyExampleSetTest >> testRemove
-	"self run: #testRemove"
 	full remove: 5.
 	self assert: (full includes: 6).
 	self deny: (full includes: 5)
@@ -249,13 +248,11 @@ When the argument is true, the test passes; when the argument is false, the test
 
 There are actually three possible outcomes of a test: ''passing'', ''failing'', and ''raising an error''.
 
-- ""Passing"". The outcome that we hope for is that all of the assertions in the test are true, in which case the test passes. In the test runner, when all of the tests pass, the bar at the top turns green. However, there are two other ways that running a test can go wrong.
-- ""Failing"". The obvious way is that one of the assertions can be false, causing the test to ''fail''.
-- ""Error"". The other possibility is that some kind of error occurs during the execution of the test, such as a ''message not understood'' error or an ''index out of bounds'' error. If an error occurs, the assertions in the test method may not have been executed at all, so we can't say that the test has failed; nevertheless, something is clearly wrong!
+- ""Passing"". The outcome that we hope for is that all of the assertions in the test are true, in which case the test passes. Visually test runner tools, use green to indicate that a test passes.
+- ""Failing"". The obvious way is that one of the assertions can be false, causing the test to ''fail''. Failing tests are associated with the yellow color.
+- ""Error"". The other possibility is that some kind of error occurs during the execution of the test, such as a ''message not understood'' error or an ''index out of bounds'' error. If an error occurs, the assertions in the test method may not have been executed at all, so we can't say that the test has failed; nevertheless, something is clearly wrong! Errors are usually colored in red.
 
-In the ''test runner'', failing tests cause the bar at the top to turn yellow, and are listed in the middle pane on the right, whereas tests with errors cause the bar to turn red, and are listed in the bottom pane on the right.
-
-Modify your tests to provoke both errors and failures.
+You can try and modify your tests to provoke both errors and failures.
 
 !!!The SUnit cookbook
 
@@ -276,6 +273,7 @@ instance variable of the test class.
 testAsDate
 	self assert: aDateAndTime asDate = ('February 29, 2004' asDate translateTo: 2 hours).
 ]]]
+
 [[[
 testAsDate
 	self
@@ -302,7 +300,7 @@ OCCompiledMethodIntegrityTest >> testPragmas
 This is handy to make sure that your automated execution of tests is reporting success.
 
 
-!!!!Other assertions
+!!!!Other assertion messages
 
 In addition to ==assert:== and ==deny:==, there are several other methods that
 can be used to make assertions.
@@ -310,7 +308,6 @@ can be used to make assertions.
 First, ==TestAsserter >> assert:description:== and ==TestAsserter >>
 deny:description:== take a second argument which is a message string that
 describes the reason for the failure, if it is not obvious from the test itself.
-These methods are described in Section *@sec:descriptionStrings*.
 
 Next, SUnit provides two additional methods, ==TestAsserter >> should:raise:==
 and ==TestAsserter >> shouldnt:raise:== for testing exception propagation.
