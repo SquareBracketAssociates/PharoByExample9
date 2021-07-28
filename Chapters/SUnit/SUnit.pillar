@@ -14,9 +14,6 @@ In this chapter we start by discussing why we test, and what makes a good test.
 We then present a series of small examples showing how to use SUnit.
 Finally, we look at the implementation of SUnit, so that you can understand how Pharo uses the power of reflection in supporting its tools. Note that the version documented in this chapter and used in Pharo is a modified version of SUnit3.3.
 
-
-
-
 !!!Introduction
 
 The interest in testing and Test-Driven Development is not limited to Pharo.
@@ -90,11 +87,21 @@ not afraid that we will forget something important.
 
 
 
-!!!!SUnit by example
+!!!SUnit step by step
+
 Writing tests is not difficult in itself.
 Now let's write our first test, and show you the benefits of using SUnit.
 We use an example that tests the class ==Set==.
+
+We will:
+- Define a class to group of tests and benefit from SUnit behavior.
+- Define test methods.
+- Use assertions to verify expected results.
+- Execute the tests.
+
 Write the code and execute the tests as we go along.
+
+
 
 !!!Step 1: Create the test class
 
@@ -263,11 +270,11 @@ GUI to run tests, but there are situations where you may not want to use it.
 
 !!!!Using ==assert:equals:==
 
-==assert:equals:== that offers a better report than ==assert:== in case of error.
-For example, the two following tests are equivalent. However, the second one
-will report the value that the test is expecting: this makes easier to
-understand the failure. In this example, we suppose that ==aDateAndTime== is an
-instance variable of the test class.
+The message ==assert:equals:== offers a better report than ==assert:== in case of error.
+For example, the two following tests are equivalent.
+However, the second one will report the value that the test is expecting: this makes easier to
+understand the failure. 
+In this example, we suppose that ==aDateAndTime== is an instance variable of the test class.
 
 [[[
 testAsDate
@@ -302,14 +309,14 @@ This is handy to make sure that your automated execution of tests is reporting s
 
 !!!!Other assertion messages
 
-In addition to ==assert:== and ==deny:==, there are several other methods that
+In addition to ==assert:==, ==assert:equals:==, and ==deny:==, there are several other methods that
 can be used to make assertions.
 
 First, ==TestAsserter >> assert:description:== and ==TestAsserter >>
 deny:description:== take a second argument which is a message string that
 describes the reason for the failure, if it is not obvious from the test itself.
 
-Next, SUnit provides two additional methods, ==TestAsserter >> should:raise:==
+Next, SUnit provides two additional important methods, ==TestAsserter >> should:raise:==
 and ==TestAsserter >> shouldnt:raise:== for testing exception propagation.
 
 For example, you would use ==self should: aBlock raise: anException== to test
@@ -357,164 +364,13 @@ by hand and your class will have to implement all the essential ==TestCase==
 methods like ==assert:==. We recommend, however, that you not try to do this.
 The framework is there: use it.
 
-!!!The SUnit framework
-
-SUnit consists of four main classes: ==TestCase==, ==TestSuite==,
-==TestResult==, and ==TestResource==, as shown in Figure *@fig:sunit-classes*.
-The notion of a ''test resource'' represents a resource that is expensive to
-set-up but which can be used by a whole series of tests. A ==TestResource==
-specifies a ==setUp== method that is executed just once before a suite of tests;
-this is in distinction to the ==TestCase >> setUp== method, which is executed
-before each test.
-
-+The four classes representing the core of SUnit.>file://figures/sunit-classes.png|width=80|label=fig:sunit-classes+
-
-!!!!TestCase
-
-==TestCase== is an abstract class that is designed to be subclassed. Each of its
-subclasses represents a group of tests that share a common context (that is, a
-test suite). Each test is run by creating a new instance of a subclass of
-==TestCase==, running ==setUp==, running the test method itself, and then
-sending the ==tearDown==.
-
-The context is specified by instance variables of the subclass and by the
-specialization of the method ==setUp==, which initializes those instance
-variables. Subclasses of ==TestCase== can also override method ==tearDown==,
-which is invoked after the execution of each test, and can be used to release
-any objects allocated during ==setUp==.
-
-!!!!TestSuite
-
-Instances of the class ==TestSuite== contain a collection of test cases. An
-instance of ==TestSuite== contains tests, and other test suites. That is, a test
-suite contains sub-instances of ==TestCase== and ==TestSuite==.
-
-Both individual test cases and test suites understand the same protocol, so
-they can be treated in the same way (for example, both can be ==run==). This is
-in fact an application of the Composite pattern in which ==TestSuite== is the
-composite and the test cases are the leaves.
-
-!!!!TestResult
-
-The class ==TestResult== represents the results of a ==TestSuite== execution.
-It records the number of tests passed, the number of tests failed, and the
-number of errors signalled.
-
-!!!!TestResource
-@sec:testResource
-
-One of the important features of a suite of tests is that they should be
-independent of each other. The failure of one test should not cause an avalanche
-of failures of other tests that depend upon it, nor should the order in which
-the tests are run matter. Performing ==setUp== before each test and ==tearDown==
-afterwards helps to reinforce this independence.
-
-However, there are occasions where setting up the necessary context is just too
-time-consuming for it to be done before the execution of each
-test. Moreover, if it is known that the test cases do not disrupt the resources
-used by the tests, then it is wasteful to set them up afresh for each test. It
-is sufficient to set them up once for each suite of tests. Suppose, for example,
-that a suite of tests needs to query a database, or do analysis on some
-compiled code. In such cases, it may make sense to set up the database and open
-a connection to it, or to compile some source code, before any of the tests
-start to run.
-
-Where should we cache these resources, so that they can be shared by a suite of
-tests? The instance variables of a particular ==TestCase== subclass won't
-do, because a TestCase instance persists only for the duration of a single test
-(as mentioned before, the instance is created anew ''for each test method''). A
-global variable would work, but using too many global variables pollutes the
-name space, and the binding between the global and the tests that depend on it
-will not be explicit. A better solution is to put the necessary resources in a
-singleton object of some class. The class ==TestResource== exists to be
-subclassed by such resource classes. Each subclass of ==TestResource==
-understands the message ==current==, which will answer a singleton instance of
-that subclass. Methods ==setUp== and ==tearDown== should be overridden in the
-subclass to ensure that the resource is initialized and finalized.
-
-One thing remains: somehow, SUnit has to be told which resources are associated
-with which test suite. A resource is associated with a particular subclass of
-==TestCase== by overriding the ''class'' method ==resources==.
-
-By default, the resources of a ==TestSuite== are the union of the resources of
-the ==TestCase==s that it contains.
-
-Here is an example. We define a subclass of ==TestResource== called
-==MyTestResource==. Then we associate it with ==MyTestCase== by overriding the
-class method ==MyTestCase class >> resources== to return an array of the test
-resource classes that ==MyTestCase== will use.
-
-[[[caption=An example of a TestResource subclass
-TestResource subclass: #MyTestResource
-	instanceVariableNames: ''
-	classVariableNames: ''
-	package: 'MyTestExample'
-	
-TestCase subclass: #MyTestCase
-	instanceVariableNames: ''
-	classVariableNames: ''
-	package: 'MyTestExample'
-
-MyTestCase class >> resources
-	"Associate the resource with this class of test cases"
-
-	^ { MyTestResource }
-]]]
-
-!!!!Exercise
-
-The following trace (written to the ==Transcript==) illustrates that a global
-set up is run before and after each test in a sequence. Let's see if you can
-obtain this trace yourself.
-
-[[[
-MyTestResource >> setUp has run.
-MyTestCase >> setUp has run.
-MyTestCase >> testOne has run.
-MyTestCase >> tearDown has run.
-MyTestCase >> setUp has run.
-MyTestCase >> testTwo has run.
-MyTestCase >> tearDown has run.
-MyTestResource >> tearDown has run.
-]]]
-
-Create new classes ==MyTestResource== and ==MyTestCase== which are subclasses of
-==TestResource== and ==TestCase== respectively. Add the appropriate methods so
-that the following messages are written to the ==Transcript== when you run your
-tests.
-
-!!!!!Solution.
-You will need to write the following six methods.
-
-[[[
-MyTestCase >> setUp
-	Transcript show: 'MyTestCase>>setUp has run.'; cr
-
-MyTestCase >> tearDown
-	Transcript show: 'MyTestCase>>tearDown has run.'; cr
-
-MyTestCase >> testOne
-	Transcript show: 'MyTestCase>>testOne has run.'; cr
-
-MyTestCase >> testTwo
-	Transcript show: 'MyTestCase>>testTwo has run.'; cr
-	
-MyTestResource >> setUp
-	Transcript show: 'MyTestResource>>setUp has run'; cr
-
-MyTestResource >> tearDown
-	Transcript show: 'MyTestResource>>tearDown has run.'; cr
-]]]
 
 
 !!!Chapter summary
 
 This chapter explained why tests are an important investment in the future of
 your code. We explained in a step-by-step fashion how to define a few tests for
-the class ==Set==. Then we gave an overview of the core of the SUnit framework
-by presenting the classes ==TestCase==, ==TestResult==, ==TestSuite== and
-==TestResources==. Finally we looked deep inside SUnit by following the
-execution of a test and a test suite.
+the class ==Set==.
 
 - To maximize their potential, unit tests should be fast, repeatable, independent of any direct human interaction and cover a single unit of functionality.
 - Tests for a class called ==MyClass== belong in a class named ==MyClassTest==, which should be introduced as a subclass of ==TestCase==.
