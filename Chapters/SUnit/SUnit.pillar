@@ -198,7 +198,7 @@ You can also select sets of test suites to run, and obtain a more detailed log o
 %of ==ClassTestCase== are indented more than subclasses of ==TestCase==.
 %==ClassTestCase== is a class offering utilities methods to compute test coverage.
 
-%+Running SUnit tests using the ''TestRunner''.>file://figures/updatedTestRunner.png|width=80|label=fig:test-runner+
+%+Running SUnit tests using the %''TestRunner''.>file://figures/updatedTestRunner.png|width=80|label=fig:test-runner+
 
 Open a Test Runner, select the package ''MySetTest'', and click the ==Run Selected== button.
 
