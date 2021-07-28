@@ -76,14 +76,6 @@ One consequence of such properties is that the number of tests should be somewha
 This is important because having 100 tests fail should send a much stronger message than having 10 tests fail. However, it is not always possible to achieve this ideal: in particular, if a change breaks the initialization of an object,
 or the set-up of a test, it is likely to cause all of the tests to fail.
 
-Several software development methodologies such as ''eXtreme Programming'' and
-Test-Driven Development (TDD) advocate writing tests before writing code.
-This may seem to go against our deep instincts as software developers. 
-All we can say is: go ahead and try it. 
-We have found that writing the tests before the code helps us to know what we want to code, helps us know when we are done, and helps
-us conceptualize the functionality of a class and to design its interface.
-Moreover, test-first development gives us the courage to go fast, because we are
-not afraid that we will forget something important.
 
 
 
@@ -198,15 +190,15 @@ The test methods will be flagged green or red, depending on whether they pass or
 
 You can also select sets of test suites to run, and obtain a more detailed log of the results using the SUnit Test Runner, which you can open by selecting ==World > Test Runner==.
 
-The ''Test Runner'', shown in Figure *@fig:test-runner*, is designed to make it easy to execute groups of tests.
+%The ''Test Runner'', shown in Figure *@fig:test-runner*, is designed to make it easy to execute groups of tests.
 
-The left-most pane lists all of the packages that contain test classes (i.e., subclasses of ==TestCase==).
-When some of these packages are selected, the test classes that they contain appear in the pane to the right. 
-Abstract classes are italicized, and the test class hierarchy is shown by indentation, so subclasses
-of ==ClassTestCase== are indented more than subclasses of ==TestCase==.
-==ClassTestCase== is a class offering utilities methods to compute test coverage.
+%The left-most pane lists all of the packages that contain test classes (i.e., subclasses of ==TestCase==).
+%When some of these packages are selected, the test classes that they contain appear in the pane to the right. 
+%Abstract classes are italicized, and the test class hierarchy is shown by indentation, so subclasses
+%of ==ClassTestCase== are indented more than subclasses of ==TestCase==.
+%==ClassTestCase== is a class offering utilities methods to compute test coverage.
 
-+Running SUnit tests using the ''TestRunner''.>file://figures/updatedTestRunner.png|width=80|label=fig:test-runner+
+%+Running SUnit tests using the ''TestRunner''.>file://figures/updatedTestRunner.png|width=80|label=fig:test-runner+
 
 Open a Test Runner, select the package ''MySetTest'', and click the ==Run Selected== button.
 
@@ -366,7 +358,7 @@ The framework is there: use it.
 
 
 
-!!!Chapter summary
+!!!Conclusion
 
 This chapter explained why tests are an important investment in the future of
 your code. We explained in a step-by-step fashion how to define a few tests for
@@ -378,3 +370,13 @@ the class ==Set==.
 - Each test method should start with the word ''test''.
 - Use the ==TestCase== methods ==assert:==, ==deny:== and others to make assertions.
 - Run tests!
+
+
+Several software development methodologies such as ''eXtreme Programming'' and
+Test-Driven Development (TDD) advocate writing tests before writing code.
+This may seem to go against our deep instincts as software developers. 
+All we can say is: go ahead and try it. 
+We have found that writing the tests before the code helps us to know what we want to code, helps us know when we are done, and helps
+us conceptualize the functionality of a class and to design its interface.
+Moreover, test-first development gives us the courage to go fast, because we are
+not afraid that we will forget something important.
