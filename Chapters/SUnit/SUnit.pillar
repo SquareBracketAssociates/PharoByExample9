@@ -253,14 +253,7 @@ There are actually three possible outcomes of a test: ''passing'', ''failing'', 
 
 You can try and modify your tests to provoke both errors and failures.
 
-!!!The SUnit cookbook
-
-This section will give you more details on how to use SUnit. If you have used
-another testing framework such as JUnit, much of this will be familiar, since
-all these frameworks have their roots in SUnit. Normally you will use SUnit's
-GUI to run tests, but there are situations where you may not want to use it.
-
-!!!!Using ==assert:equals:==
+!!!Using ==assert:equals:==
 
 The message ==assert:equals:== offers a better report than ==assert:== in case of error.
 For example, the two following tests are equivalent.
@@ -281,7 +274,7 @@ testAsDate
 ]]]
 
 
-!!!!Skipping a test
+!!!Skipping a test
 
 Sometimes in the middle of a development, you may want to skip a test instead of
 removing it or renaming it to prevent it from running. 
@@ -299,16 +292,9 @@ OCCompiledMethodIntegrityTest >> testPragmas
 This is handy to make sure that your automated execution of tests is reporting success.
 
 
-!!!!Other assertion messages
+!!! Asserting exceptions
 
-In addition to ==assert:==, ==assert:equals:==, and ==deny:==, there are several other methods that
-can be used to make assertions.
-
-First, ==TestAsserter >> assert:description:== and ==TestAsserter >>
-deny:description:== take a second argument which is a message string that
-describes the reason for the failure, if it is not obvious from the test itself.
-
-Next, SUnit provides two additional important methods, ==TestAsserter >> should:raise:==
+SUnit provides two additional important methods, ==TestAsserter >> should:raise:==
 and ==TestAsserter >> shouldnt:raise:== for testing exception propagation.
 
 For example, you would use ==self should: aBlock raise: anException== to test
@@ -324,10 +310,14 @@ method below illustrates the use of ==should:raise:==.
 Try running this test. Note that the first argument of the ==should:== and
 ==shouldnt:== methods is a block that contains the expression to be executed.
 
-!!!!Running a single test
+!!! Programmatically running tests
 
 Normally, you will run your tests using the Test Runner or using your code
-browser. If you don't want to launch the Test Runner UI from the World menu, you
+browser.
+
+!!!!Running a single test
+
+ If you don't want to launch the Test Runner UI from the World menu, you
 can execute ==TestRunner open==. You can also run a single test as follows:
 
 [[[testcase=true
@@ -348,13 +338,7 @@ MyExampleSetTest suite run
 >>> 4 run, 4 passed, 0 failed, 0 errors
 ]]]
 
-!!!!Must I subclass TestCase?
 
-In JUnit you can build a TestSuite from an arbitrary class containing ==test*==
-methods. In SUnit you can do the same but you will then have to create a suite
-by hand and your class will have to implement all the essential ==TestCase==
-methods like ==assert:==. We recommend, however, that you not try to do this.
-The framework is there: use it.
 
 
 
