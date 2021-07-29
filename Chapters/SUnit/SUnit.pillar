@@ -5,7 +5,7 @@ SUnit is a minimal yet powerful framework that supports the creation and validat
 As might be guessed from its name, the design of SUnit focussed on ''Unit Tests'', but in fact it can be used for integration tests and
 functional tests as well.
 SUnit was originally developed by Kent Beck and subsequently extended by Joseph Pelrine and many contributors. 
-SUnit is the mother of all the other xUnit framework.
+SUnit is the mother of all the other xUnit frameworks.
 
 This chapter is as short as possible to show you that tests are simple. 
 For a more in depth description of SUnit and different approaches of testing you can read the book: ''Testing in Pharo'' available at *http://books.pharo.org*.
@@ -295,7 +295,7 @@ This is handy to make sure that your automated execution of tests is reporting s
 !!! Asserting exceptions
 
 SUnit provides two additional important methods, ==TestAsserter >> should:raise:==
-and ==TestAsserter >> shouldnt:raise:== for testing exception propagation.
+and ==TestAsserter >> shouldnt:raise:== for testing exception raising.
 
 For example, you would use ==self should: aBlock raise: anException== to test
 that a particular exception is raised during the execution of ==aBlock==. The
