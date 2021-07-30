@@ -243,7 +243,7 @@ be a bug, not a feature.)
 
 Several methods allow you to query the class of an object.
 
-!!!!==class==.
+!!!!==class==
 
 You can ask any object about its class using the message ==class==.
 
@@ -252,7 +252,7 @@ You can ask any object about its class using the message ==class==.
 >>> SmallInteger
 ]]]
 
-!!!!==isKindOf:==.
+!!!!==isKindOf:==
 
 ==Object>>isKindOf:== answers whether the receiver's class is either the same
 as, or a subclass of the argument class.
@@ -291,7 +291,7 @@ as, or a subclass of the argument class.
 ==Integer==.
 
 
-!!!!==respondsTo:==.
+!!!!==respondsTo:==
 
 ==Object>>respondsTo:== answers whether the receiver understands the message
 selector given as an argument.
@@ -405,7 +405,7 @@ that state of the superclass is also copied.
 !!!Debugging
 ==Object== defines also some methods related to debugging.
 
-!!!! ==halt==.
+!!!! ==halt==
 The most important method here is ==halt==.
 To set a breakpoint in a method, simply insert the expression ==self halt== at some point in the body of the
 method. Note that since ==halt== is defined on ==Object== you can also write
@@ -417,7 +417,7 @@ debugger will open to this point in your program.
 You can also use ==Halt once== or ==Halt if: aCondition==.
 Have a look at the class ==Halt== which is an exception dedicated to debugging.
 
-!!!! ==assert:==.
+!!!! ==assert:==
 The next most important message is ==assert:==, which expects a block as its
 argument.
 If the block evaluates to ==true==, execution continues.
@@ -447,20 +447,20 @@ both are useful for debugging, they each serve a very different purpose.
 This protocol contains several methods useful for signaling run-time errors.
 
 
-!!!! ==doesNotUnderstand:==.
+!!!! ==doesNotUnderstand:==
 The message ==doesNotUnderstand:== (commonly abbreviated in discussions as DNU or MNU)
 is sent whenever message lookup fails.
 The default implementation, i.e., ==Object>>doesNotUnderstand:== will trigger the
 debugger at this point. It may be useful to override ==doesNotUnderstand:== to
 provide some other behaviour.
 
-!!!! ==error==.
+!!!! ==error==
 ==Object>>error== and ==Object>>error:== are generic methods that can be used to
 raise exceptions. Generally it is better to raise your own custom exceptions,
 so you can distinguish errors arising from your code from those coming from
 kernel classes.
 
-!!!! ==subclassResponsibility==.
+!!!! ==subclassResponsibility==
 Abstract methods are implemented by convention with the body ==self
 subclassResponsibility==.
 Should an abstract class be instantiated by accident, then calls to abstract methods will result in ==Object>>subclassResponsibility== being executed.
@@ -481,7 +481,7 @@ Number new + 1
 >>> !''Error: Number is an abstract class. Make a concrete subclass.''!
 ]]]
 
-!!!! ==shouldNotImplement==.
+!!!! ==shouldNotImplement==
 ==self shouldNotImplement== is sent by convention to signal that an inherited
 method is not appropriate for this subclass. This is generally a sign that
 something is not quite right with the design of the class hierarchy.
@@ -492,7 +492,7 @@ A typical example is ==Collection>>remove:== which is inherited by
 ==Dictionary== but flagged as not implemented. A ==Dictionary== provides
 ==removeKey:== instead.
 
-!!!! ==deprecated:== and related.
+!!!! ==deprecated:== and related
 Sending ==self deprecated:== signals that the current method should no longer be used, if deprecation has been turned on.
 You can turn it on/off in the Debugging section using the Settings browser.
 The argument should describe an alternative.
@@ -660,9 +660,8 @@ The following example works surprisingly well in Pharo:
 >>> 1000
 ]]]
 
-Note that ==1000 factorial== is really calculated, which in many other languages
-can be quite difficult to compute. This is an excellent example of automatic
-coercion and exact handling of a number.
+Note that ==1000 factorial== is really calculated, which in many other languages can be quite difficult to compute.
+This is an excellent example of automatic coercion and exact handling of a number.
 
 @@todo Try to display the result of ==1000 factorial==. It takes more time to display it than to calculate it!
 
@@ -698,6 +697,7 @@ denominator, which should be ==Integer==s. ==Fraction==s are normally created by
 6/8
 >>> (3/4)
 ]]]
+
 [[[testcase=true
 (6/8) class
 >>> Fraction
@@ -713,16 +713,17 @@ an ==Integer==:
 
 !!!Integer
 
-==Integer== is the abstract parent of three concrete integer implementations. In
-addition to providing concrete implementations of many abstract ==Number==
+==Integer== is the abstract parent of three concrete integer implementations.
+In addition to providing concrete implementations of many abstract ==Number==
 methods, it also adds a few methods specific to integers, such as ==factorial==,
 ==atRandom==, ==isPrime==, ==gcd:== and many others.
 
-==SmallInteger== is special in that its instances are represented compactly —
+==SmallInteger== is special in that its instances are represented compactly --
 instead of being stored as a reference, a ==SmallInteger== is represented
-directly using the bits that would otherwise be used to hold a reference. The
-first bit of an object reference indicates whether the object is a
-==SmallInteger== or not. Now the virtual machine abstracts that from you,
+directly using the bits that would otherwise be used to hold a reference.
+The first bit of an object reference indicates whether the object is a
+==SmallInteger== or not.
+The virtual machine abstracts that from you,
 therefore you cannot see this directly when inspecting the object.
 
 The class methods ==minVal== and ==maxVal== tell us the range of a
@@ -768,7 +769,8 @@ n
 
 !!!Characters
 
-==Character== is defined a subclass of ==Magnitude==. Printable characters are represented in Pharo as ==$<char>==.
+==Character== is defined a subclass of ==Magnitude==.
+Printable characters are represented in Pharo as ==$<char>==.
 For example:
 
 [[[testcase=true
@@ -778,8 +780,8 @@ $a < $b
 
 Non-printing characters can be generated by various class methods. ==Character
 class>>value:== takes the Unicode (or ASCII) integer value as argument and
-returns the corresponding character. The protocol ==accessing untypeable
-characters== contains a number of convenience constructor methods such as
+returns the corresponding character.
+The protocol ==accessing untypeable characters== contains a number of convenience constructor methods such as
 ==backspace==, ==cr==, ==escape==, ==euro==, ==space==, ==tab==, and so on.
 
 [[[testcase=true
@@ -811,8 +813,8 @@ Various convenient ''testing'' methods are built in: ==isAlphaNumeric==,
 ==isCharacter==, ==isDigit==, ==isLowercase==, ==isVowel==, and so on.
 
 To convert a ==Character== to the string containing just that character, send
-==asString==. In this case ==asString== and ==printString== yield different
-results:
+==asString==.
+In this case ==asString== and ==printString== yield different results:
 
 [[[testcase=true
 $a asString
@@ -828,9 +830,9 @@ $a printString
 ]]]
 
 Like ==SmallInteger==, a ==Character== is a immediate value not a object
-reference. Most of the time you won't see any difference and can use objects of
-class ==Character== like any other too. But this means, equal value characters
-are always ''identical'':
+reference.
+Most of the time you won't see any difference and can use objects of class ==Character== like any other too.
+But this means, equal value characters are always ''identical'':
 
 [[[testcase=true
 (Character value: 97) == $a
@@ -852,7 +854,7 @@ the concrete class ==ByteString==.
 ]]]
 
 The other important subclass of ==String== is ==Symbol==. The key difference is
-that there is only ever a single instance of ==Symbol== with a given value.
+that there is only ever one single instance of ==Symbol== with a given value.
 (This is sometimes called ''the unique instance property''). In contrast, two
 separately constructed ==String==s that happen to contain the same sequence of
 characters will often be different objects.
@@ -868,7 +870,8 @@ characters will often be different objects.
 ]]]
 
 Another important difference is that a ==String== is mutable, whereas a
-==Symbol== is immutable.
+==Symbol== is immutable. Note that it is a bad idea to mutate literal strings because they can be shared between 
+multiple method execution.
 
 [[[testcase=true
 'hello' at: 2 put: $u; yourself
@@ -889,31 +892,26 @@ same messages that other collections do:
 ]]]
 
 Although ==String== does not inherit from ==Magnitude==, it does support the
-usual ==comparing== methods, ==<==, ===== and so on. In addition,
-==String>>match:== is useful for some basic glob-style pattern-matching:
+usual ==comparing== methods, ==<==, ===== and so on.
+In addition, ==String>>match:== is useful for some basic glob-style pattern-matching:
 
 [[[testcase=true
 '*or*' match: 'zorro'
 >>> true
 ]]]
 
-% TO REVISIT we don't have chapter Regex
-Regular expressions will be discussed in more detail in
-Chapter *: Regular Expressions in Pharo>../Regex/Regex.pier@cha:regex*.
-
-Strings support a rather large number of conversion methods. Many of these are
-shortcut constructor methods for other classes, such as ==asDate==,
-==asInteger== and so on. There are also a number of useful methods for
-converting a string to another string, such as ==capitalized== and
+Strings support a rather large number of conversion methods.
+Many of these are shortcut constructor methods for other classes, such as ==asDate==, ==asInteger== and so on.
+There are also a number of useful methods for converting a string to another string, such as ==capitalized== and
 ==translateToLowercase==.
 
-For more on strings and collections, see Chapter *: Collections>../Collections/Collections.pier@cha:collections*.
+For more on strings and collections, see Chapter *: Collections>../Collections/Collections.pillar@cha:collections*.
 
 !!!Booleans
 
 The class ==Boolean== offers a fascinating insight into how much of the
-Pharo language has been pushed into the class library. ==Boolean== is the
-abstract superclass of the singleton classes ==True== and ==False==.
+Pharo language has been pushed into the class library.
+==Boolean== is the abstract superclass of the singleton classes ==True== and ==False==.
 
 +The Boolean Hierarchy.>file://figures/BooleanHierarchy.png|label=fig:booleans|width=40+
 
@@ -940,11 +938,11 @@ False >> ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock
 
 Each of them execute the correct block depending on the receiver of the message.
 In fact, this is the essence of OOP: when a message is sent to an object, the
-object itself determines which method will be used to respond. In this case an
-instance of ==True== simply executes the ''true'' alternative, while an
-instance of ==False== executes the ''false'' alternative. All the abstract
-==Boolean== methods are implemented in this way for ==True== and ==False==. For
-example the implementation of negation (message ==not==) is defined the same
+object itself determines which method will be used to respond.
+In this case an instance of ==True== simply executes the ''true'' alternative, while an
+instance of ==False== executes the ''false'' alternative.
+All the abstract ==Boolean== methods are implemented in this way for ==True== and ==False==.
+For example the implementation of negation (message ==not==) is defined the same
 way:
 
 [[[caption=Implementing negation
@@ -958,8 +956,8 @@ False >> not
 ]]]
 
 ==Boolean==s offer several useful convenience methods, such as ==ifTrue:==,
-==ifFalse:==, and ==ifFalse:ifTrue==. You also have the choice between eager and
-lazy conjunctions and disjunctions.
+==ifFalse:==, and ==ifFalse:ifTrue==.
+You also have the choice between eager and lazy conjunctions and disjunctions.
 
 [[[testcase=true
 ( 1 > 2 ) & ( 3 < 4 )
@@ -979,7 +977,8 @@ takes a ==Boolean== argument. In the second and third examples, only the first
 is executed, since ==and:== expects a ==Block== as its argument. The ==Block==
 is executed only if the first argument is ==true==.
 
-Try to imagine how ==and:== and ==or:== are implemented. Check the implementations in ==Boolean==, ==True== and ==False==.
+Try to imagine how ==and:== and ==or:== are implemented.
+Check the implementations in ==Boolean==, ==True== and ==False==.
 
 !!!Chapter summary
 
