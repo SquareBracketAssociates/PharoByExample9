@@ -88,6 +88,21 @@ Color red printString
 >>> 'Color red'
 ]]]
 
+!!!! printOn: vs. displayStringOn:
+
+You should consider that the message ==printOn:== is to better describe your objects when you are developing. 
+Indeed when you are using the inspector or the debugger, it is a lot more efficient to see a precise description of your object instead of the generic one.
+Now ==printOn:== is not done to be used to nicely display objects in UI lists for example, because you usually 
+want to display a different kind of information.
+For this purpose you should use ==displayStringOn:==. 
+The default implementation of ==displayStringOn:== is to invoke ==printOn:==.
+
+Note that the introduction of ==displayStringOn:== is recent so many libraries are still not making this distinction.
+It is not really a problem but when you write new code, you should be aware of this. 
+
+
+!!!! printOn: vs. storeOn:
+
 Note that the message ==printOn:== is not the same as ==storeOn:==. The message
 ==storeOn:== writes to its argument stream an expression that can be used to
 recreate the receiver. This expression is executed when the stream is read using
@@ -96,14 +111,15 @@ returns a textual version of the receiver. Of course, it may happen that this
 textual representation may represent the receiver as a self-evaluating
 expression.
 
-!!! A word about representation and self-evaluating representation.
+!!! Representation and self-evaluating representation
 
-In functional programming, expressions return values when executed. In
-Pharo, message sends (expressions) return objects (values). Some objects have the
-nice property that their value is themselves. For example, the value of the
-object ==true== is itself i.e., the object ==true==. We call such objects
-''self-evaluating objects''. You can see a ''printed'' version of an object
-value when you print the object in a playground. Here are some examples of such
+In functional programming, expressions return values when executed.
+In Pharo, message sends (expressions) return objects (values). Some objects have the
+nice property that their value is themselves.
+For example, the value of the object ==true== is itself i.e., the object ==true==.
+We call such objects ''self-evaluating objects''. 
+You can see a ''printed'' version of an object value when you print the object in a playground.
+Here are some examples of such
 self-evaluating expressions.
 
 [[[testcase=true
@@ -132,9 +148,10 @@ Color red
 ]]]
 
 Note that some objects such as arrays are self-evaluating or not depending on
-the objects they contain. For example, an array of booleans is self-evaluating,
-whereas an array of persons is not. The following example shows that a dynamic
-array is self-evaluating only if its elements are:
+the objects they contain. 
+For example, an array of booleans is self-evaluating,
+whereas an array of persons is not.
+The following example shows that a dynamic array is self-evaluating only if its elements are:
 
 [[[testcase=true
 {10@10. 100@100}
@@ -154,8 +171,7 @@ array does not contain two points but rather six literal elements.
 ]]]
 
 Lots of ==printOn:== method specializations implement self-evaluating behavior.
-The implementations of ==Point>>printOn:== and ==Interval>>printOn:== are
-self-evaluating.
+The implementations of ==Point>>printOn:== and ==Interval>>printOn:== are self-evaluating.
 
 [[[caption=Self-evaluation of ==Point==
 Point >> printOn: aStream
@@ -190,8 +206,7 @@ Interval >> printOn: aStream
 !!!Identity and equality
 
 In Pharo, the message ==\=== tests object ''equality'' while the message ==\=\=== tests object ''identity''.
-The former is used to check whether two objects represent the same value, while the latter is used to check whether
-two expressions represent the same object.
+The former is used to check whether two objects represent the same value, while the latter is used to check whether two expressions represent the same object.
 
 The default implementation of object equality is to test for object identity:
 
@@ -237,31 +252,6 @@ You can ask any object about its class using the message ==class==.
 >>> SmallInteger
 ]]]
 
-!!!!==isMemberOf:==.
-
-Conversely, you can ask if an object is an instance of a specific class:
-
-[[[testcase=true
-1 isMemberOf: SmallInteger
->>> true    "must be precisely this class"
-]]]
-[[[testcase=true
-1 isMemberOf: Integer
->>> false
-]]]
-[[[testcase=true
-1 isMemberOf: Number
->>> false
-]]]
-[[[testcase=true
-1 isMemberOf: Object
->>> false
-]]]
-
-Since Pharo is written in itself, you can really navigate through its
-structure using the right combination of superclass and class messages (see
-Chapter: *Classes and Metaclasses>../Metaclasses/Metaclasses.pillar@cha:metaclasses*).
-
 !!!!==isKindOf:==.
 
 ==Object>>isKindOf:== answers whether the receiver's class is either the same
@@ -300,6 +290,7 @@ as, or a subclass of the argument class.
 ==Number== is a superclass of the class ==Fraction==, but ==1/3== is not an
 ==Integer==.
 
+
 !!!!==respondsTo:==.
 
 ==Object>>respondsTo:== answers whether the receiver understands the message
@@ -310,16 +301,21 @@ selector given as an argument.
 >>> false
 ]]]
 
-A note on the usage of ==respondsTo:==. Normally it is a bad idea to query an
-object for its class, or to ask it which messages it understands. Instead of
-making decisions based on the class of object, you should simply send a message
-to the object and let it decide (on the basis of its class) how it should
-behave. This concept is sometimes referred to as ''duck typing''.
+!!! About ==isKindOf:== and ==respondTo:==
 
-!!!Copying
+A note on the usage of ==isKindOf:== and ==respondsTo:==.
+Normally it is a bad idea to query an object for its class, or to ask it which messages it understands. 
+Instead of making decisions based on the class of object, you should simply send a message
+to the object and let it decide (on the basis of its class) how it should
+behave. 
+Client of an object should not query the object to decide with messages to send it. 
+The "Don't Ask, Tell" is an important cornerstone of good object-oriented design.
+So watch out if you need to use these messages. 
+
+!!!Shallow copying objects
 
 Copying objects introduces some subtle issues. Since instance variables are
-accessed by reference, a ''shallow copy'' of an object would share its
+accessed by reference, a ''shallow copy'' of an object shares its
 references to instance variables with the original object:
 
 [[[testcase=true
@@ -327,25 +323,34 @@ a1 := { { 'harry' } }.
 a1
 >>> #(#('harry'))
 ]]]
+
 [[[testcase=true
 a2 := a1 shallowCopy.
 a2
 >>> #(#('harry'))
 ]]]
+
 [[[testcase=true
 (a1 at: 1) at: 1 put: 'sally'.
 a1
 >>> #(#('sally'))
 ]]]
+
 [[[testcase=true
 a2
 >>> #(#('sally'))    "the subarray is shared!"
 ]]]
 
 ==Object>>shallowCopy== is a primitive method that creates a shallow copy of an
-object. Since ==a2== is only a shallow copy of ==a1==, the two arrays share a
-reference to the nested ==Array== that they contain.
+object.
+Since ==a2== is only a shallow copy of ==a1==, the two arrays share a reference to the nested ==Array== that they contain.
 
+
+!!! Deep copying objects
+
+There are two ways to address the problems of sharing raised by shallow copy: (1) using ==deepCopy==, (2) specializing ==postCopy== and using ==copy==.
+
+!!!! ==deepCopy==
 ==Object>>deepCopy== makes an arbitrarily deep copy of an object.
 
 [[[testcase=true
@@ -355,6 +360,7 @@ a2 := a1 deepCopy.
 a1
 >>> #(#('sally'))
 ]]]
+
 [[[testcase=true
 a2
 >>> #(#(#('harry')))
@@ -371,49 +377,51 @@ a1 deepCopy
 >>> !''... does not terminate!''!
 ]]]
 
-An alternate solution is to use message ==copy==. It is implemented on
-==Object== as follows:
+!!!! ==copy==
+
+The other solution is to use message ==copy==.
+It is implemented on ==Object== as follows: the method ==postCopy== is sent to the result of the message ==shallowCopy==. 
 
 [[[caption=Copying objects as a template method
 Object >> copy
-    "Answer another instance just like the receiver.
-    Subclasses typically override postCopy;
-    they typically do not override shallowCopy."
+	"Answer another instance just like the receiver.
+	Subclasses typically override postCopy;
+	they typically do not override shallowCopy."
 
-    ^ self shallowCopy postCopy
+	^ self shallowCopy postCopy
 ]]]
 
 [[[
 Object >> postCopy
-    ^ self
+	^ self
 ]]]
 
-By default ==postCopy== returns self. It means that by default ==copy== is doing
-the same as ==shallowCopy== but each subclass can decide to customise the
-==postCopy== method which acts as a hook. You should override ==postCopy== to
-copy any instance variables that should not be shared. In addition there is a
-good chance that ==postCopy== should always do a ==super postCopy== to ensure
+By default ==postCopy== returns self.
+It means that by default ==copy== is doing the same as ==shallowCopy== but each subclass can decide to customise the ==postCopy== method which acts as a hook.
+You should override ==postCopy== to copy any instance variables that should not be shared.
+In addition there is a good chance that ==postCopy== should always do a ==super postCopy== to ensure
 that state of the superclass is also copied.
 
 !!!Debugging
+==Object== defines also some methods related to debugging.
 
 !!!! ==halt==.
-The most important method here is ==halt==. To set a breakpoint in a method,
-simply insert the expression ==self halt== at some point in the body of the
-method. (Note that since ==halt== is defined on ==Object== you can also write
-==1 halt==). When this message is sent, execution will be interrupted and a
-debugger will open to this point in your program (see
-Chapter *: The Pharo Environment>../Environment/Environment.pillar@cha:env* for
-more details about the debugger).
-% TO REVISIT Because we don't have that chapter
+The most important method here is ==halt==.
+To set a breakpoint in a method, simply insert the expression ==self halt== at some point in the body of the
+method. Note that since ==halt== is defined on ==Object== you can also write
+==1 halt==.
 
-You can also use ==Halt once== or ==Halt if: aCondition==. Have a look at the
-class ==Halt== which is an special exception.
+When this message is sent, execution will be interrupted and a
+debugger will open to this point in your program. 
+
+You can also use ==Halt once== or ==Halt if: aCondition==.
+Have a look at the class ==Halt== which is an exception dedicated to debugging.
 
 !!!! ==assert:==.
 The next most important message is ==assert:==, which expects a block as its
-argument. If the block evaluates to ==true==, execution continues. Otherwise an
-==AssertionFailure== exception will be raised. If this exception is not
+argument.
+If the block evaluates to ==true==, execution continues.
+Otherwise an ==AssertionFailure== exception will be raised. If this exception is not
 otherwise caught, the debugger will open to this point in the execution.
 ==assert:== is especially useful to support ''design by contract''. The most
 typical usage is to check non-trivial pre-conditions to public methods of
@@ -429,8 +437,8 @@ Stack >> pop
 ]]]
 
 Do not confuse ==Object>>assert:== with ==TestCase>>assert:==, which occurs in
-the SUnit testing framework (see Chapter *: SUnit>../SUnit/SUnit.pillar@cha:sunit*). While the former expects
-a block as its argument (actually, it will take any argument that understands
+the SUnit testing framework (see Chapter *: SUnit>../SUnit/SUnit.pillar@cha:sunit*).
+While the former expects a block as its argument (actually, it will take any argument that understands
 ==value==, including a ==Boolean==), the latter expects a ==Boolean==. Although
 both are useful for debugging, they each serve a very different purpose.
 
@@ -438,31 +446,24 @@ both are useful for debugging, they each serve a very different purpose.
 
 This protocol contains several methods useful for signaling run-time errors.
 
-!!!! ==deprecated:==.
-Sending ==self deprecated:== signals that the current method should no longer be
-used, if deprecation has been turned on. You can turn it on/off in the Debugging
-section using the Settings browser. The argument should describe an
-alternative. Look for senders of the message ==deprecated:== to get an idea.
-
 
 !!!! ==doesNotUnderstand:==.
-==doesNotUnderstand:== (commonly abbreviated in discussions as DNU or MNU)
-is sent whenever message lookup fails. The default
-implementation, i.e., ==Object>>doesNotUnderstand:== will trigger the
+The message ==doesNotUnderstand:== (commonly abbreviated in discussions as DNU or MNU)
+is sent whenever message lookup fails.
+The default implementation, i.e., ==Object>>doesNotUnderstand:== will trigger the
 debugger at this point. It may be useful to override ==doesNotUnderstand:== to
 provide some other behaviour.
 
 !!!! ==error==.
 ==Object>>error== and ==Object>>error:== are generic methods that can be used to
-raise exceptions. (Generally it is better to raise your own custom exceptions,
+raise exceptions. Generally it is better to raise your own custom exceptions,
 so you can distinguish errors arising from your code from those coming from
-kernel classes.)
+kernel classes.
 
 !!!! ==subclassResponsibility==.
 Abstract methods are implemented by convention with the body ==self
-subclassResponsibility==. Should an abstract class be instantiated by accident,
-then calls to abstract methods will result in ==Object>>subclassResponsibility==
-being executed.
+subclassResponsibility==.
+Should an abstract class be instantiated by accident, then calls to abstract methods will result in ==Object>>subclassResponsibility== being executed.
 
 [[[caption=Signaling that a method is abstract
 Object >> subclassResponsibility
@@ -483,29 +484,33 @@ Number new + 1
 !!!! ==shouldNotImplement==.
 ==self shouldNotImplement== is sent by convention to signal that an inherited
 method is not appropriate for this subclass. This is generally a sign that
-something is not quite right with the design of the class hierarchy. Due to the
-limitations of single inheritance, however, sometimes it is very hard to avoid
+something is not quite right with the design of the class hierarchy.
+Due to the limitations of single inheritance, however, sometimes it is very hard to avoid
 such workarounds.
 
 A typical example is ==Collection>>remove:== which is inherited by
-==Dictionary== but flagged as not implemented. (A ==Dictionary== provides
-==removeKey:== instead.)
+==Dictionary== but flagged as not implemented. A ==Dictionary== provides
+==removeKey:== instead.
+
+!!!! ==deprecated:== and related.
+Sending ==self deprecated:== signals that the current method should no longer be used, if deprecation has been turned on.
+You can turn it on/off in the Debugging section using the Settings browser.
+The argument should describe an alternative.
+Look for senders of the message ==deprecated:== and other related messages to get an idea.
 
 !!!Testing
 
-The ==testing== methods have nothing to do with SUnit testing! A testing method
-is one that lets you ask a question about the state of the receiver and returns
-a ==Boolean==.
+Testing methods have nothing to do with SUnit testing!
+A testing method is one that lets you ask a question about the state of the receiver and returns a ==Boolean==.
 
-Numerous testing methods are provided by ==Object==. There are ==isArray==,
-==isBoolean==, ==isBlock==, ==isCollection== and so on. Generally such methods
-are to be avoided since querying an object for its class is a form of violation
-of encapsulation. Instead of testing an object for its class, one should simply
-send a request and let the object decide how to handle it.
+Numerous testing methods are provided by ==Object==. 
+There are ==isArray==, ==isBoolean==, ==isBlock==, ==isCollection== and so on. Generally such methods
+are to be avoided since querying an object for its class is a form of violation of encapsulation. They are often used as an alternative to ==isKindOf:== but they show the same limit in the design.
+Instead of testing an object for its class, one should simply send a message and let the object decide how to handle it.
 
-Nevertheless some of these testing methods are undeniably useful. The most
-useful are probably ==ProtoObject>>isNil== and ==Object>>notNil== (though the
-Null Object design pattern can obviate the need for even these methods).
+Nevertheless some of these testing methods are undeniably useful.
+The most useful are probably ==ProtoObject>>isNil== and ==Object>>notNil==.
+The Null Object design pattern can obviate the need for even these methods but it is often not possible and not the right choice.
 
 !!!Initialize
 
@@ -594,45 +599,53 @@ Testing methods include ==even==, ==odd==, ==positive== and ==negative==.
 Unsurprisingly ==Number== overrides ==isNumber==. More interestingly,
 ==isInfinite== is defined to return ==false==.
 
-''Truncation'' methods include ==floor==, ==ceiling==, ==integerPart==,
-==fractionPart== and so on.
+''Truncation'' methods include ==floor==, ==ceiling==, ==integerPart==, ==fractionPart== and so on.
 
 [[[testcase=true
 1 + 2.5
 >>> 3.5             "Addition of two numbers"
 ]]]
+
 [[[testcase=true
 3.4 * 5
 >>> 17.0           "Multiplication of two numbers"
 ]]]
+
 [[[testcase=true
 8 / 2
 >>> 4                 "Division of two numbers"
 ]]]
+
 [[[testcase=true
 10 - 8.3
 >>> 1.7              "Subtraction of two numbers"
 ]]]
+
 [[[testcase=true
 12 = 11
 >>> false           "Equality between two numbers"
 ]]]
+
 [[[testcase=true
 12 ~= 11
 >>> true            "Test if two numbers are different"
 ]]]
+
 [[[testcase=true
 12 > 9
 >>> true            "Greater than"
 ]]]
+
 [[[testcase=true
 12 >= 10
 >>> true            "Greater or equal  than"
 ]]]
+
 [[[testcase=true
 12 < 10
 >>> false           "Smaller than"
 ]]]
+
 [[[testcase=true
 100@10
 >>> 100@10    "Point creation"
