@@ -582,7 +582,7 @@ Magnitude >> > aMagnitude
     ^ aMagnitude < self
 ]]]
 
-!!!Number
+!!!Numbers
 
 Similarly, ==Number== defines ==+==, ==-==, ==*== and ==/== to be abstract, but
 all other arithmetic operators are generically defined.
@@ -665,7 +665,7 @@ This is an excellent example of automatic coercion and exact handling of a numbe
 
 @@todo Try to display the result of ==1000 factorial==. It takes more time to display it than to calculate it!
 
-!!!Float
+!!!Floats
 
 ==Float== implements the abstract ==Number== methods for floating point numbers.
 
@@ -686,7 +686,7 @@ Float infinity isInfinite
 >>> true
 ]]]
 
-!!!Fraction
+!!!Fractions
 
 ==Fraction==s are represented by instance variables for the numerator and
 denominator, which should be ==Integer==s. ==Fraction==s are normally created by
@@ -711,7 +711,7 @@ an ==Integer==:
 >>> 3
 ]]]
 
-!!!Integer
+!!!Integers
 
 ==Integer== is the abstract parent of three concrete integer implementations.
 In addition to providing concrete implementations of many abstract ==Number==
