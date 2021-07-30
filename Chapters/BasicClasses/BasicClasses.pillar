@@ -552,11 +552,12 @@ The abstract root of this hierarchy is ==Magnitude==, which represents all kinds
 of classes supporting comparison operators. ==Number== adds various arithmetic
 and other operators as mostly abstract methods. ==Float== and ==Fraction==
 represent, respectively, floating point numbers and fractional values. ==Float==
-subclasses (==BoxedFloat64== and ==SmallFloat64==) represent Float on certain
+subclasses (==BoxedFloat64== and ==SmallFloat64==) represent Floats on certain
 architectures. For example ==BoxedFloat64== is only available for 64 bit
-systems. ==Integer== is also abstract, thus distinguishing between subclasses
-==SmallInteger==, ==LargePositiveInteger== and ==LargeNegativeInteger==. For the
-most part, users do not need to be aware of the difference between the three
+systems. 
+==Integer== is also abstract, thus distinguishing between subclasses
+==SmallInteger==, ==LargePositiveInteger== and ==LargeNegativeInteger==. 
+For the most part, users do not need to be aware of the difference between the three
 ==Integer== classes, as values are automatically converted as needed.
 
 !!!Magnitude
@@ -566,7 +567,8 @@ other classes supporting comparison operations, such as ==Character==,
 ==Duration== and ==Timespan==.
 
 Methods ==<== and ===== are abstract. The remaining operators are generically
-defined. For example:
+defined.
+For example:
 
 [[[caption=Abstract comparison methods
 Magnitude >> < aMagnitude
@@ -596,8 +598,8 @@ The method ==Number>>printOn:== is implemented in terms of the abstract method
 ==Number>>printOn:base:==. (The default base is 10.)
 
 Testing methods include ==even==, ==odd==, ==positive== and ==negative==.
-Unsurprisingly ==Number== overrides ==isNumber==. More interestingly,
-==isInfinite== is defined to return ==false==.
+Unsurprisingly ==Number== overrides ==isNumber==. 
+More interestingly, ==isInfinite== is defined to return ==false==.
 
 ''Truncation'' methods include ==floor==, ==ceiling==, ==integerPart==, ==fractionPart== and so on.
 
