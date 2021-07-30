@@ -154,7 +154,7 @@ We will focus on the most common collection classes: ==OrderedCollection==,
 ==Set==, ==SortedCollection==, ==Dictionary==, ==Interval==, and ==Array==.
 
 
-!!!Common creation protocol.
+!!!Common creation protocol
 
 There are several ways to create instances of collections. The most generic ones
 use the message ==new: aSize== and ==with: anElement==.
@@ -526,12 +526,12 @@ Use only globally unique objects (like ==Symbol==s or ==SmallInteger==s) as keys
 for an ==IdentityDictionary==, and ==String==s (or other objects) as keys for a
 plain ==Dictionary==.
 
-Note that the expression ==Smalltalk globals== returns an instance of ==SystemDictionary==, a subclass of ==IdentityDictionary==, hence all its keys
-are ==Symbol==s (actually, ==ByteSymbol==s, which contain only 8-bit
-characters).
+!!!! IdentityDictionary example 
+
+The expression ==Smalltalk globals== returns an instance of ==SystemDictionary==, a subclass of ==IdentityDictionary==, hence all its keys are ==ByteSymbol==s (==ByteSymbol== is a subclass of ==Symbol==).
 
 [[[testcase=true
-Smalltalk globals keys collect: [ :each | each class ] as:Set
+Smalltalk globals keys collect: [ :each | each class ] as: Set
 >>> a Set(ByteSymbol)
 ]]]
 
@@ -541,10 +541,10 @@ class ==Set==, that way we collect each kind of class used as a key only once.
 !!!==Set==
 
 The class ==Set== is a collection which behaves as a mathematical set, i.e.,
-as a collection with no duplicate elements and without any order. In a ==Set==,
-elements are added using the message ==add:== and they cannot be accessed using
-the message ==at:==. Objects put in a set should implement the methods ==hash==
-and ==\===.
+as a collection with no duplicate elements and without any order.
+In a ==Set==, elements are added using the message ==add:== and they cannot be accessed using
+the message ==at:==.
+Objects put in a set should implement the methods ==hash== and ==\===.
 
 [[[testcase=true
 s := Set new.
@@ -593,7 +593,7 @@ work for all kinds of collections!
 ]]]
 
 [[[testcase=true
-#Smalltalk includes: $k
+#Pharo includes: $a
 >>> true
 ]]]
 
@@ -639,7 +639,7 @@ returns the ==printString== representation, which is not what we want:
 ]]]
 
 The correct answer is to either use ==String class>>newFrom:==, ==String
-class>>withAll:== or ==Object>>as:==:
+class>>withAll:== or ==Object>>as:==.
 
 [[[testcase=true
 'hello' asSortedCollection as: String
@@ -679,7 +679,7 @@ col
 >>> a SortedCollection(Color black Color red Color yellow Color white)
 ]]]
 
-!!!==String==
+!!!==Strings==
 
 In Pharo, a ==String== is a collection of ==Character==s. It is
 sequenceable, indexable, mutable and homogeneous, containing only ==Character==
@@ -726,16 +726,18 @@ the string will contain only one element and not two as shown below:
 >>> $i
 ]]]
 
-Two or more instances of ==String== can be concatenated with a comma.
+The message ==,== concatenates two instances of ==String==. 
+Such messages can chained as follows: 
 
 [[[testcase=true
 s := 'no', ' ', 'worries'.
 s
->>>  'no worries'
+>>> 'no worries'
 ]]]
 
 Since a string is a mutable collection we can also change it using the message
 ==at:put:==.
+From a design point of view better avoid mutating strings since strings are often shared over method execution.
 
 [[[testcase=true
 s at: 4 put: $h; at: 5 put: $u.
@@ -847,7 +849,7 @@ that always return one element of the ==String== collection, return a
 ==$b==). For a complete list of substring-related messages, browse the
 ==SequenceableCollection== class (especially the ==accessing== protocol).
 
-!!!!Some tests on strings
+!!!!Some predicates on strings
 
 The following examples illustrate the use of ==isEmpty==, ==includes:== and
 ==anySatisfy:== which are also messages defined not only on Strings but more
@@ -876,7 +878,7 @@ generally on collections.
 !!!!String templating
 
 There are three messages that are useful to manage string templating:
-==format:==, ==expandMacros== and ==expandMacrosWith:==.
+==format:==, ==expandMacros==, and ==expandMacrosWith:==.
 
 [[[testcase=true
 '{1} is {2}' format: {'Pharo' . 'cool'}
@@ -934,13 +936,13 @@ The class ==String== offers numerous other utilities including the messages
 ]]]
 
 [[[testcase=true
-'hilaire' capitalized
->>> 'Hilaire'
+'tintin' capitalized
+>>> 'Tintin'
 ]]]
 
 [[[testcase=true
-'Hilaire' uncapitalized
->>> 'hilaire'
+'Tintin' uncapitalized
+>>> 'tintin'
 ]]]
 
 [[[testcase=true
@@ -952,6 +954,9 @@ The class ==String== offers numerous other utilities including the messages
 'this sentence is without a doubt far too long' contractTo: 20
 >>> 'this sent...too long'
 ]]]
+
+
+!!!! ==asString== vs. ==printString==
 
 Note that there is generally a difference between asking an object its string
 representation by sending the message ==printString== and converting it to a
@@ -1052,7 +1057,8 @@ colors valuesDo: [ :value | Transcript show: value; cr ].
 colors associationsDo: [:value | Transcript show: value; cr].
 ]]]
 
-!!!!Collecting results (==collect:==)
+
+!!! Collecting results (==collect:==)
 
 If you want to apply a function to the elements of a collection and get a new
 collection with the results, rather than using ==do:==, you are probably better
@@ -1086,7 +1092,8 @@ result a collection of absolute values of these integers:
 [[[testcase=true
 aCol :=  #( 2 -3 4 -35 4 -11).
 result := aCol species new: aCol size.
-1 to: aCol size do: [ :each | result at: each put: (aCol at: each) abs ].
+1 to: aCol size do: [ :each |
+	result at: each put: (aCol at: each) abs ].
 result
 >>> #(2 3 4 35 4 11)
 ]]]
@@ -1128,7 +1135,7 @@ an ==Interval==, the species is an ==Array==!
 >>> #(2 4 6 8 10)
 ]]]
 
-!!!!Selecting and rejecting elements
+!!!Selecting and rejecting elements
 
 The message ==select:== returns the elements of the receiver that satisfy a
 particular condition:
@@ -1187,13 +1194,17 @@ first 100 integers:
 Another example is the following one-argument block which computes factorials:
 
 [[[testcase=true
-factorial := [ :n | (1 to: n) inject: 1 into: [ :product :each | product * each ] ].
+factorial := [ :n | 
+	(1 to: n) 
+		inject: 1 
+		into: [ :product :each | product * each ] ].
 factorial value: 10
 >>> 3628800
 ]]]
 
-!!!!Other messages
+!!!Other high-order messages
 There are many other iterator messages. You can check the ==Collection== class.
+Here is a selection.
 
 !!!!!! ==count:==
 
@@ -1228,9 +1239,8 @@ colors anySatisfy: [ :c | c red > 0.5 ]
 >>> true
 ]]]
 
-!!!Some hints for using collections
 
-!!!!A common mistake with ==add:==
+!!!A common mistake: using ==add:== result
 
 The following error is one of the most frequent Smalltalk mistakes.
 
@@ -1264,10 +1274,10 @@ collection := OrderedCollection new add: 1; add: 2; yourself
 >>> an OrderedCollection(1 2)
 ]]]
 
-!!!!Removing an element of the collection you are iterating on
+!!! A common mistake: Removing an element while iterating
 
 Another mistake you may make is to remove an element from a collection you are
-currently iterating over.
+currently iterating over. The bugs created but such mistakes can be really difficult to spot because the iterating order may be change depending on the storage strategy of the collection. 
 
 [[[testcase=true
 | range |
@@ -1289,7 +1299,7 @@ range
 >>> an OrderedCollection(2 3 5 7 11 13 17 19)
 ]]]
 
-!!!!!!Redefining ==\=== but not ==hash==
+!!! A common mitaske: Redefining ==\=== but not ==hash==
 
 A difficult error to spot is when you redefine ==\=== but not ==hash==. The
 symptoms are that you will lose elements that you put in sets or other strange
