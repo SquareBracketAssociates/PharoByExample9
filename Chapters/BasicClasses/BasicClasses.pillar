@@ -380,7 +380,7 @@ a1 deepCopy
 !!!! ==copy==
 
 The other solution is to use message ==copy==.
-It is implemented on ==Object== as follows: the method ==postCopy== is sent to the result of the message ==shallowCopy==. 
+It is implemented on ==Object== as follows: the method ==postCopy== is sent to the result of the message ==shallowCopy==.
 
 [[[caption=Copying objects as a template method
 Object >> copy
