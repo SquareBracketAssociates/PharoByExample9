@@ -1,14 +1,17 @@
 !! Collections 
 @cha:collections
 
-!!!Introduction
+To make good use of the collection classes, the reader needs at least a
+superficial knowledge of the wide variety of collections that exist, and their commonalities and differences.
+This is what this chapter is about.
 
 The collection classes form a loosely-defined group of general-purpose
-subclasses of ==Collection== and ==Stream==. Many of these (like ==Bitmap==,
-==FileStream== and ==CompiledMethod==) are special-purpose classes crafted for
+subclasses of ==Collection== and ==Stream==. Some of these subclasses such as ==Bitmap==,
+or ==CompiledMethod== are special-purpose classes crafted for
 use in other parts of the system or in applications, and hence not categorized
-as ''Collections'' by the system organization. For the purposes of this chapter,
-we use the term ''Collection Hierarchy'' to mean ==Collection== and its
+as ''Collections'' by the system organization. 
+
+In this chapter, we use the term ''Collection Hierarchy'' to mean ==Collection== and its
 subclasses that are ''also'' in the packages labelled ==Collections-*==. We use
 the term ''Stream Hierarchy'' to mean ==Stream== and its subclasses that are
 ''also'' in the ==Collections-Streams== packages.
@@ -16,16 +19,17 @@ the term ''Stream Hierarchy'' to mean ==Stream== and its subclasses that are
 In this chapter we focus mainly on the subset of collection classes shown in
 Figure *@fig:CollClassesTree*. Streams will be discussed separately in
 Chapter *: Streams>../Streams/Streams.pillar@cha:streams*.
-%todo recheck after adding the chapter if the link works
+
+Pharo by default provide a good set of collections. 
+In addition, the project "Containers" available at *http://www.github.com/Pharo-Containers/* proposes alternate implementations or new collections and data structures. 
 
 +Some of the key collection classes in Pharo.>file://figures/CollectionHierarchy.png|label=fig:CollClassesTree+
 
-!!!The varieties of collections
-@sec:varieties
+Let us start with an important point about the design of the collections in Pharo. 
+Their APIs heavily use high-order functions: so while we can use for loops like in old Java, most of the time Pharo developers will use iterator style based on high-order functions.
 
-To make good use of the collection classes, the reader needs at least a
-superficial knowledge of the wide variety of collections that they implement,
-and their commonalities and differences.
+!!!High-order functions
+@sec:varieties
 
 Programming with collections using high-order functions rather than individual
 elements is an important way to raise the level of abstraction of a program. The
@@ -84,6 +88,9 @@ optimized or occasionally even forbidden by subclasses of ==Collection==.
 | ==creation== | ==with:==, ==with:with:==, ==with:with:with:==,
 | | ==with:with:with:with:==, ==withAll:==
 
+!!!The varieties of collections
+@sec:varieties
+
 Beyond this basic uniformity, there are many different kinds of collections
 either supporting different protocols or providing different behaviour for the
 same requests. Let us briefly observe some of the key differences:
@@ -93,7 +100,7 @@ same requests. Let us briefly observe some of the key differences:
 ;==Sortable:==
 :A ==SortedCollection== maintains its elements in sort order.
 ;==Indexable:==
-:Most sequenceable collections are also indexable, that is, elements can be retrieved with message ==at: anIndex==. ==Array== is the familiar indexable data structure with a fixed size; ==anArray at: n== retrieves the n^^th^^ element of ==anArray==, and ==anArray at: n put: v== changes the n^^th^^ element to ==v==. ==LinkedList==s and ==SkipList==s are sequenceable but not indexable, that is, they understand ==first== and ==last==, but not the message ==at:==.
+:Most sequenceable collections are also indexable, that is, elements can be retrieved with message ==at: anIndex==. ==Array== is the familiar indexable data structure with a fixed size; ==anArray at: n== retrieves the n^^th^^ element of ==anArray==, and ==anArray at: n put: v== changes the n^^th^^ element to ==v==. ==LinkedList==s is sequenceable but not indexable, that is, they understand ==first== and ==last==, but not the message ==at:==.
 ;==Keyed:==
 :Instances of ==Dictionary== and its subclasses are accessed by keys instead of indices.
 ;==Mutable:==
@@ -104,7 +111,8 @@ same requests. Let us briefly observe some of the key differences:
 :A ==Set== filters out duplicates, but a ==Bag== does not. Classes ==Dictionary==, ==Set== and ==Bag== use the ==\=== method provided by the elements; the ==Identity== variants of these classes use the ==\=\=== method, which tests whether the arguments are the same object, and the ==Pluggable== variants use an arbitrary equivalence relation supplied by the creator of the collection.
 ;==Heterogeneous:==
 :Most collections will hold any kind of element. A ==String==, ==CharacterArray== or ==Symbol==, however, only holds ==Character==s. An ==Array== will hold any mix of objects, but a ==ByteArray== only holds Bytes. A ==LinkedList== is constrained to hold elements that conform to the ==Link== ==accessing== protocol.
-%todo Do we have SkipList, do we remove it?
+
+
 !!!Collection implementations
 
 @sec:implementation
