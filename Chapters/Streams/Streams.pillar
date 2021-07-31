@@ -83,13 +83,11 @@ and writing protocols.
 
 The following sections present the protocols in more depth.
 
-!!!Streaming over collections
-
 Streams are really useful when dealing with collections of elements, and can be
 used for reading and writing those elements. We will now explore the
 stream features for collections.
 
-!!!!Reading collections
+!!!Reading collections
 
 Using a stream to read a collection essentially provides you a pointer into the
 collection. That pointer will move forward on reading, and you can place it
@@ -133,6 +131,7 @@ stream next: 2.
 >>>   'ef'
 ]]]
 
+!!!Peek
 The message ==peek== defined in ==PositionableStream== is used when you want to
 know what is the next element in the stream without going forward.
 
@@ -242,7 +241,7 @@ As you can see, the letter ==e== has been skipped.
 
 The message ==contents== always returns a copy of the entire stream.
 
-!!!Testing
+!!!Predicates
 
 Some messages allow you to test the state of the current stream:
 ==atEnd== returns ==true== if and only if no more elements can be read, whereas
@@ -253,19 +252,19 @@ Here is a possible implementation of an algorithm using ==atEnd== that takes two
 sorted collections as parameters and merges those collections into another
 sorted collection:
 
-[[[testcase=true|label=src:mergeStreams
+[[[testcase=true
 | stream1 stream2 result |
 stream1 := #(1 4 9 11 12 13) readStream.
 stream2 := #(1 2 3 4 5 10 13 14 15) readStream.
 
 "The variable result will contain the sorted collection."
 result := OrderedCollection new.
-[stream1 atEnd not & stream2 atEnd not ]
+[ stream1 atEnd not & stream2 atEnd not ]
   whileTrue: [
     stream1 peek < stream2 peek
         "Remove the smallest element from either stream and add it to the result."
-        ifTrue: [result add: stream1 next ]
-        ifFalse: [result add: stream2 next ] ].
+        ifTrue: [ result add: stream1 next ]
+        ifFalse: [ result add: stream2 next ] ].
 
 "One of the two streams might not be at its end. Copy whatever remains."
 result
@@ -286,18 +285,18 @@ using a ==ReadStream==. We'll now learn how to create collections using
 various locations. They are often used to construct strings that are based on
 static and dynamic parts, as in this example:
 
-[[[testcase=true|label=src:writeStreamExample
+[[[testcase=true
 | stream |
 stream := String new writeStream.
 stream
-  nextPutAll: 'This Smalltalk image contains: ';
-  print: Smalltalk allClasses size;
+  nextPutAll: 'This image contains: ';
+  print: Smalltalk globals allClasses size;
   nextPutAll: ' classes.';
   cr;
   nextPutAll: 'This is really a lot.'.
 
 stream contents.
->>> 'This Smalltalk image contains: 9003 classes.
+>>> 'This image contains: 9003 classes.
 This is really a lot.'
 ]]]
 
@@ -340,13 +339,13 @@ such as ==space==, ==tab== and ==cr== (carriage return). Another useful method
 is ==ensureASpace== which ensures that the last character in the stream is a
 space; if the last character isn't a space it adds one.
 
-!!!About String Concatenation
+!!!About string concatenation
 
 Using ==nextPut:== and ==nextPutAll:== on a ==WriteStream== is often the best
 way to concatenate characters. Using the comma concatenation operator (==,==) is
-far less efficient:
+far less efficient as shown by the two following performing the same task.
 
-[[[testcase=true|label=src:concatenationComparison
+[[[testcase=true
 [| temp |
   temp := String new.
   (1 to: 100000)
@@ -363,18 +362,17 @@ far less efficient:
 >>> 0:00:00:00.024
 ]]]
 
-The reason that using a stream can be much more efficient is that using a
-comma creates a new string containing the concatenation of the receiver and the
-argument, so it must copy both of them. When you repeatedly concatenate onto the
-same receiver, it gets longer and longer each time, so that the number of
-characters that must be copied goes up exponentially. This also creates a lot of
-garbage, which must be collected. Using a stream instead of string concatenation
-is a well-known optimization.
+Using a stream can be much more efficient than using a comma because the last one creates a new string containing the concatenation of the receiver and the
+argument, so it must copy both of them. 
+When you repeatedly concatenate onto the same receiver, it gets longer and longer each time, so that the number of characters that must be copied goes up exponentially. 
+Such concatenation of strings also creates a lot of
+garbage, which must be collected. 
+Using a stream instead of string concatenation is a well-known optimization.
 
 In fact, you can use the message ==streamContents:== defined in
 ==SequenceableCollection class== (mentioned earlier) to help you do this:
 
-[[[label=src:streamContentsUsage
+[[[
 String streamContents: [ :tempStream |
   (1 to: 100000)
        do: [:i | tempStream nextPutAll: i asString; space ] ]
