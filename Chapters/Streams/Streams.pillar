@@ -383,7 +383,7 @@ String streamContents: [ :tempStream |
 It's possible to use a stream to access a collection for reading and writing at
 the same time. Imagine you want to create a ==History== class which will manage
 backward and forward buttons in a web browser. A history would react as in
-figures *@fig:emptyStream* to *@fig:page4*.
+Figures *@fig:emptyStream* to *@fig:page4*.
 
 +A new history is empty. Nothing is displayed in the web browser.>file://figures/emptyStef.png|width=50|label=fig:emptyStream+
 
@@ -401,7 +401,7 @@ figures *@fig:emptyStream* to *@fig:page4*.
 
 This behaviour can be implemented using a ==ReadWriteStream==.
 
-[[[label=src:historyClass
+[[[
 Object subclass: #History
   instanceVariableNames: 'stream'
   classVariableNames: ''
@@ -417,7 +417,7 @@ The stream is created during the ==initialize== method.
 
 We need methods to go backward and forward:
 
-[[[label=src:history2
+[[[
 History >> goBackward
   self canGoBackward
   	ifFalse: [ self error: 'Already on the first element' ].
@@ -434,7 +434,7 @@ Up to this point, the code is pretty straightforward. Next, we have to deal with
 the ==goTo:== method which should be activated when the user clicks on a link. A
 possible implementation is:
 
-[[[label=src:history3
+[[[
 History >> goTo: aPage
     stream nextPut: aPage.
 ]]]
@@ -444,7 +444,7 @@ link, there should be no more future pages to go to, ''i.e.'', the forward
 button must be deactivated. To do this, the simplest solution is to write
 ==nil== just after, to indicate that history is at the end:
 
-[[[label=src:history4
+[[[
 History >> goTo: anObject
   stream nextPut: anObject.
   stream nextPut: nil.
@@ -458,7 +458,7 @@ A stream is always positioned between two elements. To go backward, there must
 be two pages before the current position: one page is the current page, and the
 other one is the page we want to go to.
 
-[[[label=src:history5
+[[[
 History >> canGoBackward
   ^ stream position > 1
 
@@ -468,14 +468,14 @@ History >> canGoForward
 
 Let us add a method to peek at the contents of the stream:
 
-[[[label=src:history6
+[[[
 History >> contents
   ^ stream contents
 ]]]
 
 And the history works as advertised:
 
-[[[testcase=true|label=src:history7
+[[[testcase=true
 History new
 	goTo: #page1;
 	goTo: #page2;
@@ -489,7 +489,7 @@ History new
 
 !!!Chapter summary
 
-Streams offer a better way (compared to collections) to incrementally read and
+Compared to collections, streams offer a better way to incrementally read and
 write a sequence of elements. There are easy ways to convert back and forth
 between streams and collections.
 
