@@ -178,7 +178,7 @@ one can simply send the message ==readStream== to a sequenceable
 collection (such as a ==String==) to get a reading stream on that particular
 collection.
 
-!!!Positioning
+!!!Positioning to an index
 
 There are messages to position the stream pointer. If you have the index, you
 can go directly to it using ==position:== defined in ==PositionableStream==. You
@@ -200,44 +200,61 @@ stream peek
 +A stream at position 2.>file://figures/ab_cdeStef.png|width=70|label=fig:ab_cde+
 
 To position the stream at the beginning or the end, you can use the message
-==reset== or ==setToEnd==. The messages ==skip:== and ==skipTo:== are used to go
+==reset== or ==setToEnd==. 
+
+!!! Skipping elements
+
+The messages ==skip:== and ==skipTo:== are used to go
 forward to a location relative to the current position: ==skip:== accepts a
 number as argument and skips that number of elements whereas ==skipTo:== skips
 all elements in the stream until it finds an element equal to its parameter.
 Note that it positions the stream after the matched element.
 
+
+
 [[[testcase=true
 | stream |
 stream := 'abcdef' readStream.
-stream next.
->>> $a    "stream is now positioned just after the a"
+stream next
+>>> $a
 ]]]
+
+The stream is now positioned just after the ==\$a==.
+
 [[[testcase=true
-stream skip: 3.                           "stream is now after the d"
-stream position.
+stream skip: 3.
+stream position
 >>>   4
 ]]]
+
+The stream is now after the ==\$d==.
+
 [[[testcase=true
-stream skip: -2.                          "stream is after the b"
-stream position.
+stream skip: -2.
+stream position
 >>> 2
 ]]]
+
+The stream is now after the ==\$b==.
+
 [[[testcase=true
 stream reset.
-stream position.
+stream position
 >>> 0
 ]]]
+
 [[[testcase=true
-stream skipTo: $e.                      "stream is just after the e now"
+stream skipTo: $e.                      
 stream next.
 >>> $f
 ]]]
+Skipping up to an element positions the stream just after this element.
+Here the stream is just after the ==\$e==.
+
 [[[testcase=true
 stream contents.
 >>> 'abcdef'
 ]]]
-
-As you can see, the letter ==e== has been skipped.
 
 The message ==contents== always returns a copy of the entire stream.
 
@@ -304,7 +321,7 @@ This technique is used in the different implementations of the method
 ==printOn:==, for example. There is a simpler and more efficient way of creating
 strings if you are only interested in the content of the stream:
 
-[[[testcase=true|label=src:stringFromStreamContents
+[[[testcase=true
 | string |
 string := String streamContents:
 		[ :stream |
@@ -378,11 +395,110 @@ String streamContents: [ :tempStream |
        do: [:i | tempStream nextPutAll: i asString; space ] ]
 ]]]
 
+!!!About printString
+
+Let us take a moment to step back about stream usage in ==printOn:== methods.
+The =printString== method creates a stream and passes this string as argument of the ==printOn:== method as shown below:
+
+[[[
+Object >> printString
+	"Answer a String whose characters are a description of the receiver. 
+	If you want to print without a character limit, use fullPrintString."
+
+	^ self printStringLimitedTo: 50000
+]]]
+
+[[[
+Object >> printStringLimitedTo: limit
+	"Answer a String whose characters are a description of the receiver.
+	If you want to print without a character limit, use fullPrintString."
+
+	^self printStringLimitedTo: limit using: [:s | self printOn: s]
+]]]
+
+
+[[[
+Object >> printStringLimitedTo: limit using: printBlock
+	"Answer a String whose characters are a description of the receiver
+	produced by given printBlock. It ensures the result will be not bigger than given limit"
+
+	| limitedString |
+	limitedString := String streamContents: printBlock limitedTo: limit.
+	limitedString size < limit ifTrue: [^ limitedString].
+	^ limitedString , '...etc...'
+]]]
+
+What you should see is that the method  ==printStringLimitedTo:using:== is creating a stream and passing it around.
+
+When you redefine the method ==printOn:== in your class, if you send the message  ==printString== on the instance variables of your object, you are in fact creating yet another stream and copying its contents in the first one. 
+Here is an example:
+
+[[[
+MessageTally >> displayStringOn: aStream
+	self displayIdentifierOn: aStream.
+	aStream 
+		nextPutAll: ' (';
+		nextPutAll: self tally printString;
+		nextPutAll: ')'
+]]]
+
+This is clearly counter productive.
+It is much better to send the message ==print:== to the stream or ==printOn:== to the instance variable it as follows: 
+
+[[[
+MessageTally >> displayStringOn: aStream
+	self displayIdentifierOn: aStream.
+	aStream 
+		nextPutAll: ' (';
+		print: self tally;
+		nextPutAll: ')'
+]]]
+
+To understand what the method ==print:==, here its definition.
+
+[[[
+Stream >> print: anObject
+	"Have anObject print itself on the receiver."
+
+	anObject printOn: self
+]]]
+
+
+!!!! Another example
+
+Here is an example taken from Pharo that is not related to ==printString== but it exhibits exactly the same problem.
+[[[
+printProtocol: protocol sourceCode: sourceCode
+
+	^ String streamContents: [ :stream |
+		stream
+			nextPutAll: '"protocol: '; 
+			nextPutAll: protocol printString;
+			nextPut: $"; cr; cr;
+			nextPutAll: sourceCode ]	
+]]]
+
+What you should see is that a stream is created and then another stream is created and discarded with the ==protocol printString==.
+A better implementation is 
+
+[[[
+printProtocol: protocol sourceCode: sourceCode
+
+	^ String streamContents: [ :stream |
+		stream
+			nextPutAll: '"protocol: '; 
+			print: protocol;
+			nextPut: $"; cr; cr;
+			nextPutAll: sourceCode ]	
+]]]
+
+
+
 !!!Reading and writing at the same time
 
 It's possible to use a stream to access a collection for reading and writing at
 the same time. Imagine you want to create a ==History== class which will manage
-backward and forward buttons in a web browser. A history would react as in
+backward and forward buttons in a web browser. A history reacts as in
 Figures *@fig:emptyStream* to *@fig:page4*.
 
 +A new history is empty. Nothing is displayed in the web browser.>file://figures/emptyStef.png|width=50|label=fig:emptyStream+
@@ -436,7 +552,7 @@ possible implementation is:
 
 [[[
 History >> goTo: aPage
-    stream nextPut: aPage.
+    stream nextPut: aPage
 ]]]
 
 This version is incomplete however. This is because when the user clicks on the
@@ -448,7 +564,7 @@ button must be deactivated. To do this, the simplest solution is to write
 History >> goTo: anObject
   stream nextPut: anObject.
   stream nextPut: nil.
-  stream back.
+  stream back
 ]]]
 
 Now, only methods ==canGoBackward== and ==canGoForward== remain to be
