@@ -398,7 +398,7 @@ String streamContents: [ :tempStream |
 !!!About printString
 
 Let us take a moment to step back about stream usage in ==printOn:== methods.
-The =printString== method creates a stream and passes this string as argument of the ==printOn:== method as shown below:
+Basically the ==Object>>#printString== method creates a stream and passes this stream as argument of the ==printOn:== method as shown below:
 
 [[[
 Object >> printString
@@ -442,6 +442,7 @@ MessageTally >> displayStringOn: aStream
 		nextPutAll: ')'
 ]]]
 
+Here the expression ==self tally printString== invoked the same mechanism and create an extra stream instead of using the previous one.
 This is clearly counter productive.
 It is much better to send the message ==print:== to the stream or ==printOn:== to the instance variable it as follows: 
 
@@ -454,7 +455,9 @@ MessageTally >> displayStringOn: aStream
 		nextPutAll: ')'
 ]]]
 
-To understand what the method ==print:==, here its definition.
+In this variant, the first created stream is used, there is no creation of an extra stream.
+
+To understand what the method ==print:==, here its definition:
 
 [[[
 Stream >> print: anObject
@@ -465,8 +468,9 @@ Stream >> print: anObject
 
 
 !!!! Another example
+This extra creation of stream is not limited to ==printString== logic. 
+Here is an example taken from Pharo that exhibits exactly the same problem.
 
-Here is an example taken from Pharo that is not related to ==printString== but it exhibits exactly the same problem.
 [[[
 printProtocol: protocol sourceCode: sourceCode
 
@@ -478,8 +482,8 @@ printProtocol: protocol sourceCode: sourceCode
 			nextPutAll: sourceCode ]	
 ]]]
 
-What you should see is that a stream is created and then another stream is created and discarded with the ==protocol printString==.
-A better implementation is 
+What you should see is that a stream is created and then another stream is created and discarded with the expression ==protocol printString==.
+A better implementation is the following one:
 
 [[[
 printProtocol: protocol sourceCode: sourceCode
@@ -491,7 +495,6 @@ printProtocol: protocol sourceCode: sourceCode
 			nextPut: $"; cr; cr;
 			nextPutAll: sourceCode ]	
 ]]]
-
 
 
 !!!Reading and writing at the same time
