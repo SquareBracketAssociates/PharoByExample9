@@ -528,7 +528,7 @@ Object subclass: #History
 
 History >> initialize
     super initialize.
-    stream := ReadWriteStream on: Array new.
+    stream := ReadWriteStream on: Array new
 ]]]
 
 Nothing really difficult here, we define a new class which contains a stream.
