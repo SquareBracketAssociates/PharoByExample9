@@ -24,35 +24,29 @@ Bring up the World Menu and Option-Command-Shift click once on it to bring up it
 then repeat the operation again on a menu item you want to detach, to bring up that item's
 halo (see Figure *@fig:detachingMenu*).
 
-Now drag that item elsewhere on the screen by grabbing the black handle (which looks like a pliers), as shown in Figure *@fig:detachingMenu*.
+Now duplicate that item elsewhere on the screen by grabbing the green handle as shown in Figure *@fig:detachingMenu*.
 
-+Detaching a morph, here the ==Playground== menu item, to make it an independent button. >file://figures/detachingMenu.png|width=60|label=fig:detachingMenu+
++Detaching a morph, here the ==Playground== menu item, to make it an independent button. >file://figures/detachingMenu.png|width=45|label=fig:detachingMenu+
 
-Once dropped the menu item stays detached from the menu and you can interact with it as if it would be in the menu (see Figurefig:detachingMenu2).
+Once dropped the menu item stays detached from the menu and you can interact with it as if it would be in the menu (see Figure *@fig:detachingMenu2*).
 
-+Dropping the menu item on the desktop, here the ==Playground== menu item is now an independent button. >file://figures/detachingMenu.png|width=60|label=fig:detachingMenu2+
++Dropping the menu item on the desktop, here the ==Playground== menu item is now an independent button. >file://figures/detachingMenu2.png|width=25|label=fig:detachingMenu2+
 
 This example illustrates what we mean by ''directness'' and ''liveness''. 
 This gives a lot of power when developing alternate user interface and prototyping alternate interactions. 
-Some people 
 
-Morphic is a bit showing its age, and the Pharo community is working since several years
-on a possible replacement. Replacing Morphic means to have both
+Morphic is a bit showing its age, and the Pharo community is working since several years on a possible replacement. Replacing Morphic means to have both
 a new low-level infrastructure and a new widget sets.
-The project is called Bloc and got several iterations. Bloc is about the infrastructure
-and Brick is a set of widgets built on top. 
-But let us have fun with Morphic. 
+The project is called Bloc and got several iterations. Bloc is about the infrastructure and Brick is a set of widgets built on top.  But let us have fun with Morphic. 
 
 !!!Morphs
 
 All of the objects that you see on the screen when you run Pharo are ''Morphs'', that is, they are instances of subclasses of class ==Morph==. 
-The class ==Morph== itself is a large class with many methods; this makes it possible for subclasses to
-implement interesting behaviour with little code. 
-You can create a morph to represent any object, although how good a representation you get depends on the object!
+The class ==Morph== itself is a large class with many methods; this makes it possible for subclasses to implement interesting behaviour with little code. 
 
 To create a morph to represent a string object, execute the following code in a Playground.
 
-[[[language=smalltalk|caption=Creation of a String Morph|label=scr:stringMorph
+[[[language=smalltalk|caption=Creation of a String Morph
 'Morph' asMorph openInWorld
 ]]]
 
@@ -64,18 +58,11 @@ The method ==asMorph== has a default implementation in class ==Object== class th
 So, for example, ==Color tan asMorph== returns a StringMorph labeled with the result of ==Color tan printString==.
 Let's change this so that we get a coloured rectangle instead.
 
-Open a browser on the ==Color== class and add the following method to it:
-
-[[[language=smalltalk|caption=Getting a morph for an instance of ==Color==|label=scr:asMorphInColor
-Color >> asMorph
-	^ Morph new color: self
-]]]
-
-Now execute ==Color orange asMorph openInWorld== in a Playground. 
+Now execute ==(Morph new colors: Color orange) openInWorld== in a Playground. 
 Instead of the string-like morph, you get an orange rectangle (see Figure *@fig:colorOrange*)!
 You get the same executing ==(Morph new color: Color orange) openInWorld==
 
-+==(Morph new color: Color orange) openInWorld== or ==Color orange asMorph openInWorld== with our new method.>file://figures/colorOrange.png|width=75|label=fig:colorOrange+
++==(Morph new color: Color orange) openInWorld==.>file://figures/colorOrange.png|width=75|label=fig:colorOrange+
 
 !!!Manipulating morphs
 
@@ -84,15 +71,12 @@ subclasses of Morph, and so on.
 
 Every morph, even if it is not currently open on the screen, has a position and a size. 
 For convenience, all morphs are considered to occupy a rectangular region of the screen; if they are irregularly shaped, their position and size are those of the smallest rectangular ''box'' that surrounds them, which is known as the morph's bounding box, or just its ''bounds''. 
-The ==position== method returns a ==Point== that describes the location of the morph's upper left
-corner (or the upper left corner of its bounding box).
-The origin of the coordinate system is the screen's upper left corner, with ''y'' coordinates increasing ''down'' the screen and ''x'' coordinates increasing to the right.
-The ==extent== method also returns a point, but this point specifies the width
-and height of the morph rather than a location.
+
+- The ==position== method returns a ==Point== that describes the location of the morph's upper left corner (or the upper left corner of its bounding box). The origin of the coordinate system is the screen's upper left corner, with ''y'' coordinates increasing ''down'' the screen and ''x'' coordinates increasing to the right.
+- The ==extent== method also returns a point, but this point specifies the width and height of the morph rather than a location.
 
 Type the following code into a playground and ==Do it==:
-%|caption=Creation of two Color Morph|label=scr:joeAndBill
-[[[lanuage=smalltalk
+[[[language=smalltalk
 joe := Morph new color: Color blue.
 joe openInWorld.
 bill := Morph new color: Color red.
@@ -102,14 +86,13 @@ bill openInWorld.
 Then type ==joe position== and then ==Print it==. To move joe, execute ==joe
 position: (joe position + (10@3))== repeatedly (see Figure *@fig:moveJoe*).
 
-+Bill and Joe after 10 moves.>file://figures/moveJoe.png|width=75|label=fig:moveJoe+
++Bill and Joe after 10 moves.>file://figures/moveJoe.png|width=65|label=fig:moveJoe+
 
 It is possible to do a similar thing with size. ==joe extent== answers joe's size; to have joe grow, execute ==joe extent: (joe extent \* 1.1)==.
 To change the color of a morph, send it the ==color:== message with the desired ==Color== object as argument, for instance, ==joe color: Color orange==. 
 To add transparency, try ==joe color: (Color orange alpha: 0.5)==.
 
 To make bill follow joe, you can repeatedly execute this code:
-%|caption=Make bill follow joe|label=scr:billfollowJoe
 [[[language=smalltalk
 bill position: (joe position + (100@0))
 ]]]
@@ -121,6 +104,10 @@ Nothing suprising.
 
 +Bill follows Joe.>file://figures/joeAndBillResult.png|width=75|label=fig:joeAndBillResult+
 
+
+Note that you can delete the morphs you created by 
+- sending them the message delete
+- selecting the cross in halos that you can bring using Meta-Option click.
 !!!Composing morphs
 
 One way of creating new graphical representations is by placing one morph inside another. 
@@ -213,7 +200,7 @@ CrossMorph >> containsPoint: aPoint
 	^ (horizontalBar containsPoint: aPoint) or: [ verticalBar containsPoint: aPoint ]
 ]]]
 
-This method uses the same logic as ==drawOn:==, so we can be confident that the points for which ==containsPoint:== answers ==true== are the same ones that will be colored in by ==drawOn==. 
+This method uses the same logic as ==drawOn:==, so we can be confident that the points for which ==containsPoint:== answers ==true== are the same ones that will be colored in by ==drawOn:==. 
 Notice how we leverage the ==containsPoint:== method in class ==Rectangle== to do the hard work.
 
 There are two problems with the code in the two methods above.
@@ -457,7 +444,9 @@ ready to use dialog boxes. For instance, the ==request:initialAnswer:== method
 returns the string entered by the user (Figure *@fig:dialogName*).
 %|caption=Use the UIManager|label=scr:uimanager
 [[[language=smalltalk
-UIManager default request: 'What''s your name?' initialAnswer: 'no name'
+UIManager default
+	request: 'What''s your name?'
+	initialAnswer: 'no name'
 ]]]
 
 +An input dialog.>file://figures/dialog.png|label=fig:dialogName|width=70+
@@ -506,7 +495,7 @@ How do we decide if the receiver morph will accept or reject the dropped morph?
 In general, both of the morphs will have to agree to the interaction.
 The receiver does this by responding to ==wantsDroppedMorph:event:==.
 Its first argument is the dropped morph, and the second the mouse event, so that the receiver can, for example, see if any modifier keys were held down at the time of the drop.
-The dropped morph is also given the opportunity to check and see if it likes the morph onto which it is being dropped, by responding to the message ==wantsToBeDroppedInto:==. 
+The dropped morph is also given the opportunity to check and see if it likes the morph onto which it is being dropped, by responding to the message ==wantsToBeDroppedInto:==.
 The default implementation of this method (in class ==Morph==) answers ==true==.
 %|caption=Accept dropped morphs based on their color|label=scr:acceptDropMorph
 
@@ -596,7 +585,7 @@ The green morph is rejected and therefore stays attached to the mouse pointer.
 Let's design a morph to roll a die. 
 Clicking on it will display the values of all sides of the die in a quick loop, and another click will stop the animation.
 
-+The die in Morphic>file://figures/die.png|width=30|label=fig:dialogDie+
++The die in Morphic.>file://figures/die.png|width=30|label=fig:dialogDie+
 
 Define the die as a subclass of ==BorderedMorph== instead of ==Morph==, because
 we will make use of the border.
@@ -709,7 +698,7 @@ The ==drawOn:== method does two things: it draws the die background with the ==s
 DieMorph >> drawOn: aCanvas
 	super drawOn: aCanvas.
 	(self perform: ('face', dieValue asString) asSymbol)
-		do: [:aPoint | self drawDotOn: aCanvas at: aPoint]
+		do: [ :aPoint | self drawDotOn: aCanvas at: aPoint ]
 ]]]
 
 The second part of this method uses the reflective capacities of Pharo.
@@ -814,8 +803,8 @@ Morphic is a graphical framework in which graphical interface elements can be
 dynamically composed.
 
 -You can convert an object into a morph and display that morph on the screen by sending it the messages ==asMorph openInWorld==.
--You can manipulate a morph by meta-clicking on it and using the handles that appear. (Handles have help balloons that explain what they do.)
+-You can manipulate a morph using Command-Option\+Shift click on it and using the handles that appear. (Handles have help balloons that explain what they do.)
 -You can compose morphs by embedding one onto another, either by drag and drop or by sending the message ==addMorph:==.
--You can subclass an existing morph class and redefine key methods, like ==initialize== and ==drawOn:==.
+-You can subclass an existing morph class and redefine key methods, such as  ==initialize== and ==drawOn:==.
 -You can control how a morph reacts to mouse and keyboard events by redefining the methods ==handlesMouseDown:==, ==handlesMouseOver:==, etc.
 -You can animate a morph by defining the methods ==step== (what to do) and ==stepTime== (the number of milliseconds between steps).
