@@ -1,11 +1,10 @@
 !!Classes and metaclasses
 @cha:metaclasses
 
-As we saw in preceding chapters, in Pharo, everything is an object, and every
-object is an instance of a class. Classes are no exception: classes are objects,
-and class objects are instances of other classes. This object model captures the
-essence of object-oriented programming, and is lean, simple, elegant and
-uniform. However, the implications of this uniformity may confuse newcomers.
+In Pharo, everything is an object, and every object is an instance of a class. Classes are no exception: classes are objects,
+and class objects are instances of other classes.  This model is lean, simple, elegant, and uniform.
+It fully captures the essence of object-oriented programming. 
+However, its implications of this uniformity may confuse newcomers.
 
 Note that you do not need to fully understand the implications of this
 uniformity to program fluently in Pharo. Nevertheless, the goal of this chapter
@@ -34,9 +33,9 @@ Chapter *: The Pharo Object Model>../PharoObjectModel/PharoObjectModel.pier@cha:
 ; Rule 6
 : Classes are objects too and follow exactly the same rules.
 
-As we mentioned in the introduction to this chapter, a consequence of Rule 1 is
-that ''classes are objects too'', so Rule 2 tells us that classes must also be
-instances of classes. The class of a class is called a ''metaclass''.
+A consequence of Rule 1 is that ''classes are objects too'', so Rule 2 tells us that classes must also be
+instances of classes.
+The class of a class is called a ''metaclass''.
 
 !!!Metaclasses
 @sec:metaclassIntro
@@ -45,8 +44,8 @@ A metaclass is created automatically for you whenever you create a class. Most
 of the time you do not need to care or think about metaclasses. However, every
 time that you use the browser to browse the ''class side'' of a class, it is
 helpful to recall that you are actually browsing a different class. A class and
-its metaclass are two separate classes, even though the former is an instance of
-the latter.
+its metaclass are two separate classes. 
+Indeed a point is different from the class ==Point== and this is the same for a class and its metaclass.
 
 To properly explain classes and metaclasses, we need to extend the rules from
 Chapter *: The Pharo Object Model>../PharoObjectModel/PharoObjectModel.pier@cha:model*
@@ -63,7 +62,7 @@ with the following additional rules.
 ; Rule 11
 : The metaclass of ==Metaclass== is an instance of ==Metaclass==.
 
-Together, these 11 rules complete Pharo's object model.
+Together, these 11 simple rules complete Pharo's object model.
 
 We will first briefly revisit the 5 rules from
 Chapter *: The Pharo Object Model>../PharoObjectModel/PharoObjectModel.pier@cha:model*
@@ -81,7 +80,7 @@ OrderedCollection withAll: #(4 5 6 1 2 3)
 >>> an OrderedCollection(4 5 6 1 2 3)
 ]]]
 
-""Rule 2."" Every object is an instance of a class. The class of an ordered collection is
+""Rule 2."" Every object is an instance of a class. An ordered collection is instance of the 
 the class ==OrderedCollection==:
 
 [[[testcase=true
@@ -107,23 +106,13 @@ Collection superclass
 >>> Object
 ]]]
 
-Let us take an example. When we send the message ==asSortedCollection==, we
-convert the ordered collection into a sorted collection. We verify simply as
-follows:
-
-[[[testcase=true
-(OrderedCollection withAll: #(4 5 6 1 2 3)) asSortedCollection class
->>> SortedCollection
-]]]
-
 ""Rule 4."" Everything happens by sending messages, so we can deduce that
-==withAll:== is a message to ==OrderedCollection== and
-==asSortedCollection== are messages sent to the ordered collection instance, and
-==superclass== is a message to ==OrderedCollection== and
+==withAll:== is a message sent to ==OrderedCollection== and ==class== 
+are messages sent to the ordered collection instance, and
+==superclass== is a message sent to the class ==OrderedCollection== and
 ==SequenceableCollection==, and ==Collection==.
 The receiver in each case is an object, since everything is an object, but some
 of these objects are also classes.
-
 
 ""Rule 5."" Method lookup follows the inheritance chain, so when we send the
 message ==class== to the result of ==(OrderedCollection withAll: #(4 5 6 1 2 3))
@@ -133,7 +122,8 @@ found in the class ==Object==, as shown in Figure *@fig:classmessage*.
 !!!Every class is an instance of a metaclass
 
 As we mentioned earlier in Section *@sec:metaclassIntro*, classes whose
-instances are themselves classes are called metaclasses.
+instances are themselves classes are \emph{called} metaclasses.
+This is to make sure that we can precisely refer to the class ==Point== and the class of the class ==Point==.
 
 +The metaclasses of ==SortedCollection== and its superclasses (elided).>file://figures/SortedCollectionMetaclasses.png|label=fig:translucentmetaclasses+
 
@@ -146,7 +136,7 @@ only a single instance.
 
 Whereas ordinary classes are named, metaclasses are anonymous. However, we can
 always refer to them through the class that is their instance. The class of
-==SortedCollection==, for instance, is ==SortedCollection class==, and the class
+==SortedCollection== is ==SortedCollection class==, and the class
 of ==Object== is ==Object class==:
 
 [[[testcase=true
@@ -166,9 +156,14 @@ SortedCollection class name
 >>> 'SortedCollection class'
 ]]]
 
+[[[testcase=true
+Object class name
+>>> 'Object class'
+]]]
+
 Figure *@fig:translucentmetaclasses* shows how each class is an instance of its
 metaclass. Note that we only skip ==SequenceableCollection==
-and ==Collection== from the figures and explanation due to space constraints.
+and ==Collection== from the figure and explanation due to space constraints.
 Their absence does not change the overall meaning.
 
 
@@ -204,11 +199,13 @@ SortedCollection selectors
 >>>  #(#sortBlock: #add: #groupedBy: #defaultSort:to: #addAll: #at:put: #copyEmpty #, #collect: #indexForInserting: #insert:before: #reSort #addFirst: #join: #median #flatCollect: #sort: #sort:to: #= #sortBlock)
 ]]]
 
++The metaclass hierarchy parallels the class hierarchy (elided).>file://figures/SortedCollectionMetaclassHierarchy.png|label=fig:parallelHierarchies+
+
 !!!The metaclass hierarchy parallels the class hierarchy
 
 Rule 7 says that the superclass of a metaclass cannot be an arbitrary class: it
 is constrained to be the metaclass of the superclass of the metaclass's unique
-instance.
+instance: the metaclass of ==SortedCollection== inherits from the metaclass of ==OrderedCollection== (the superclass of ==SortedCollection==).
 
 [[[testcase=true
 SortedCollection class superclass
@@ -220,10 +217,10 @@ SortedCollection superclass class
 ]]]
 
 This is what we mean by the metaclass hierarchy being parallel to the class
-hierarchy. Figure *@fig:parallelHierarchies* shows how this works in the
-==SortedCollection== hierarchy.
+hierarchy.
+Figure *@fig:parallelHierarchies* shows how this works in the ==SortedCollection== hierarchy.
 
-+The metaclass hierarchy parallels the class hierarchy (elided).>file://figures/SortedCollectionMetaclassHierarchy.png|label=fig:parallelHierarchies+
+
 
 [[[testcase=true
 SortedCollection class
@@ -242,14 +239,17 @@ SortedCollection class superclass superclass superclass superclass
 >>> Object class
 ]]]
 
-!!!!Uniformity between Classes and Objects
+
++Message lookup for classes is the same as for ordinary objects.>file://figures/InstanceMessage.png|label=fig:metaclasslookup|width=100+
+
+!!!Uniformity between Classes and Objects
 
 It is interesting to step back a moment and realize that there is no difference
-between sending a message to an object and to a class. In both cases the search
+between sending a message to an object and to a class. In both cases the lookup
 for the corresponding method starts in the ''class of the receiver'', and
 ''proceeds up the inheritance chain''.
 
-Thus, messages sent to classes must follow the metaclass inheritance chain.
+Thus, messages sent to classes follow the metaclass inheritance chain.
 Consider, for example, the method ==withAll:==, which is implemented on the
 class side of ==Collection==. When we send the message ==withAll:== to the class
 ==OrderedCollection==, then it is looked up the same way as any other message.
@@ -263,19 +263,19 @@ OrderedCollection withAll: #(4 5 6 1 2 3)
 >>> an OrderedCollection (4 5 6 1 2 3)
 ]]]
 
-+Message lookup for classes is the same as for ordinary objects.>file://figures/InstanceMessage.png|label=fig:metaclasslookup|width=100+
 
-!!!! Only one method lookup
-Thus we see that there is one uniform kind of method lookup in Pharo. Classes
-are just objects, and behave like any other objects. Classes have the power to
+
+!!!!Only one method lookup
+There is only one uniform kind of method lookup in Pharo.
+Classes are just objects, and behave like any other objects. Classes have the power to
 create new instances only because classes happen to respond to the message
-==new==, and because the method for ==new== knows how to create new instances.
+==new==, and because the ==new== method knows how to create new instances.
 Normally, non-class objects do not understand this message, but if you have a
 good reason to do so, there is nothing stopping you from adding a ==new== method
 to a non-metaclass.
 
 
-!!!! Inspecting objects and classes
+!!!Inspecting objects and classes
 Since classes are objects, we can also inspect them.
 
 Inspect ==OrderedCollection withAll: #(4 5 6 1 2 3)== and ==OrderedCollection==.
