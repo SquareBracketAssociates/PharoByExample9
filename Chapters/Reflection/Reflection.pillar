@@ -1,8 +1,10 @@
 !!Reflection
 @cha:reflection
 
-Pharo is a reflective programming language. 
-More here!!!
+Pharo is a reflective programming language. Reflection is both being able to query various aspects of the system and modifying 
+it. In this chapter we present several aspects around the introspection capabilities of Pharo: how to access instance variables value, 
+how to navigate the system, how to perform cross references. Then we present some aspects of behavioral reflection, i.e., how to modify
+the system and extend it. 
 
 
 !!! Reflection in a nutshell
@@ -233,8 +235,8 @@ inheritance hierarchy, the number of direct or indirect subclasses, the number
 of methods or instance variables in each class, or the number of locally
 defined methods or instance variables. Here are a few metrics for the class
 ==Morph==, which is the superclass of all graphical objects in Pharo, revealing
-that it is a huge class, and that it is at the root of a huge hierarchy. Maybe
-it needs some refactoring!
+that it is a huge class, and that it is at the root of a huge hierarchy. 
+This shows that it needs some refactoring!
 
 [[[testcase=true
 "inheritance depth"
@@ -245,7 +247,7 @@ Morph allSuperclasses size.
 [[[testcase=true
 "number of methods"
 Morph allSelectors size.
->>> 1346
+>>> 1442
 ]]]
 
 [[[testcase=true
@@ -257,7 +259,7 @@ Morph allInstVarNames size.
 [[[testcase=true
 "number of new methods"
 Morph selectors size.
->>> 905
+>>> 931
 ]]]
 
 [[[testcase=true
@@ -269,19 +271,19 @@ Morph instVarNames size.
 [[[testcase=true
 "direct subclasses"
 Morph subclasses size.
->>> 65
+>>> 73
 ]]]
 
 [[[testcase=true
 "total subclasses"
 Morph allSubclasses size.
->>>  428
+>>>  445
 ]]]
 
 [[[testcase=true
 "total lines of code!"
 Morph linesOfCode.
->>> 5027
+>>> 5088
 ]]]
 
 One of the most interesting metrics in the domain of object-oriented languages
@@ -290,7 +292,7 @@ informs us about the relation between the class and its superclasses. In the
 next sections we will see how to exploit our knowledge of the runtime structure
 to answer such questions.
 
-!!!Browsing code
+!!!Browsing instances
 
 In Pharo, everything is an object. In particular, classes are objects that
 provide useful features for navigating through their instances. Most of the
@@ -322,6 +324,12 @@ ByteString instanceCount
 String allSubInstances size
 >>>  138962
 ]]]
+
+Such methods access the instances that are stored inside methods. 
+And since Pharo has around 130 000 methods. 
+Such numbers are not totally crazy.
+
+!!!From methods to instance variables
 
 These features can be very useful when debugging an application, because you can
 ask a class to enumerate those of its methods exhibiting specific properties.
@@ -369,6 +377,8 @@ Rectangle unreferencedInstanceVariables
 >>> #()
 ]]]
 
+!!!About SystemNavigation
+
 ==SystemNavigation== is a facade that supports various useful methods for
 querying and browsing the source code of the system. ==SystemNavigation
 default== returns an instance you can use to navigate the system. For example:
@@ -392,14 +402,15 @@ SystemNavigation default allSentMessages size
 
 [[[testcase=true
 SystemNavigation default allUnimplementedCalls size
->>> 269
+>>> 335
 ]]]
 
 Note that messages implemented but not sent are not necessarily useless, since
 they may be sent implicitly (''e.g.'', using ==perform:==). Messages sent but
 not implemented, however, are more problematic, because the methods sending
-these messages will fail at runtime. They may be a sign of unfinished
-implementation, obsolete APIs, or missing libraries.
+these messages will fail at execution. They may be a sign of unfinished
+implementation, obsolete APIs, or missing libraries. 
+They are also frequent in tests about implementation of tools.
 
 ==Point allCallsOn== returns all messages sent
 explicitly to ==Point== as a receiver.
@@ -426,18 +437,22 @@ rather brute force, the second way is better and eliminates some false
 positives):
 
 [[[
-SystemNavigation default browseMethodsWithSourceString: 'super' matchCase: true.
-SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
+SystemNavigation default 
+	browseMethodsWithSourceString: 'super' 
+	matchCase: true
 ]]]
 
-!!!Classes, method dictionaries and methods
+[[[
+SystemNavigation default 
+	browseAllSelect: [:method | method sendsToSuper ]
+]]]
+
+!!!Classes, method dictionaries, and methods
 
 Since classes are objects, we can inspect or explore them just like any other
 object.
 
-Evaluate ==Point inspect==.
-
-In Figure *@fig:CompiledMethod*, the inspector shows the structure of class
+Evaluate ==Point inspect==. In Figure *@fig:CompiledMethod*, the inspector shows the structure of class
 ==Point==. You can see that the class stores its methods in a dictionary,
 indexing them by their selector. The selector ==#\*== points to the decompiled
 bytecode of ==Point>>\*==.
@@ -449,19 +464,19 @@ Let us consider the relationship between classes and methods. In Figure
 superclass ==Behavior==. This is where ==new== is defined, amongst other key
 methods for classes. Every class has a method dictionary, which maps method
 selectors to compiled methods. Each compiled method knows the class in which it
-is installed. In Figure *@fig:CompiledMethod* we can even see that this is
-stored in an association in ==literal6==.
+is installed. In Figure *@fig:CompiledMethod* we can even see the decompiled bytecodes of the method.
 
-+Classes, method dictionaries and compiled methods>file://figures/MethodsAsObjects.png|label=fig:MethodsAsObjects+
++Classes, method dictionaries, and compiled methods>file://figures/MethodsAsObjects.png|label=fig:MethodsAsObjects+
 
 We can exploit the relationships between classes and methods to pose queries
-about the system. For example, to discover which methods are newly introduced in
-a given class, ''i.e.'', do not override superclass methods, we can navigate
+about the system. For example, to discover which methods that do not override superclass methods, we can navigate
 from the class to the method dictionary as follows:
 
 [[[testcase=true
-[:aClass| aClass methodDict keys select: [:aMethod |
-  (aClass superclass canUnderstand: aMethod) not ]] value: SmallInteger
+| aClass |
+aClass := SmallInteger.
+aClass methodDict keys select: [ :aMethod |
+  (aClass superclass canUnderstand: aMethod) not ] 
 >>> an IdentitySet(#threeDigitName #printStringBase:nDigits: ...)
 ]]]
 
@@ -469,12 +484,14 @@ A compiled method does not simply store the bytecode of a method. It is also an
 object that provides numerous useful methods for querying the system. One such
 method is ==isAbstract== (which tells if the method sends
 ==subclassResponsibility==). We can use it to identify all the abstract methods
-of an abstract class.
+of a class.
 
 [[[testcase=true
-[:aClass| aClass methodDict keys select: [:aMethod |
-  (aClass>>aMethod) isAbstract ]] value: Number
->>> #(#+ #round: #adaptToInteger:andSend: #asFloat #printOn:base: #/ #adaptToFraction:andSend: #- #* #sqrt #nthRoot: #storeOn:base:)
+| aClass |
+aClass := Number.
+aClass methodDict keys select: [ :aMethod |
+  (aClass>>aMethod) isAbstract ]
+>>>  #(#* #asFloat #storeOn:base: #printOn:base: #+ #round: #/ #- #adaptToInteger:andSend: #nthRoot: #sqrt #adaptToFraction:andSend:)
 ]]]
 
 Note that this code sends the ==>>== message to a class to obtain the compiled
@@ -486,9 +503,9 @@ Collections hierarchy, we can pose a more sophisticated query:
 [[[
 class := Collection.
 SystemNavigation default
-  browseMessageList: (class withAllSubclasses gather: [:each |
+  browseMessageList: (class withAllSubclasses gather: [ :each |
     each methodDict associations
-      select: [:assoc | assoc value sendsToSuper]
+      select: [:assoc | assoc value sendsToSuper ]
       thenCollect: [:assoc | RGMethodDefinition realClass: each selector: assoc key]])
   name: 'Supersends of ', class name, ' and its subclasses'
 ]]]
@@ -514,9 +531,7 @@ perform.
 Suppose we are interested to discover which classes refer to the class
 ==Point== but only in its own package.
 
-Open a browser on the class ==Point==.
-
-Click on the top level package ==Kernel== in the package pane and select
+Open a browser on the class ==Point==. Click on the top level package ==Kernel== in the package pane and select
 ==Scoped View== radio button. Browser now shows only the package ==Kernel== and
 all classes within this package (and some classes which have extension methods
 from this package). Now, in this browser, select again the class ==Point==,
@@ -551,30 +566,30 @@ programmatically as follows:
 	selectMethods: [:method |
 		method sendsToSuper
 		and: [(method parseTree superMessages includes: method selector) not]])
-	browse
+	
 ]]]
 
-Here we ask each compiled method for its (Refactoring Browser) parse tree, in
-order to find out whether the super messages differ from the method's selector.
+Here we ask each compiled method for its (Refactoring Browser) parse tree, to find out whether the super messages differ from the method's selector.
 Have a look at the ==querying== protocol of the class ==RBProgramNode== to see
 some the things we can ask of parse trees.
 
-Instead of browsing the environment in a System Browser, we can spawn a
-==MessageBrower== from the list of all methods in this environment.
+%Instead of browsing the environment in a System Browser, we can spawn a
+%==MessageBrower== from the list of all methods in this environment.
 
-[[[
-MessageBrowser browse: ((RBBrowserEnvironment new forClasses: (Collection withAllSubclasses))
-	selectMethods: [:method |
-		method sendsToSuper
-		and: [(method parseTree superMessages includes: method selector) not]]) methods
-	title:  'Collection methods sending different super'
-]]]
+%[[[
+%MessageBrowser browse: ((RBBrowserEnvironment new forClasses: (Collection withAllSubclasses))%
+%	selectMethods: [:method |
+%		method sendsToSuper
+%		and: [(method parseTree superMessages includes: method selector) not]]) methods
+%	title:  'Collection methods sending different super'
+%]]]
 
-In Figure *@fig:sendDifferentSuper* we can see that 5 such methods have been
+In Figure *@fig:sendDifferentSuper* we can see that 10 such methods have been
 found within the ==Collection== hierarchy, including
-==Collection>>printNameOn:==, which sends ==super printOn:==. +Finding methods
-that send a different super
-message.>file://figures/sendDifferentSuper.png|label=fig:sendDifferentSuper+
+==Collection>>printNameOn:==, which sends ==super printOn:==. Of course, we could also displays the results using a message browser
+but this is another story.
+
++Finding methods that send a different super message.>file://figures/sendDifferentSuper.png|label=fig:sendDifferentSuper+
 
 !!!Accessing the run-time context
 
