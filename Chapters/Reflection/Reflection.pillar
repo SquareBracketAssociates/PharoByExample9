@@ -1,20 +1,26 @@
 !!Reflection
 @cha:reflection
 
-Pharo is a reflective programming language. Reflection is both being able to query various aspects of the system and modifying 
-it. In this chapter we present several aspects around the introspection capabilities of Pharo: how to access instance variables value, 
-how to navigate the system, how to perform cross references. Then we present some aspects of behavioral reflection, i.e., how to modify
+Pharo is a reflective programming language. Reflection is both being able to query various aspects of the system own execution and modifying 
+it. The query capabilities are often called ''introspection'' and the possibility called ''intercession''.
+In this chapter we present several aspects around the introspection capabilities of Pharo: how to access and modify instance variable value, 
+how to navigate the system, or how to perform cross references. Then we present some aspects of behavioral reflection, i.e., how to modify
 the system and extend it. 
 
 
 !!! Reflection in a nutshell
-This means that programs are able to ''reflect'' on their own execution and structure. More
-technically, this means that the ''metaobjects'' of the runtime system can be
-''reified'' as ordinary objects, which can be queried and inspected. The
-metaobjects in Pharo are classes, metaclasses, method dictionaries, compiled
-methods, but also the run-time stack, processes, and so on. This form of
-reflection is also called ''introspection'', and is supported by many modern
-programming languages.
+
+Reflection supports the idea that programs are able to ''reflect'' on their own execution and structure.
+With reflection the internal mechanisms that support the execution of a program (class, methods, but also stack)
+are accessible to the developer using the same way than their normal programs.
+In Pharo it means that such internal mechanisms are described as objects and that the developer will send them messages.
+We often call the objects that support program execution ''metaobjects'' to express the fact that they are at another level than plain objects.
+
+More technically, ''metaobjects'' of the runtime system are ''reified'' as ordinary objects, which can be queried and inspected.
+The metaobjects in Pharo are classes, metaclasses, method dictionaries, compiled
+methods, but also the run-time stack, processes, and so on.
+This form of reflection is also called ''introspection'', and nowadays it is supported by many modern programming languages (it was 
+heavily promoted by Smalltalk-80 the ancestor of Pharo).
 
 +Reification and reflection.>file://figures/reflect.png|width=60|label=fig:reflect+
 
@@ -32,7 +38,7 @@ data structures that define the language, such as objects, classes, methods and
 the execution stack. Intercession is the ability to ''modify'' these structures,
 in other words to change the language semantics and the behavior of a program
 from within the program itself. ''Structural reflection'' is about examining and
-modifying the structures of the run-time system, and ''behavioural reflection''
+modifying the structures of the runtime, and ''behavioural reflection''
 is about modifying the interpretation of these structures.
 
 In this chapter we will focus mainly on structural reflection. We will explore
