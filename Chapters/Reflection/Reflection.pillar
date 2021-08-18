@@ -1025,11 +1025,21 @@ The method ==Object>>perform:== can be used to send messages that are composed a
 !!!Objects as method wrappers
 @sec:wrapper
 
-We have already seen that compiled methods are ordinary objects in Pharo,
+We have already seen that compiled methods are objects in Pharo,
 and they support a number of methods that allow the programmer to query the
-runtime system. What is perhaps a bit more surprising, is that ''any object''
-can play the role of a compiled method. All it has to do is respond to the
-method ==run:with:in:== and a few other important messages.
+runtime system.
+
+What is perhaps a bit more surprising, is that ''any object'' can play the role of a compiled method, 
+and be placed inside a method dictionary.
+All such an object has to do is respond to the message ==run:with:in:== and a few other important messages.
+Using this mechanism we can build other spying tools.
+Here is the principle: we create objects that refer to original method to execute them, but replace the methods
+in a method dictionary by such objects (called method wrappers). 
+This way can log if a method has been executed and the number of times it was executed.
+
+We will play with the principle of method wrappers. 
+Pharo comes with a simple class named ==ObjectsAsMethodsExample== to illustrate this principle.
+
 
 Define an empty class ==Demo==. Evaluate ==Demo new answer42== and notice how
 the usual ''Message Not Understood'' error is raised.
@@ -1096,6 +1106,8 @@ installed using ==Behavior>>addSelector:withMethod:== or directly using
 ==MethodDictionary>>at:put:==.)
 
 
+Now for serious use, we strongly suggest to use the library named MethodProxies and available on the http://github.com/MethodProxies
+since it is a lot more robust and safer.
 
 !!!Pragmas
 
