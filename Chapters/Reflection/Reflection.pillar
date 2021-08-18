@@ -598,6 +598,77 @@ Of course, we could also display the results using a message browser but this is
 
 +Finding methods that send a different super message.>file://figures/sendDifferentSuper.png|label=fig:sendDifferentSuper+
 
+
+!!!Pragmas: method annotation
+
+A ''pragma'' is a method annotation that specifies data about a program, but is not
+involved in the execution of the program. Pragmas have no direct effect on the
+operation of the method they annotate. Pragmas have a number of uses, among
+them:
+
+''Information for the compiler:'' pragmas can be used by the compiler to make a
+method call a primitive function. This function has to be defined by the virtual
+machine or by an external plug-in.
+
+''Runtime processing:'' Some pragmas are available to be examined at runtime.
+
+A method may declare one or more pragmas, and the pragmas have to be declared prior any
+Pharo statement. Internally a pragma is a static message send with literal
+arguments.
+
+We briefly saw pragmas when we introduced primitives earlier in this chapter.
+A primitive is nothing more than a pragma declaration. Consider the expression ==<primitive: 173
+error:ec>== defined in the ==Object>>#instVarAt:== method. 
+The pragma's selector is ==primitive:error:== and its arguments is an immediate literal value, ==173==.
+The variable ==ec== is an error code, filled by the VM in case the execution of
+the implementation on the VM side failed.
+
+The compiler is probably the bigger user of pragmas.
+SUnit is another tool that makes use of annotations.
+SUnit is able to estimate the coverage of an application from a test unit.
+One may want to exclude some methods from the coverage.
+This is the case of the ==documentation== method in ==SplitJointTest class==:
+
+[[[
+SplitJointTest class >> documentation
+	<ignoreForCoverage>
+	"self showDocumentation"
+
+	^ 'This package provides function.... "
+]]]
+
+By simply annotating a method with the pragma ==<ignoreForCoverage>== one can
+control the scope of the coverage.
+
+Pragmas are first class objects instances of the class ==Pragma==.
+A compiled method answers to the message ==pragmas== by returning an array of pragmas.
+
+[[[testcase=true
+(SplitJoinTest class >> #documentation) pragmas.
+>>> an Array(<ignoreForCoverage>)
+]]]
+[[[testcase=true
+(SmallFloat64>>#+) pragmas
+>>> an Array(<primitive: 541>)
+]]]
+
+Sending the message ==allNamed:in:== to the class ==Pragma==, we can identify 
+the methods defining a particular pragma. 
+In the following example, the class side of ==SplitJoinTest== contains some methods annotated with
+==<ignoreForCoverage>==:
+
+[[[testcase=true
+Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class
+>>> an Array(<ignoreForCoverage> <ignoreForCoverage>)
+]]]
+
+A pragma knows in which method it is defined (using ==method==), the name of the
+method (==selector==), the class that contains the method (==methodClass==), its
+number of arguments (==numArgs==), about the literals the pragma has for
+arguments (==hasLiteral:== and ==hasLiteralSuchThat:==).
+
+
+
 !!!Accessing the run-time context
 
 We have seen how Pharo's introspective capabilities let us query and explore
@@ -1050,6 +1121,7 @@ Object subclass: #Demo
 	classVariableNames: ''
 	package: 'PBE-Reflection'
 ]]]
+
 [[[
 Demo new answer42
 ]]]
@@ -1057,13 +1129,16 @@ Demo new answer42
 Now we will install a plain object in the method dictionary of our ==Demo==
 class.
 
-Evaluate ==Demo methodDict at: #answer42 put: ObjectsAsMethodsExample new.==
+[[[
+Demo methodDict 
+	at: #answer42 
+	put: ObjectsAsMethodsExample new
+]]]
 
 Now try again to print the result of ==Demo new answer42==. This time we get the
 answer ==42==.
 
 [[[
-Demo methodDict at: #answer42 put: ObjectsAsMethodsExample new.
 Demo new answer42
 >>> 42
 ]]]
@@ -1072,25 +1147,24 @@ If we take look at the class ==ObjectsAsMethodsExample== we will find the
 following methods:
 
 [[[
-add: a with: b
-	^a + b
+ObjectsAsMethodsExample >> run: oldSelector with: arguments in: aReceiver
+	^ self perform: oldSelector withArguments: arguments
+]]]
 
-answer42
-	^42
-
-run: oldSelector with: arguments in: aReceiver
-	^self perform: oldSelector withArguments: arguments
+[[[
+ObjectsAsMethodsExample >> answer42
+	^ 42
 ]]]
 
 When our ==Demo== instance receives the message ==answer42==, method lookup
 proceeds as usual, however the virtual machine will detect that in place of a
-compiled method, an ordinary Pharo object is trying to play this role. The
-VM will then send this object a new message ==run:with:in:== with the original
+compiled method, an ordinary Pharo object is trying to play this role.
+The VM will then send this object a new message ==run:with:in:== with the original
 method selector, arguments and receiver as arguments. Since
 ==ObjectsAsMethodsExample== implements this method, it intercepts the message
 and delegates it to itself.
 
-We can now remove the fake method as follows:
+We can remove the fake method as follows:
 
 [[[
 Demo methodDict removeKey: #answer42 ifAbsent: []
@@ -1100,85 +1174,16 @@ If we take a closer look at ==ObjectsAsMethodsExample==, we will see that its
 superclass also implements some methods like ==flushcache==, ==methodClass:==
 and ==selector:==, but they are all empty. These messages may be sent to a
 compiled method, so they need to be implemented by an object pretending to be a
-compiled method. (==flushcache== is the most important method to be implemented;
+compiled method. ==flushcache== is the most important method to be implemented;
 others may be required by some tools and depending on whether the method is
 installed using ==Behavior>>addSelector:withMethod:== or directly using
-==MethodDictionary>>at:put:==.)
+==MethodDictionary>>at:put:==.
 
 
-Now for serious use, we strongly suggest to use the library named MethodProxies and available on the http://github.com/MethodProxies
+Now for serious use, we strongly suggest to use the library named MethodProxies and 
+available on the *http://github.com/pharo-contributions/MethodProxies*
 since it is a lot more robust and safer.
 
-!!!Pragmas
-
-A ''pragma'' is an annotation that specifies data about a program, but is not
-involved in the execution of the program. Pragmas have no direct effect on the
-operation of the method they annotate. Pragmas have a number of uses, among
-them:
-
-''Information for the compiler:'' pragmas can be used by the compiler to make a
-method call a primitive function. This function has to be defined by the virtual
-machine or by an external plug-in.
-
-''Runtime processing:'' Some pragmas are available to be examined at runtime.
-
-Pragmas can be applied to a program's method declarations only. A method may
-declare one or more pragmas, and the pragmas have to be declared prior any
-Smalltalk statement. Each pragma is in effect a static message send with literal
-arguments.
-
-We briefly saw pragmas when we introduced primitives earlier in this chapter. A
-primitive is nothing more than a pragma declaration. Consider ==<primitive: 173
-error:ec>== as contained in ==instVarAt:==. The pragma's selector is
-==primitive:error:== and its arguments is an immediate literal value, ==173==.
-The variable ==ec== is an error code, filled by the VM in case the execution of
-the implementation on the VM side failed.
-
-The compiler is probably the bigger user of pragmas. SUnit is another tool that
-makes use of annotations. SUnit is able to estimate the coverage of an
-application from a test unit. One may want to exclude some methods from the
-coverage. This is the case of the ==documentation== method in ==SplitJointTest
-class==:
-
-[[[
-SplitJointTest class >> documentation
-	<ignoreForCoverage>
-	"self showDocumentation"
-
-	^ 'This package provides function.... "
-]]]
-
-By simply annotating a method with the pragma ==<ignoreForCoverage>== one can
-control the scope of the coverage.
-
-As instances of the class ==Pragma==, pragmas are first class objects. A
-compiled method answers to the message ==pragmas==. This method returns an array
-of pragmas.
-
-[[[testcase=true
-(SplitJoinTest class >> #documentation) pragmas.
->>> an Array(<ignoreForCoverage>)
-]]]
-[[[testcase=true
-(SmallFloat64>>#+) pragmas
->>> an Array(<primitive: 541>)
-]]]
-
-Methods defining a particular query may be retrieved from a class. The class
-side of ==SplitJoinTest== contains some methods annotated with
-==<ignoreForCoverage>==:
-
-[[[testcase=true
-Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class
->>> an Array(<ignoreForCoverage> <ignoreForCoverage>)
-]]]
-
-A variant of ==allNamed:in:== may be found on the class side of ==Pragma==.
-
-A pragma knows in which method it is defined (using ==method==), the name of the
-method (==selector==), the class that contains the method (==methodClass==), its
-number of arguments (==numArgs==), about the literals the pragma has for
-arguments (==hasLiteral:== and ==hasLiteralSuchThat:==).
 
 !!!Chapter summary
 
@@ -1190,7 +1195,7 @@ metaobjects of the runtime system as ordinary objects.
 -The messages ==class==, ==isKindOf:==, ==respondsTo:== etc. are useful for gathering metrics or building development tools, but they should be avoided in regular applications: they violate the encapsulation of objects and make your code harder to understand and maintain.
 -==SystemNavigation== is a utility class holding many useful queries for navigation and browsing the class hierarchy. For example, use ==SystemNavigation default browseMethodsWithSourceString: 'pharo' matchCase:true.== to find and browse all methods with a given source string. (Slow, but thorough!)
 -Every Pharo class points to an instance of ==MethodDictionary== which maps selectors to instances of ==CompiledMethod==. A compiled method knows its class, closing the loop.
--==RGMethodDefinition== is a leightweight proxy for a compiled method, providing additional convenience methods, and used by many Pharo tools.
+-==RGMethodDefinition== is a lightweight proxy for a compiled method, providing additional convenience methods, and used by many Pharo tools.
 -==RBBrowserEnvironment==, part of the Refactoring Browser infrastructure, offers a more refined interface than ==SystemNavigation== for querying the system, since the result of a query can be used as a the scope of a new query. Both GUI and programmatic interfaces are available.
 -==thisContext== is a pseudo-variable that reifies the runtime stack of the virtual machine. It is mainly used by the debugger to dynamically construct an interactive view of the stack. It is also especially useful for dynamically determining the sender of a message.
 -Intelligent breakpoints can be set using ==haltIf:==, taking a method selector as its argument. ==haltIf:== halts only if the named method occurs as a sender in the run-time stack.
