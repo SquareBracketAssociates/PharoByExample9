@@ -483,7 +483,7 @@ from the class to the method dictionary as follows:
 | aClass |
 aClass := SmallInteger.
 aClass methodDict keys select: [ :aMethod |
-  (aClass superclass canUnderstand: aMethod) not ] 
+  (aClass superclass canUnderstand: aMethod) not ]
 >>> an IdentitySet(#threeDigitName #printStringBase:nDigits: ...)
 ]]]
 
@@ -652,8 +652,12 @@ which methods make use of ==thisContext==:
 SystemNavigation default browseMethodsWithSourceString: 'thisContext' matchCase: true
 ]]]
 
-As it turns out, one of the most common applications is to discover the sender
-of a message. Here is a typical application:
+As it turns out, one of the most common applications is to discover the sender of a message.
+A typical application consists of  providing better information to the developer.
+Let us take an example, by convention, methods that send ==self subclassResponsibility==
+are considered to be abstract. But how does ==Object>>subclassResponsibility==
+provide a useful error message indicating which abstract method has been
+invoked? Very simply, by asking ==thisContext== for the sender.
 
 [[[
 subclassResponsibility
@@ -663,17 +667,12 @@ subclassResponsibility
 	SubclassResponsibility signalFor: thisContext sender selector
 ]]]
 
-By convention, methods that send ==self subclassResponsibility==
-are considered to be abstract. But how does ==Object>>subclassResponsibility==
-provide a useful error message indicating which abstract method has been
-invoked? Very simply, by asking ==thisContext== for the sender.
-
-!!!!Intelligent breakpoints
+!!!Intelligent contextual breakpoints
 
 The Pharo way to set a breakpoint is to evaluate ==self halt== at an
-interesting point in a method. This will cause ==thisContext== to be reified,
-and a debugger window will open at the breakpoint. Unfortunately this poses
-problems for methods that are intensively used in the system.
+interesting point in a method. 
+This will cause ==thisContext== to be reified, and a debugger window will open at the breakpoint.
+Unfortunately this poses problems for methods that are intensively used in the system.
 
 Suppose, for instance, that we want to explore the execution of
 ==Morph>>openInWorld==. Setting a breakpoint in this method is
@@ -694,9 +693,9 @@ Morph (Menu/Window/...)! We do not even get a debugger window. The problem is
 clear once we understand that 1) ==Morph>>openInWorld== is used by many parts of
 the system, so the breakpoint is triggered very soon after we interact with the
 user interface, but 2) ''the debugger itself'' sends ==openInWorld== as soon as
-it opens a window, preventing the debugger from opening! What we need is a way
-to ''conditionally halt'' only if we are in a context of interest. This is
-exactly what ==Object>>haltIf:== offers.
+it opens a window, preventing the debugger from opening!
+What we need is a way to ''conditionally halt'' only if we are in a context of interest.
+This is exactly what ==Object>>haltIf:== offers.
 
 Suppose now that we only want to halt if ==openInWorld== is sent from, say, the
 context of ==MorphTest>>testOpenInWorld==.
@@ -704,28 +703,30 @@ context of ==MorphTest>>testOpenInWorld==.
 Fire up a fresh image again, and set the following breakpoint:
 
 [[[
-Morph>>openInWorld
+Morph >> openInWorld
    "Add this morph to the world."
    self haltIf: #testOpenInWorld.
    self openInWorld: self currentWorld
 ]]]
 
 This time the image does not freeze. Try running the ==MorphTest==.
+It will halt and open a debugger.
 
 [[[
-MorphTest run:#testOpenInWorld.
+MorphTest run: #testOpenInWorld.
 ]]]
 
 How does this work? Let's have a look at ==Object>>haltIf:==. It first calls
 ==if:== with the condition to the ==Exception== class ==Halt==. This method
 itself will check if the condition is a symbol, which is true in this case and
-finally calls
+finally calls ==haltIfCallChain:contains:==
 
 [[[
-Object>>haltIf: condition
+Object >> haltIf: condition
 	<debuggerCompleteToSender>
 	Halt if: condition.
 ]]]
+
 [[[
 Halt class >> haltIfCallChain: haltSenderContext contains: aSelector
 	| cntxt |
@@ -744,12 +745,12 @@ It is also possible to supply a boolean or a boolean block as an argument to
 ==haltIf:==, but these cases are straightforward and do not make use of
 ==thisContext==.
 
-!!!Intercepting messages not understood
+!!!Intercepting not understood messages 
 @sec:msgnotunderstood
 
 So far we have used Pharo's reflective features mainly to query and
-explore objects, classes, methods and the run-time stack. Now we will look at
-how to use our knowledge of its system structure to intercept messages
+explore objects, classes, methods and the run-time stack.
+Now we will look at how to use our knowledge of its system structure to intercept messages
 and modify behaviour at run time.
 
 When an object receives a message, it first looks in the method dictionary of
@@ -768,17 +769,17 @@ alternative strategy for responding to that message.
 
 Two very common applications of this technique are 1) to implement lightweight
 proxies for objects, and 2) to dynamically compile or load missing code.
+This is what we will describe in the following sections. 
 
-!!!!Lightweight proxies
+!!!Lightweight proxies
 
-In the first case, we introduce a ''minimal object'' to act as a proxy for an
+To implement lightweight proxies, we introduce a ''minimal object'' to act as a proxy for an
 existing object. Since the proxy will implement virtually no methods of its own,
-any message sent to it will be trapped by ==doesNotUnderstand:==. By
-implementing this message, the proxy can then take special action before
+any message sent to it will be trapped by ==doesNotUnderstand:==.
+By implementing this message, the proxy can then take special action before
 delegating the message to the real subject it is the proxy for.
 
 Let us have a look at how this may be implemented.
-
 We define a ==LoggingProxy== as follows:
 
 [[[
@@ -793,13 +794,13 @@ want our proxy to inherit around 450 methods (!) from ==Object==.
 
 [[[testcase=true
 Object methodDict size
->>> 440
+>>> 479
 ]]]
 
 Our proxy has two instance variables: the ==subject== it is a proxy for, and a
-==count== of the number of messages it has intercepted. We initialize the two
-instance variables and we provide an accessor for the message count. Initially
-the ==subject== variable points to the proxy object itself.
+==count== of the number of messages it has intercepted.
+We initialize the two instance variables and we provide an accessor for the message count.
+Initially the ==subject== variable points to the proxy object itself.
 
 [[[
 LoggingProxy >> initialize
@@ -832,18 +833,19 @@ point := 1@2.
 LoggingProxy new become: point.
 ]]]
 
-This has the effect of swapping all references in the image to the point to now
-refer to the proxy, and vice versa. Most importantly, the proxy's ==subject==
+This expression has the effect of swapping all the references to the object pointed by the variable ==point== to the proxy instance and (vice versa). Most importantly, the proxy's ==subject==
 instance variable will now refer to the point!
 
 [[[testcase=true
 point invocationCount
 >>> 0
 ]]]
+
 [[[testcase=true
 point + (3@4)
 >>> 4@6
 ]]]
+
 [[[testcase=true
 point invocationCount
 >>> 1
@@ -858,27 +860,32 @@ point class
 
 Actually the method ==class== is implemented in ==ProtoObject==, but even if it
 were implemented in ==Object==, which ==LoggingProxy== does not inherit from, it
-isn't actually send to the LoggingProxy or its subject. The message is directly
-answered by the virtual machine. ==yourself== is also never truly sent.
+isn't actually send to the LoggingProxy or its subject.
+The message is directly answered by the virtual machine.
+==yourself== is also never truly sent.
 
 Other messages that may be directly interpreted by the VM, depending on the
 receiver, include:
 
-==+- < > <= >= = ~= * / \\ =\===
-==@ bitShift: // bitAnd: bitOr:==
-==at: at:put: size==
-==next nextPut: atEnd==
-==blockCopy: value value: do: new new: x y==.
+[[[
++- < > <= >= = ~= * / \\ =\=
+@ bitShift: // bitAnd: bitOr:
+at: at:put: size
+next nextPut: atEnd
+blockCopy: value value: do: new new: x y
+]]]
 
 Selectors that are never sent, because they are inlined by the compiler and
 transformed to comparison and jump bytecodes:
 
-==ifTrue: ifFalse: ifTrue:ifFalse: ifFalse:ifTrue:==
-==and: or:==
-==whileFalse: whileTrue: whileFalse whileTrue==
-==to:do: to:by:do:==
-==caseOf: caseOf:otherwise:==
-==ifNil: ifNotNil:  ifNil:ifNotNil: ifNotNil:ifNil:==
+[[[
+ifTrue: ifFalse: ifTrue:ifFalse: ifFalse:ifTrue:
+and: or:
+whileFalse: whileTrue: whileFalse whileTrue
+to:do: to:by:do:
+caseOf: caseOf:otherwise:
+ifNil: ifNotNil:  ifNil:ifNotNil: ifNotNil:ifNil:
+]]]
 
 Attempts to send these messages to non-boolean normally results in an exception
 from the VM as it can not use the inlined dispatching for non-boolean receivers.
@@ -896,10 +903,12 @@ LoggingProxy new become: point.
 point invocationCount
 >>> 0
 ]]]
+
 [[[testcase=true
 point rectangle: (3@4)
 >>> 1@2 corner: 3@4
 ]]]
+
 [[[testcase=true
 point invocationCount
 >>> 1
@@ -909,7 +918,8 @@ Our proxy has been cheated out of two ==self==-sends in the ==rectangle:== metho
 
 [[[
 Point >> rectangle: aPoint
-	"Answer a Rectangle that encompasses the receiver and aPoint. This is the most general infix way to create a rectangle."
+	"Answer a Rectangle that encompasses the receiver and aPoint. 
+	This is the most general infix way to create a rectangle."
 
 	^ Rectangle
 		point: self
@@ -920,19 +930,23 @@ Although messages can be intercepted by proxies using this technique, one should
 be aware of the inherent limitations of using a proxy. In Section *@sec:wrapper*
 we will see another, more general approach for intercepting messages.
 
-!!!!Generating missing methods
+!!!Generating missing methods
 
 The other most common application of intercepting not understood messages is to
-dynamically load or generate the missing methods. Consider a very large library
-of classes with many methods. Instead of loading the entire library, we could
-load a stub for each class in the library. The stubs know where to find the
-source code of all their methods. The stubs simply trap all messages not
-understood, and dynamically load the missing methods on demand. At some point,
-this behaviour can be deactivated, and the loaded code can be saved as the
+dynamically load or generate missing methods.
+Consider a very large library of classes with many methods.
+Instead of loading the entire library, we could load a stub for each class in the library.
+The stubs know where to find the source code of all their methods.
+The stubs simply trap all messages not understood, and dynamically creates the missing methods on demand.
+At some point, this behaviour can be deactivated, and the loaded code can be saved as the
 minimal necessary subset for the client application.
 
 Let us look at a simple variant of this technique where we have a class that
-automatically adds accessors for its instance variables on demand:
+automatically adds accessors for its instance variables on demand.
+Here is the logic: Any message not understood will be trapped. If an instance variable with the
+same name as the message sent exists, then we ask our class to compile an
+accessor for that instance variables and we re-send the message.
+
 
 [[[
 Object subclass: #DynamicAccessors
@@ -952,11 +966,8 @@ DynamicAcccessors >> doesNotUnderstand: aMessage
 	^ super doesNotUnderstand: aMessage
 ]]]
 
-Any message not understood is trapped here. If an instance variable with the
-same name as the message sent exists, then we ask our class to compile an
-accessor for that instance variables and we re-send the message.
 
-Suppose the class ==DynamicAccessors== has an (uninitialized) instance variable
+Suppose the class ==DynamicAccessors== has an instance variable
 ==x== but no pre-defined accessor. Then the following will generate the accessor
 dynamically and retrieve the value:
 
@@ -969,7 +980,7 @@ myDA x
 Let us step through what happens the first time the message ==x== is sent to our
 object (see Figure *@fig:DynamicAccessors*).
 
-+Dynamically creating accessors.>file://figures/DynamicAccessors.png|label=fig:DynamicAccessors+
++Dynamically creating accessors.>file://figures/DynamicAccessors.pdf|label=fig:DynamicAccessors+
 
 (1) We send ==x== to ==myDA==, (2) the message is looked up in the class, and
 (3) not found in the class hierarchy. (4) This causes ==self doesNotUnderstand:
