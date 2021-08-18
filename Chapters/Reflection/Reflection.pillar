@@ -378,6 +378,7 @@ The following messages take inheritance into account:
 Rectangle whichClassIncludesSelector: #inspect
 >>> Object
 ]]]
+
 [[[testcase=true
 Rectangle unreferencedInstanceVariables
 >>> #()
@@ -537,14 +538,16 @@ perform.
 Suppose we are interested to discover which classes refer to the class
 ==Point== but only in its own package.
 
-Open a browser on the class ==Point==. Click on the top level package ==Kernel== in the package pane and select
+Open a browser on the class ==Point==.
+Click on the top level package ==Kernel== in the package pane and select
 ==Scoped View== radio button. Browser now shows only the package ==Kernel== and
 all classes within this package (and some classes which have extension methods
-from this package). Now, in this browser, select again the class ==Point==,
-Action-click on the class name and select ==Class refs==. This will
-show all methods that have references to the class ==Point== but only those
-from the package ==Kernel==. Compare this result with the search from a Browser
-without restricted scope.
+from this package).
+Now, in this browser, select again the class ==Point==,
+Action-click on the class name and select ==Class refs==. 
+This will show all methods that have references to the class ==Point== but only those
+from the package ==Kernel==.
+Compare this result with the search from a Browser without restricted scope.
 
 This scope is what we call a ''Browsing Environment'' (class
 ==RBBrowserEnvironment==). All other searches, like ''senders of a method'' or
@@ -590,46 +593,46 @@ some the things we can ask of parse trees.
 %	title:  'Collection methods sending different super'
 %]]]
 
-In Figure *@fig:sendDifferentSuper* we can see that 10 such methods have been
-found within the ==Collection== hierarchy, including
-==Collection>>printNameOn:==, which sends ==super printOn:==. Of course, we could also displays the results using a message browser
-but this is another story.
+In Figure *@fig:sendDifferentSuper* we can see that 10 of such methods have been found within the ==Collection== hierarchy, including ==Collection>>printNameOn:==, which sends ==super printOn:==.
+Of course, we could also display the results using a message browser but this is another story.
 
 +Finding methods that send a different super message.>file://figures/sendDifferentSuper.png|label=fig:sendDifferentSuper+
 
 !!!Accessing the run-time context
 
-We have seen how Pharo's reflective capabilities let us query and explore
+We have seen how Pharo's introspective capabilities let us query and explore
 objects, classes and methods. But what about the run-time environment?
 
 !!!!Method contexts
 
 In fact, the run-time context of an executing method is in the virtual machine —
-it is not in the image at all! On the other hand, the debugger obviously has
-access to this information, and we can happily explore the run-time context,
-just like any other object. How is this possible?
+it is not in the image at all!
+On the other hand, the debugger obviously has access to this information, and we can happily explore the run-time context,
+just like any other object.
+How is this possible?
 
 Actually, there is nothing magical about the debugger. The secret is the
 pseudo-variable ==thisContext==, which we have encountered only in passing
-before. Whenever ==thisContext== is referred to in a running method, the entire
+before.
+Whenever ==thisContext== is referred to in a running method, the entire
 run-time context of that method is reified and made available to the image as a
 series of chained ==Context== objects.
 
 We can easily experiment with this mechanism ourselves.
 
-Change the definition of ==Integer>>factorial== by inserting the expression
+Change the definition of ==Integer>>slowFactorial== by inserting the expression
 ==thisContext inspect. self halt.== as shown below:
 
 [[[
-Integer>>factorial
+Integer >> slowFactorial
 	"Answer the factorial of the receiver."
 	self = 0 ifTrue: [thisContext inspect. self halt. ^ 1].
-	self > 0 ifTrue: [^ self * (self - 1) factorial].
+	self > 0 ifTrue: [^ self * (self - 1) slowFactorial].
 	self error: 'Not valid for negative integers'
 ]]]
 
-Now evaluate ==3 factorial== in a workspace. You should obtain both a debugger
-window and an inspector, as shown in Figure *@fig:exploringThisContext*.
+Now evaluate ==3 slowFactorial== in a workspace. 
+You should obtain both a debugger window and an inspector, as shown in Figure *@fig:exploringThisContext*.
 
 +Inspecting ==thisContext==.>file://figures/exploringThisContext.png|label=fig:exploringThisContext+
 
