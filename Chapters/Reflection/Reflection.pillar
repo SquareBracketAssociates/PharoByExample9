@@ -989,13 +989,25 @@ object (see Figure *@fig:DynamicAccessors*).
 asks its class to compile the string =='x ^ x'==. The ==compile== method is
 looked up (7), and (8) finally found in ==Behavior==, which (9-10) adds the new
 compiled method to the method dictionary of ==DynamicAccessors==. Finally,
-(11-13) the message is resent, and this time it is found.
+(11-13) the message is resent (using the message ==sendTo:==), and this time it is found.
+
+In case the original message sent does not correspond to and instance variables, the default behavior of ==doesNotUnderstand:== 
+is invoked using ==super==.
 
 The same technique can be used to generate setters for instance variables, or
 other kinds of boilerplate code, such as visiting methods for a Visitor.
 
-Note the use of ==Object>>perform:== in step (12) which can be used to send
-messages that are composed at run-time:
+!!!! About the message ==sendTo:==.
+The method ==sendTo:== on the class Message is implemented as follows: 
+
+[[[
+Message >> sendTo: receiver
+	"answer the result of sending this message to receiver"
+
+	^ receiver perform: selector withArguments: args
+]]]
+
+The method ==Object>>perform:== can be used to send messages that are composed at run-time:
 
 [[[testcase=true
 5 perform: #factorial
