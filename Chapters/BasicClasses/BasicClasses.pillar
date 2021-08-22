@@ -959,23 +959,30 @@ False >> not
 ==ifFalse:==, and ==ifFalse:ifTrue==.
 You also have the choice between eager and lazy conjunctions and disjunctions.
 
+In the first example below, both ==Boolean== subexpressions are executed, since ==&==
+takes a ==Boolean== argument. Even if ==(1 > 2 )== is obviously false and there is no need to check ==( 3 < 4)==, ==&==
+execute its arguments.
+
 [[[testcase=true
 ( 1 > 2 ) & ( 3 < 4 )
 >>> false    "Eager, must evaluate both sides"
 ]]]
+
+In the second and third examples, only the receiver expression == 1 > 2 == is executed and false -- the argument closure is not executed.
+Notice that the message ==and:== expects a closure as ==argument==.
+In the third example, the expression ==[ 1 / 0 ]== is not executed and does not raise an error, because ==and:== only execute is argument if the receiver ==true==.
+
 [[[testcase=true
 ( 1 > 2 ) and: [ 3 < 4 ]
 >>> false    "Lazy, only evaluate receiver"
 ]]]
 [[[testcase=true
-( 1 > 2 ) and: [ ( 1 / 0 ) > 0 ]
+( 1 > 2 ) and: [ 1 / 0 ]
 >>> false    "argument block is never executed, so no exception"
 ]]]
 
-In the first example, both ==Boolean== subexpressions are executed, since ==&==
-takes a ==Boolean== argument. In the second and third examples, only the first
-is executed, since ==and:== expects a ==Block== as its argument. The ==Block==
-is executed only if the first argument is ==true==.
+A lazy ==or:== is also offering the similar behavior. 
+It only executes the argument in this case, when the receiver is ==false=.
 
 Try to imagine how ==and:== and ==or:== are implemented.
 Check the implementations in ==Boolean==, ==True== and ==False==.
