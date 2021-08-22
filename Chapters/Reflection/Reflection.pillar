@@ -1180,7 +1180,7 @@ installed using ==Behavior>>addSelector:withMethod:== or directly using
 ==MethodDictionary>>at:put:==.
 
 
-Now for serious use, we strongly suggest to use the library named MethodProxies and 
+Now for serious use of the idea presented in this section, we strongly suggest to use the library named MethodProxies and 
 available on the *http://github.com/pharo-contributions/MethodProxies*
 since it is a lot more robust and safer.
 
@@ -1191,17 +1191,15 @@ Reflection refers to the ability to query, examine and even modify the
 metaobjects of the runtime system as ordinary objects.
 
 -The Inspector uses ==instVarAt:== and related methods to view ''private'' instance variables of objects.
--Send ==Behavior>>allInstances== to query instances of a class.
+-The method ==Behavior>>allInstances== query instances of a class.
 -The messages ==class==, ==isKindOf:==, ==respondsTo:== etc. are useful for gathering metrics or building development tools, but they should be avoided in regular applications: they violate the encapsulation of objects and make your code harder to understand and maintain.
 -==SystemNavigation== is a utility class holding many useful queries for navigation and browsing the class hierarchy. For example, use ==SystemNavigation default browseMethodsWithSourceString: 'pharo' matchCase:true.== to find and browse all methods with a given source string. (Slow, but thorough!)
 -Every Pharo class points to an instance of ==MethodDictionary== which maps selectors to instances of ==CompiledMethod==. A compiled method knows its class, closing the loop.
 -==RGMethodDefinition== is a lightweight proxy for a compiled method, providing additional convenience methods, and used by many Pharo tools.
 -==RBBrowserEnvironment==, part of the Refactoring Browser infrastructure, offers a more refined interface than ==SystemNavigation== for querying the system, since the result of a query can be used as a the scope of a new query. Both GUI and programmatic interfaces are available.
 -==thisContext== is a pseudo-variable that reifies the runtime stack of the virtual machine. It is mainly used by the debugger to dynamically construct an interactive view of the stack. It is also especially useful for dynamically determining the sender of a message.
--Intelligent breakpoints can be set using ==haltIf:==, taking a method selector as its argument. ==haltIf:== halts only if the named method occurs as a sender in the run-time stack.
+-Contextual breakpoints can be set using ==haltIf:==, taking a method selector as its argument. ==haltIf:== halts only if the named method occurs as a sender in the run-time stack.
 -A common way to intercept messages sent to a given target is to use a ''minimal object'' as a proxy for that target. The proxy implements as few methods as possible, and traps all message sends by implementing ==doesNotunderstand:==. It can then perform some additional action and then forward the message to the original target.
 -Send ==become:== to swap the references of two objects, such as a proxy and its target.
 -Beware, some messages, like ==class== and ==yourself== are never really sent, but are interpreted by the VM. Others, like ==+==, ==-== and ==ifTrue:== may be directly interpreted or inlined by the VM depending on the receiver.
--Another typical use for overriding ==doesNotUnderstand:== is to lazily load or compile missing methods.
--==doesNotUnderstand:== cannot trap ==self==-sends.
--A more rigorous way to intercept messages is to use an object as a method wrapper. Such an object is installed in a method dictionary in place of a compiled method. It should implement ==run:with:in:== which is sent by the VM when it detects an ordinary object instead of a compiled method in the method dictionary. This technique is used by the SUnit Test Runner to collect coverage data.
+-Another typical use for overriding ==doesNotUnderstand:== is to lazily load or compile missing methods. ==doesNotUnderstand:== cannot trap ==self==-sends.
