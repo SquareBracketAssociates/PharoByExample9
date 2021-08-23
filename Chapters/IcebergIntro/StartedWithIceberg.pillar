@@ -132,7 +132,8 @@ It has been designed to be Windows and file system friendly. Change it only if y
 
 +Showing where the metadata will be saved and the format encodings.>file://figures/S9-MetaData1.png|width=65|label=Tonel+
 
-Before accepting the changes, it is a good idea to add a source (==src==) folder to your repository.
+There is a convention in Pharo to use ==src== as a folder for the code so follow it.
+Before accepting the changes, it is a good idea to add a source (==src==) folder to your repository. 
 Do that by pressing the + icon. You will be prompted to specify the folder for code as shown in Figure *@metadatasrc*. Do not forget to select the ==src== folder once you created it. 
 Iceberg will show you the exact structure of your project as shown in Figure *@metadatasrc2*.
 
