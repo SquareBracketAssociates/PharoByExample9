@@ -187,7 +187,7 @@ Since you have a first green test. This is a good moment to save your work.
 With Iceberg, we will show you  how to save your code locally then later we will push it to GitHub. 
 
 !!!! Open Iceberg.
- You should the situation depicted by Figure *@EmptyIceberg* which shows the top level Iceberg pane.
+ You should obtain the situation depicted by Figure *@EmptyIceberg* which shows the top level Iceberg pane.
 It shows that for now you do not have defined nor loaded any project.
  It shows the Pharo project and indicates that it could not find its local repository by displaying 'Local repository missing'.
  You do not have to worry about the Pharo project or repository if you do not want to contribute to Pharo.
@@ -414,7 +414,7 @@ This will enable you to work remotely and collaborately.
 
 In this tutorial you learned how to define packages, classes, methods, and define tests.
 The flow of programming that we chose for this first tutorial is similar to most of programming languages.
-However in Pharo, smart and agile developers use use a different flow: It is based on defining a test first, executing it and when the execution raises an error to define the corresponding classes, methods, and instance variable often from inside the debugger. 
+However in Pharo, smart and agile developers use a different flow: It is based on defining a test first, executing it and when the execution raises an error to define the corresponding classes, methods, and instance variable often from inside the debugger. 
 This is a super powerful flow because you get all the mandartory information and this is a productivity boost.
 
 We suggest you now to redo the exercise by defining a test first, executing it and defining method in the debugger. 

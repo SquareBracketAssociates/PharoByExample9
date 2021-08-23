@@ -652,8 +652,6 @@ out of your Pharo image so that other programmers can bring it into theirs.
 We'll discuss the various ways to save and share code in a subsequent chapter, Chapter *@cha:Iceberg*. For now, here is an overview of some of the available methods.
 
 
-
-
 !!!Iceberg: Pharo and Git
 
 Iceberg is the new default tool for versioning your code using git and handling git repositories directly from Pharo images.
