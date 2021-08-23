@@ -354,8 +354,8 @@ text "hello world" appears in the transcript window (See Figure
 
 If you want to evaluate an expression, you do not always have to right click.
 Instead, you can use keyboard shortcuts shown in menu items. Even though Pharo
-may seem like a mouse driven enviroment it contains over 200 shortcuts that
-allow you operate a variaty of tools, as well as the facility to assign a
+may seem like a mouse driven environment it contains over 200 shortcuts that
+allow you operate the different tools, as well as the facility to assign a
 keyboard shortcut to any of the 110 000 methods contained in the Pharo image. 
 
 Depending on your platform, you may have to press one of the modifier keys which
@@ -553,7 +553,7 @@ and click ==OK== (or press ==Enter==).
 A list of classes is displayed, whose names contain the substring
 ==time==. Choose one (say, ==Time==), and the browser will show it. If you want to
 browse one of the others, select its name (in any text pane), and type
-==CMD-b==, or you can choouse ==Brose== from the right-click context menu.
+==CMD-b==, or you can choose ==Browse== from the right-click context menu.
 
 +The Finder showing all classes defining a method named ==now==.>file://figures/finder.png|width=80|label=fig:finder+
 
@@ -569,7 +569,7 @@ or containing "now" as a substring. But where might it be? ""Spotter"" and
 With ""Spotter"" you can also find methods. Either by getting a class and
 navigating or using the  ==#implementor a method name==  category. 
 
-It wiil display all the methods that are implemented and have the same name. For example you will get all the method starting with ==now==.
+It will display all the methods that are implemented and have the same name. For example you will get all the method starting with ==now==.
 
 
 !!!! With Finder. 
@@ -695,7 +695,7 @@ to the image, it is important to keep track of everyone who creates or modifies
 methods. Simply enter your first and last names, without any spaces.
 
 Because there is no method called ==shout== yet, the automatic code checker
-(Quality Assitance) will inform you that the message ==shout== is sent but not implemented, you will see it in the lower browser pane and on the same line where you wrote the code. This can be quite useful if you have merely made a typing mistake, but in this case, we really do mean ==shout==, since that is the method we are about to create. We confirm this by selecting the first option from the menu of choices.
+(Quality Assistance) will inform you that the message ==shout== is sent but not implemented, you will see it in the lower browser pane and on the same line where you wrote the code. This can be quite useful if you have merely made a typing mistake, but in this case, we really do mean ==shout==, since that is the method we are about to create. We confirm this by selecting the first option from the menu of choices.
 
 !!!Running Your Test Method
 
@@ -718,7 +718,7 @@ in the bottom right pane. As you can see, the method ==StringTest>>testShout==
 is the culprit. (Note that ==StringTest>>testShout== is the Pharo way of
 identifying the ==testShout== method of the ==StringTest== class.) If you click
 on that method in the bottom right pane, the erroneous test will run again, this
-time in such a way that you see the error happen: ==Instenace of ByteString did not understand #shout== (see Figure *@fig:shoutError*).
+time in such a way that you see the error happen: ==Instance of ByteString did not understand #shout== (see Figure *@fig:shoutError*).
 
 +Looking at the error in the debugger.>file://figures/testshout-00.png|width=70|label=fig:shoutError+
 
