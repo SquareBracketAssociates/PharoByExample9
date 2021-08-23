@@ -672,8 +672,9 @@ To manage our example with git and Iceberg, we should add it first.
 Press Add on the toolbar of ""Repositories"" screen. 
 On the Figure *@fig:icebergNewRepository* there are multiple options.
 The one we are interested in is ""New repository"". 
-Enter the project name like in the Figure *@fig:icebergNewRepository*, and if you wish you can leave the src blank. 
-You can name your project PBE-LightsOut.
+Enter the project name like in the Figure *@fig:icebergNewRepository*. 
+As you can see Pharo proposes you to follow the convention to place your code inside a folder named ==src==. We advise to follow this convention.
+You can name your project ==PBE-LightsOut==.
 
 +Creating new repository.>file://figures/icebergNewRepository.png|width=60|label=fig:icebergNewRepository+
 

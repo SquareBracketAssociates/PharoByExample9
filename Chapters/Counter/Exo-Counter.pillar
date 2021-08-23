@@ -379,7 +379,7 @@ Up until now you saved your code on your local disc. We will now show how you ca
 such as the one you can create on GitHub *http://github.com* or Gitlab.
 
 !!!! Create a project on the remote server.
-First you should create a project with the same name than the one of your project. 
+First you should create a project with the same name than the one of your project on GitHub *http://github.com* or Gitlab.
 
 !!!! Add a remote repository in HTTPS access.
 
