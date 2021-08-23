@@ -44,13 +44,8 @@ ${inputFile:path=Chapters/Streams/Streams.pillar}$
 ${inputFile:path=Chapters/Morphic/Morphic.pillar}$
 %9 upbe9 stef
 
-
 ${inputFile:path=Chapters/Metaclasses/Metaclasses.pillar}$
 %9 upbe9 stef
 
 ${inputFile:path=Chapters/Reflection/Reflection.pillar}$
-
-%Missing Seaside chapter
-%${inputFile:path=Chapters/Reflection/Reflection.pillar}$
-%not sure that I want to have the seaside chapter here. 
-%better do a seaside primer
+%9 upbe9 stef
