@@ -976,13 +976,14 @@ In the third example, the expression ==[ 1 / 0 ]== is not executed and does not 
 ( 1 > 2 ) and: [ 3 < 4 ]
 >>> false    "Lazy, only evaluate receiver"
 ]]]
+
 [[[testcase=true
 ( 1 > 2 ) and: [ 1 / 0 ]
 >>> false    "argument block is never executed, so no exception"
 ]]]
 
 A lazy ==or:== is also offering the similar behavior. 
-It only executes the argument in this case, when the receiver is ==false=.
+It only executes the argument in this case, when the receiver is ==false==.
 
 Try to imagine how ==and:== and ==or:== are implemented.
 Check the implementations in ==Boolean==, ==True== and ==False==.
