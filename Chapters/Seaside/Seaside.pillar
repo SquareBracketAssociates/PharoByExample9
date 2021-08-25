@@ -55,9 +55,13 @@ and recompile and extend applications while the server is running.
 You can load Seaside in Pharo 9.0 using the following expression: 
 
 [[[
-XXXX
+Metacello new
+	baseline:'Seaside3';
+	repository: 'github://SeasideSt/Seaside:master/repository';
+	load
 ]]]
 
+More information is available at *http://github.com/SeasideSt*.
 
 !!!Starting the Seaside server
 
@@ -335,7 +339,7 @@ mentioned in Section *@sec:components*, each Seaside component is responsible
 for rendering itself. So, let's start our exploration of rendering by seeing how
 the counter component renders itself.
 
-!!!Rendering the Counter
+!!!!Rendering the Counter
 
 The rendering of the counter is relatively straightforward; the code is shown in
 Figure *@fig:WACounter*. The current value of the counter is displayed as an
@@ -346,7 +350,7 @@ HTML anchors (that is, links) with callbacks to blocks that will send
 We will have a closer look at the rendering protocol in a moment. But before we
 do, let's have a quick look at the multi-counter.
 
-!!!From Counter to MultiCounter
+!!!!From Counter to MultiCounter
 
 ==WAMultiCounter==, shown in Figure *@fig:WAMultiCounter* is also a standalone
 application, so it overrides ==canBeRoot== to answer ==true==. In addition, it
@@ -358,7 +362,7 @@ there is nothing else to the multi-counter!
 
 +WAMultiCounter.>file://figures/WAMultiCounter.png|label=fig:WAMultiCounter+
 
-!!!More about rendering HTML
+!!!!More about rendering HTML
 
 As you can see from these examples, Seaside does not use templates to generate
 web pages. Instead it generates HTML programmatically. The basic idea is that
@@ -397,7 +401,7 @@ We have already seen the following brush used in the counter and multi-counter
 examples:
 
 [[[
-html horizontalRule.
+html horizontalRule
 ]]]
 
 +RenderingDemo.>file://figures/RenderingDemo.png|label=fig:RenderingDemo+
