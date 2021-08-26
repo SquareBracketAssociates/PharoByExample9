@@ -26,7 +26,7 @@ ${inputFile:path=Chapters/PharoObjectModel/PharoObjectModel.pillar}$
 %7upbe9 stef
 
 %To be finished
-${inputFile:path=Chapters/PharoObjectModel/Traits.pillar}$
+%${inputFile:path=Chapters/PharoObjectModel/Traits.pillar}$
 
 %Under reviewed SD: 7th of April HERE
 ${inputFile:path=Chapters/SUnit/SUnit.pillar}$
