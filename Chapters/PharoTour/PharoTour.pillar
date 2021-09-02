@@ -16,6 +16,14 @@ use it. However, since this book is written for Pharo 90, if you notice
 differences between the appearance or behaviour of your system and what is
 described here, do not be surprised.
 
+
+!!!For the fast and furious
+
+Sometimes reading long presentations of a system full of features such as the Pharo IDE can be just boring.
+So if you want to know super fast how to define a class, you can use ProfStef to teach you basic syntax and  jump to the next chapter: It is a tutorial to define a simple counter and its associated tests. In addition you can watch the corresponding video available at *http://mooc.pharo.org*. 
+
+To launch ProfStef type the following expression ==ProfStef go== code in the ""Playground"", then perform a ==Do it== as shown in Figure *@fig:pharotutorial*
+
 !!!Installing Pharo
 
 Pharo does not need to install anything in your system, as it's perfectly
