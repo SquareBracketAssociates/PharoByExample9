@@ -136,7 +136,7 @@ Pharo Launcher is a tool that helps you download and manage Pharo images. It is 
 
 Pharo Launcher can be found at *https://pharo.org/download>https://pharo.org/download* together with installation instructions and download links depending on your platform.
 
-+PharoLauncher - the easy way to manage your Pharo images.>file://figures/PharoLauncher.png|width=70|label=fig:PharoLauncher+
++Pharo Launcher - the easy way to manage your Pharo images.>file://figures/PharoLauncher.png|width=70|label=fig:PharoLauncher+
 
 After installing Pharo Launcher and opening it (like you would do for any Pharo image), you should get a GUI similar to Figure *@fig:PharoLauncher*.  Here we clicked on the top left ""New"" icon to download a new Pharo image from the server.
 
@@ -238,7 +238,7 @@ Try double-clicking at various points on the text you have just typed. Notice ho
 
 Select the text you have typed, right click and select ""Do it"". Notice how the text ==hello world== appears in the Transcript window (See Figure *@fig:HelloWorld*). Do it again!
 
-+Executing an expresssion: displaying a string in the Transcript.>file://figures/HelloWorld_new.png|width=90|label=fig:HelloWorld+
++Executing an expression: displaying a string in the Transcript.>file://figures/HelloWorld_new.png|width=90|label=fig:HelloWorld+
 
 !!!Keyboard shortcuts
 
@@ -305,7 +305,7 @@ ClyFullBrowserMorph openOnMethod: Integer>>#slowFactorial
 
 It will open a System Browser on the method ==slowFactorial==, showing something like in Figure *@fig:systemBrowser*. The title bar of 'Integer>>#slowFactorial' indicates that we are browsing the class ==Integer== and its method ==slowFactorial==. Figure *@fig:systemBrowser* shows the different entities displayed by the browser: packages, classes, protocols, methods and the method definition.
 
-In Pharo, the default System Browser is Calypso. However, as we have mentioned, it is possible to have other System Browsers installed in the Pharo enviroment. Each System Browser may have its own GUI that may be very different from the Calypso GUI. From now on, we will use the terms 'Browser', 'System Browser' and 'Calypso' interchangeably.
+In Pharo, the default System Browser is Calypso. However, as we have mentioned, it is possible to have other System Browsers installed in the Pharo environment. Each System Browser may have its own GUI that may be very different from the Calypso GUI. From now on, we will use the terms 'Browser', 'System Browser' and 'Calypso' interchangeably.
 
 +The System Browser showing the ==printString== method of class ==Object==.>file://figures/browsingprintString.png|width=100|label=fig:systemBrowser2+
 
@@ -385,11 +385,11 @@ The Finder will display a list of all the method names that contain the substrin
 
 Using the Finder you can look for classes or methods based on their names as mentioned above. You can also look for a string inside the whole method bodies, comments included. 
 
-But the Finder also offers a unique and powerful facility. At times you may have an inkling that a method exists, but have no idea what it might be called; you know how it should behave, but you don't know what it's called. But the Finder can still help! Suppose that you want find a method that upcases a string (for example, transforming =='eureka'== into =='EUREKA'==). We can give Finder the inputs and expected outputs of a method and it will (try to) find it for you.
+But the Finder also offers a unique and powerful facility. At times you may have an inkling that a method exists, but have no idea what it might be called; you know how it should behave, but you don't know what it's called. But the Finder can still help! Suppose that you want find a method that up-cases a string (for example, transforming =='eureka'== into =='EUREKA'==). We can give Finder the inputs and expected outputs of a method and it will (try to) find it for you.
 
 +Looking for a method that given the string =='eureka'== returns the string =='EUREKA'==.>file://figures/FinderEureka.png|width=80|label=fig:finder2+
 
-In the Finder, select the ""Examples"" mode using the second dropdown box (the one that shows ""Selectors"" by default).
+In the Finder, select the ""Examples"" mode using the second drop-down box (the one that shows ""Selectors"" by default).
 
 Type =='eureka' . 'EUREKA'== into the search box and press the ==Enter== key or click the ""Search"" button (don't forget the single quotes!).
 
@@ -407,7 +407,7 @@ So far, we've seen a lot of tools that are useful when we're trying to ''find'' 
 
 Pharoers ''love'' Test-Driven Development (TDD). TDD was discovered, or possibly reinvented, by Kent Beck and Ward Cunningham while they were working in Smalltalk, the language from which Pharo grew out. It is this heritage that makes TDD popular among the Pharo community, and also makes Pharo a great language to learn about TDD.
 
-The idea behind TDD is that we describe the desired behaviour of our program in an automated test ''before'' we write any code; we write a ''failing test first''. Then we write code until the test passes, because when the test passes we know that we've achieved the behviour we want. 
+The idea behind TDD is that we describe the desired behavior of our program in an automated test ''before'' we write any code; we write a ''failing test first''. Then we write code until the test passes, because when the test passes we know that we've achieved the behavior we want. 
 
 Suppose that our assignment is to write a method that "says something loudly and with emphasis". What exactly does that mean? What would be a good name for such a method? How can we make sure that the programmers  maintain our method in the future (including ourselves) have an unambiguous description of what the method should do? We can answer all of these questions by writing an example of our method being used.
 
@@ -445,7 +445,7 @@ Because there is no method called ==shout== yet, the automatic code checker (Qua
 
 !!!Running Your Test Method
 
-We can run this new test in a few ways: in the ""Test Runner"" tool, by clicking on the little grey circle next to the test method name, by right clicking on the test method and selecting ""Run tests"", or by pressing ==Cmd-T== while the test method is selected in the method pane. You can ''also'' click the little grey circle next to the class the test is defined in, in the class pane of the Browser, which will run ''all'' the tests in the test class. That's a lot of ways to run a test - and that's not even all of them!
+We can run this new test in a few ways: in the ""Test Runner"" tool, by clicking on the little gray circle next to the test method name, by right clicking on the test method and selecting ""Run tests"", or by pressing ==Cmd-T== while the test method is selected in the method pane. You can ''also'' click the little gray circle next to the class the test is defined in, in the class pane of the Browser, which will run ''all'' the tests in the test class. That's a lot of ways to run a test - and that's not even all of them!
 
 Let's take a look at the ""Test Runner"" way first, but feel free to try all the other ways too.
 
@@ -459,7 +459,7 @@ You should see the upper right pane turn red, which indicates that there was an 
 
 Note here that ==StringTest>>#testShout== is just the Pharo way of identifying the ==testShout== method of the ==StringTest== class. The formula, which you'll see again and again, is ==ClassName>>#methodName==.
 
-If you click on that method in the bottom right pane, the erroneous test will run again, but this time in such a way that you see the error happen: ==Instance of ByteString did not understand #shout== (see Figure *@fig:shoutError*). This is the point you'd reach by running the test by clicking the little grey button.
+If you click on that method in the bottom right pane, the erroneous test will run again, but this time in such a way that you see the error happen: ==Instance of ByteString did not understand #shout== (see Figure *@fig:shoutError*). This is the point you'd reach by running the test by clicking the little gray button.
 
 +Looking at the error in the debugger.>file://figures/testshout-00.png|width=70|label=fig:shoutError+
 
@@ -495,13 +495,13 @@ When you've finished implementing the method, do not forget to compile it using 
 
 !!!!Does this method work?
 
-Well, let's run the tests and see. Click on ""Run Selected"" again in the Test Runner, and this time you should see a green bar and text indicating that all of the tests ran with no failures and no errors. When you get that green bar, or the little grey circle next to the test method goes green, it's a good idea to save your work by saving the image (""World Menu > Pharo > Save""), and take a break. You deserve it, well done!
+Well, let's run the tests and see. Click on ""Run Selected"" again in the Test Runner, and this time you should see a green bar and text indicating that all of the tests ran with no failures and no errors. When you get that green bar, or the little gray circle next to the test method goes green, it's a good idea to save your work by saving the image (""World Menu > Pharo > Save""), and take a break. You deserve it, well done!
 
 !!!Chapter summary
 
 This chapter has been a whirlwind tour to introduce you to the Pharo environment and some of the major tools you will use to program in it. You have also seen a little of Pharo's syntax, even though you may not understand it all yet. Here's a little summary of what we've learned:
 
-- Pharo systems can be managed on your comuputer using the Pharo Launcher. Alternatively, you can download Pharo using the Zeroconf scripts.
+- Pharo systems can be managed on your computer using the Pharo Launcher. Alternatively, you can download Pharo using the Zeroconf scripts.
 - A running Pharo system consists of a ""virtual machine"", a ""source file"" (==.sources==), an ""image file"" (==.image==) and a ""changes file"" (==.changes==). Only these last two change, as they record the latest snapshot of your running system.
 - When you open a Pharo image, you will find yourself in exactly the same state (i.e., with exactly the same running objects) that you had when you last saved that image.
 - You can click on the Pharo background to bring up the ""World Menu"" and launch various tools.
