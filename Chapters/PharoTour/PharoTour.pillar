@@ -1,6 +1,3 @@
-:PROPERTIES:
-:on:       <2021-10-01 Fri 16:41>
-:END:
 !!A quick tour of Pharo
 @cha:tour
 
@@ -512,5 +509,3 @@ This chapter has been a whirlwind tour to introduce you to the Pharo environment
 - The ""Finder"" allows you to look for classes, methods and more. In addition it lets you find methods based on the object receiving the message, the message arguments, and the returned object.
 - The ""Test Runner"" is a tool for running unit tests, and aids in Test-Driven Development.
 - The ""Debugger"" allows you to examine errors and exceptions (such as errors or failures encountered when running tests). You can even create new methods right in the debugger.
-
-
