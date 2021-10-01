@@ -30,7 +30,44 @@ References to GUI buttons inline should be marked up in bold, `""`:
 
 > Here we clicked on the top left ""New"" icon to download a new image.
 
-### Title
+#### Key strokes (and key combinations)
+
+Keys typed should be capitalized.
+
+> `Shift-D`
+
+not
+
+> `Shift-d`
+
+A single chord should be written with hyphens:
+
+> `Ctrl-Alt-Del`
+
+Sequences should be written with a space between the parts:
+
+> `Cmd-O Cmd-W`
+
+would open a Playground
+
+https://en.wikipedia.org/wiki/Modifier_key
+
+##### macOS
+
+The modifier keys should always be written in the order `Control Option Shift Command`
+
+The modifier keys should be written in abreviated form of `Ctrl Option Shift Cmd`
+
+https://developer.apple.com/design/human-interface-guidelines/macos/user-interaction/keyboard/
+
+##### Windows / Linux
+
+The modifier keys should be written in the order `Control Alternate Meta Shift`
+
+The modifier keys should be written in the abreviated form of `Ctrl Alt Meta Shift`
+
+
+### Titles / Subtitles
 
 Titles written in sentence casing, without a terminating period:
 
