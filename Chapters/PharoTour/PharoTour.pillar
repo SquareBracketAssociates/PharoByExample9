@@ -1,215 +1,148 @@
+:PROPERTIES:
+:on:       <2021-10-01 Fri 16:41>
+:END:
 !!A quick tour of Pharo
 @cha:tour
 
-This chapter will take you on a high level tour of Pharo, to help you get
-comfortable with the environment. There will be plenty of opportunities to try
-things out, so it would be a good idea if you have a computer handy when you
-read this chapter.
+This chapter will take you on a high level tour of Pharo, to help you get comfortable with the environment. There will be plenty of opportunities to try things out, so it would be a good idea to have a computer handy when you read this chapter.
 
-In particular, you will fire up Pharo, learn about the different ways of
-interacting with the system, and discover some of the basic tools. You will also
-learn how to define a new method, create an object and send it messages.
+In particular, you will learn how to start Pharo and the different files that make up a Pharo system and the roles they perform, learn about the different ways of interacting with the system, and discover some of the basic tools. You will also learn how to define a new method, create an object, and send it messages.
 
-''Note:'' Most of the introductory material in this book will work with any
-Pharo version, so if you already have one installed, you may as well continue to
-use it. However, since this book is written for Pharo 90, if you notice
-differences between the appearance or behaviour of your system and what is
-described here, do not be surprised.
+Try to remember that this is a ''quick'' tour of Pharo, a taster of the environment. Don't become stuck when you don't understand something, it will almost certainly be covered in more detail in the next few chapters. ''You do not have to know everything'', or at least, you don't have to know everything right away anyway. Make a note of what confuses or intrigues you and keep just keep going; it will all become clearer the further you read on.
 
+''Note:'' Most of the introductory material in this book will work with any Pharo version, so if you already have one installed, you may as well continue to use it. However, since this book is written for Pharo 90, if you notice differences between the appearance or behavior of your system and what is described here, do not be surprised.
 
 !!!For the fast and furious
 
-Sometimes reading long presentations of a system full of features such as the Pharo IDE can be just boring.
-So if you want to know super fast how to define a class, you can use ProfStef to teach you basic syntax and  jump to the next chapter: It is a tutorial to define a simple counter and its associated tests. In addition you can watch the corresponding video available at *http://mooc.pharo.org*. 
+Sometimes reading long chapters about a system that's as full of features as Pharo can be, well, ''boring''. If you've already got a working Pharo system installed on your computer, and you know a little bit about how everything works, you might want learn the basics by using ProfStef and then skip forward to the next chapter: a tutorial to define a simple counter and its associated tests. You can also watch the corresponding video available at *http://mooc.pharo.org*. 
 
-To launch ProfStef type the following expression ==ProfStef go== code in the ""Playground"", then perform a ==Do it== as shown in Figure *@fig:pharotutorial*
+To launch ProfStef type the following expression:
+
+[[[language=smalltalk
+ProfStef go
+]]]
+
+in a ""Playground"", and then execute it by performing a ""Do it"", as shown in Figure *@fig:pharotutorial*.
+
+If all of that means nothing to you, then don't worry: it will soon enough. Just read on...
 
 !!!Installing Pharo
 
-Pharo does not need to install anything in your system, as it's perfectly
-capable of running standalone. As it will be explained later, Pharo consists of the virtual machine (VM), the image, the changes and the sources.
+Pharo does not need to install anything in your system, as it's perfectly capable of running standalone. As will be explained later, Pharo consists of a virtual machine (VM), an image, a set of changes and a set of sources. There are a number of different ways of getting these installed and set up on your system.
 
-Depending on your platform, download the
-appropriate ==.zip==  file, uncompress it in a directory of your choice and now you
-are ready to launch Pharo. Pharo can be also installed via
-the command line.
+!!!!The Pharo Launcher
 
-!!!!Use the Pharo Launcher
-Even if Pharo can execute as standalone application and be launcher from the command-line, we encourage you to use the Pharo Launcher as shown in Section *@launcher*.
+Pharo Launcher is a cross-platform application that facilitates the management of multiple Pharo images and VMs. It is available as a free download from *http://pharo.org/download>http://pharo.org/download*.  Click the button for your operating system to download the appropriate Pharo Launcher; it contains everything you need to run Pharo.
 
-It is a  super handy tool to  manage Pharo distributions and  launch Pharo. It is  available at *http://pharo.org/download>http://pharo.org/download*.
-The Pharo  Launcher is a Pharo  cross-platform application that  allows easy management of  Pharo images. 
-Click the button for your operating system to download the appropriate Pharo Launcher, it contains everything you need to run Pharo.
+!!!!Zeroconf scripts
 
-!!!!Downloading Pharo
-If you want to only use Pharo.
-It is available as a free download from *http://pharo.org/download>http://pharo.org/download*.
+Alternatively, *https://get.pharo.org/* offers a collection of scripts to download specific versions of Pharo. This is really handy for automating the installation of Pharo, or if you prefer to work using your operating system's command line interface.
 
-For standalone version download the appropriate ==.zip== file. Once the file is unzipped, it will contain everything you need to run
-Pharo.
+To download the latest Pharo 9.0 full system, use the following snippet:
 
-!!!!Using handy scripts
-
-*http://files.pharo.org/get/* offers a collection of scripts to download
-specific versions of Pharo. This is really handy to automate the process.
-
-To download the latest 9.0 full system, use the following snippet.
-
-[[[
+[[[language=bash
 wget -O- get.pharo.org/90+vm | bash
 ]]]
 
-Then you can execute the following
-[[[
+Then you can execute the following to start the image:
+[[[language=bash
 ./pharo-ui Pharo.image
 ]]]
 
+At present these scripts will only work on a a macOS or Linux system.
 
+!!!File components
 
-!!!Pharo: File Components
+Pharo consists of four main component files. Although you do not need to deal with them directly for the purposes of this book, it is useful to understand the role that they each play.
 
-Pharo consists of four main component files.
-Although you do not need to deal with them directly for the purpose of this book, it is useful to understand the roles they play.
+""1."" The ""virtual machine"" (VM) is the only component that is different for each operating system. The VM is the execution engine (similar to the Java Virtual Machine). It takes Pharo bytecode that is generated each time a user compiles a piece of code, converts it to machine code, and then executes it. Pharo comes with the Cog VM, a very fast JITing VM.
 
-""1."" The ""virtual machine"" (VM) is the only component that is different for
-each operating system. The VM is the execution engine (similar to a JVM). It
-takes Pharo bytecode that is generated each time a user compiles a piece of code,
-converts it to machine code, and executes it. 
-Pharo comes with the Cog VM a very fast JITing VM.
 The VM executable is named:
+
 - ==Pharo.exe== for Windows,
 - ==pharo== for Linux, and
-- ==Pharo== for OSX (inside a package also named ==Pharo.app==).
+- ==Pharo== for macOS (inside a package also named ==Pharo.app==).
 
-The other components below are portable across operating systems, and can be
-copied and run on any appropriate virtual machine.
+The other components listed below are portable across operating systems, and can be copied and run on any appropriate virtual machine.
 
-""2."" The ""image"" file provides a frozen in time snapshot of a running Pharo system.
-This is the file where all objects are stored and as such it's a cross-platform format.
-An image file contains the live state of all objects of the system at a given point, including classes and compiled methods since they are objects, too.
-An image is a virtual object container.
-The file is named for the release (like ==Pharo9.0.image==) and it is synched with the ==Pharo9.0.changes== file below.
+""2."" The ""image"" file provides a snapshot of a running Pharo system. It's a cross-platform format: an image file on one operating system can be used on any other operating system with a compatible VM. An image file contains all the objects of a running system and their state at a given point in time, including all the classes and the compiled methods (since they are objects too). An image is basically a virtual object container.
 
-""3."" The ""changes"" file logs of all source code modifications (especially
-all the changes you did while programming) since the ==.sources== file was
-generated. 
-Each release provides a nearly empty file named for the release, for example ==Pharo9.0.changes==. 
-This changes files supports a per method history for diffs or reverting. 
-It means that even if you did not manage to save the image file on a crash or you just forgot, you can recover your changes from this file.
-A changes file is always coupled with a image file.
-They work in pair. 
-Do not mess with it. Even if Pharo can run without it, you could lose your coding session if you did not save them with git.
+The image file is named for the release (so ==Pharo9.0.image== for a Pharo 9.0 image) and it is synced with the ""changes"" file.
 
-""4."" The ""sources"" file contains source code for parts of Pharo that do not change frequently.
-This file is important because the image file format stores only objects including compiled methods and their bytecode and not their
-source code. 
-Typically a new ""sources"" file is generated once per major release of Pharo. For Pharo 9.0, this file is named ==PharoV90.sources==.
+""3."" The ""changes"" file logs of all source code modifications (such as the changes you make while programming in Pharo) made to the Pharo system. Each release provides a nearly empty file named for the release, for example ==Pharo9.0.changes==. This file supports a per-method history which can be used for showing diffs or reverting changes. It means that even if you did not manage to save the image file before a crash (or you just forgot), you can still recover your changes from this file. A changes file is always coupled with an image file. They work as a pair. Do not mess with it. Even if Pharo can run without it, you could lose all of your work if haven't saved it with git.
 
+""4."" The ""sources"" file contains the source code for parts of Pharo that do not change frequently. This file is important because the image file format stores only objects including compiled methods and their bytecode and not their source code. Typically a new ""sources"" file is generated once per major release of Pharo. For Pharo 9.0, this file is named ==PharoV90.sources==.
 
-!!!!Image/Changes Pair
+!!!!Image/Changes pair
 
-The ==.image== and ==.changes== files provided by a Pharo release are the
-starting point for a live environment that you adapt to your needs. As you work
-in Pharo, these files are modified, so you need to make sure that they are
-writable. Pay attention to remove the changes and image files from the list of
-files to be checked by anti-viruses. The ==.image== and ==.changes== files are
-intimately linked and should always be kept together, with matching base
-filenames. Never edit them directly with a text editor, as ==.images== holds
-your live object runtime memory, which indexes into the ==.changes== files for
-the source. It is a good idea to keep a backup copy of the downloaded ==.image==
-and ==.changes== files so you can always start from a fresh image and reload
-your code. However, the most efficient way for backing up code is to use Iceberg to use git (a version control system) that will provide an easier and powerful way to back up and track your changes.
+The ==.image== and ==.changes== files provided by a Pharo release are the starting point for a live environment that you will adapt to suit your needs. These files are modified as you work with Pharo, so you need to make sure that they are writable. It's also a good idea to stop your anti-virus software from scanning these files. The ==.image== and ==.changes== files are intimately linked and should always be kept together, with matching base filenames. ''Never'' edit them directly with a text editor, as ==.image== holds your live object runtime memory, which indexes into the ==.changes== files for the source. It is a good idea to keep a backup copy of the downloaded ==.image== and ==.changes== files so you can always start from a fresh image and reload your code. However, the most efficient way to back up code is to use Iceberg with git (a version control system), provides an easy and powerful way to both back up and track your changes.
 
-!!!!Common Setup
+!!!!Common setup
 
-The four main component files above can be placed in the same directory,
-but it's a common practice to put the Virtual Machine and sources file in a
-separate directory where everyone has read-only access to them.
+The four main component files above can be placed in the same directory, but it's a common practice to put the virtual machine and sources file in a separate directory where everyone has read-only access to them.
 
-Do whatever works best for your style of working and your operating system.
-If you start with Pharo better use the Pharo Launcher since it will manage everything for you.
+Do whatever works best for your style of working and your operating system. If you're just starting out with Pharo it's better to use the Pharo Launcher, since it will manage everything for you.
 
 !!!Launching Pharo
 
-To start Pharo, if you are using Pharo Launcher, select the image you wish to use and press launch.
-Or if you are using standalone version do whatever your operating system expects: drag the .image file
-onto the icon of the virtual machine, or double-click the .image file, or at the
-command line type the name of the virtual machine followed by the path to the
-.image file.
+If you are using Pharo Launcher, which is by far the simplest solution, just select the image you wish to use and press ""Launch"".
 
-- On ""OS X"", double click the ==Pharo9.0.app== bundle in the unzipped download.
+If you are using standalone version do whatever your operating system expects: drag the ==.image== file onto the icon of the virtual machine, or double-click on the ==.image== file, or at the command line type the name of the virtual machine followed by the path to the ==.image== file.
+
+- On ""macOS"", double click the ==Pharo9.0.app== bundle in the unzipped download.
 - On ""Linux"", double click (or invoke from the command line) the ==pharo== executable ==Bash== script from the unzipped Pharo folder.
 - On ""Windows"", enter the unzipped Pharo folder and double click ==Pharo.exe==.
 
-In general, Pharo tries to "do the right thing". If you double click on the VM,
-it looks for an image file in the default location. If you double click on an
-==.image== file, it tries to find the nearest VM to launch it with.
+In general, Pharo tries to "do the right thing". If you double click on the VM, it looks for an image file in the default location. If you double click on an ==.image== file, it tries to find the nearest VM to launch it with.
 
-If you have multiple VMs installed on your machine, the operating system may no
-longer be able to guess the right one. In this case, it is safer to specify
-exactly which ones you meant to launch, either by dragging and dropping the
-image file onto the VM, or specifying the image on the command line (see the
-next section).
+If you have multiple VMs installed on your machine, the operating system may no longer be able to guess the right one. In this case, it is safer to specify exactly which ones you meant to launch, either by dragging and dropping the image file onto the VM, or specifying the image on the command line (see the next section).
 
-!!!Launching Pharo Via the Command Line
+!!!Launching Pharo via the command line
 
-The general pattern for launching Pharo from a terminal is:
+The general pattern for launching Pharo from the command line is:
 
-[[[
+[[[language=bash
 <Pharo executable> <path to Pharo image>
 ]]]
 
-!!!!Linux command line.
-For Linux, assuming that you're in the unzipped ==pharo9.0== folder:
+!!!!Linux command line
 
-[[[
-./pharo shared/Pharo9.0.image
+Assuming you're in the directory where the Zeroconf script downloaded the required files:
+
+[[[language=bash
+./pharo Pharo.image
 ]]]
 
-!!!!OS X command line.
-For OS X, assuming that you're in the directory with the unzipped
-==Pharo9.0.app== bundle:
+!!!!macOS command line
 
-[[[
-Pharo9.0.app/Contents/MacOS/Pharo9.0.app/Contents/Resources/Pharo9.0.image
+Again, assuming you downloaded Pharo using Zeroconf:
+
+[[[language=bash
+./pharo Pharo.image
 ]]]
 
-When using a Pharo bundle, you need to right-click on ==Pharo9.0.app== and
-select 'Show Package Contents' to get access to the image. If you need this
-often, just download a separated image/changes pair and drop that image into the
-==Pharo9.0.app==.
+!!!!Windows command line
 
-!!!!Windows command line.
-For Windows, assuming that you're in the unzipped ==Pharo9.0== folder:
+As we mentioned, Zeroconf won't work with a Windows system, so you will have to download the right VM and image files yourself. But running it should be just as easy:
 
 [[[
-Pharo.exe Pharo9.0.image
+Pharo.exe Pharo.image
 ]]]
 
 !!!Pharo Launcher
 @launcher
 
-""PharoLauncher"" is a tool that helps you download and manage Pharo images. It
-is very useful for getting new versions of Pharo (as well as updates to the
-existing versions that contain important bug fixes). It also gives you access to
-images preloaded with specific libraries that make it very easy to use those
-tools without having to manually install and configure them.
+Pharo Launcher is a tool that helps you download and manage Pharo images. It is very useful for getting new versions of Pharo (as well as updates to the existing versions that contain important bug fixes). It also gives you access to images preloaded with specific libraries that make it very easy to use those tools without having to manually install and configure them.
 
-""PharoLauncher"" can be found at *https://pharo.org/download>https://pharo.org/download*
-together with installation instructions and download links depending on your
-platform.
+Pharo Launcher can be found at *https://pharo.org/download>https://pharo.org/download* together with installation instructions and download links depending on your platform.
 
 +PharoLauncher - the easy way to manage your Pharo images.>file://figures/PharoLauncher.png|width=70|label=fig:PharoLauncher+
 
-After installing PharoLauncher and opening it (like you would do for any Pharo image), you should get a GUI similar to Figure *@fig:PharoLauncher*.
-Here we clicked on the top left ""New"" icon to download a new Pharo image from the server.
+After installing Pharo Launcher and opening it (like you would do for any Pharo image), you should get a GUI similar to Figure *@fig:PharoLauncher*.  Here we clicked on the top left ""New"" icon to download a new Pharo image from the server.
 
-The back column lists images that live locally on your machine (usually in a shared system folder). 
-You can launch any local image directly (either by double-clicking, or by selecting it and pressing the ==Launch== button). A
-right-click context menu provides several useful functions like copying and renaming your images, as well as locating them on the file system.
+The back column lists images that live locally on your machine (usually in a shared system folder). You can launch any local image directly (either by double-clicking, or by selecting it and pressing the ""Launch"" button). A right-click context menu provides several useful functions like copying and renaming your images, as well as locating them on the file system.
 
-You can use your own local images with ""PharoLauncher"", in addition to working with the images you downloaded. 
-To do so, simply import your .image and its associated .changes files using the launcher.
+You can use your own local images with Pharo Launcher, in addition to working with the images you downloaded. To do so, simply import your ==.image== and its associated ==.changes== files using the launcher.
 
 !!!The World Menu
 
@@ -217,589 +150,367 @@ Once Pharo is running, you should see a single large window, possibly containing
 
 +Clicking anywhere on the Pharo window background activates the World Menu.>file://figures/Pharo80.png|width=80|label=fig:worldMenu+
 
-Clicking anywhere on the background of the Pharo window will display the
-""World Menu"", which contains many of the Pharo tools, utilities and settings.
+Clicking anywhere on the background of the Pharo window will display the ""World Menu"", which contains many of the Pharo tools, utilities and settings.
 
-Explore the ""World Menu"", you will will see a list of several core tools in Pharo, including the System Browser, the Playground, Iceberg the  package manager, and others. We will discuss them in more detail in the coming chapters.
+Take a minute to explore the World Menu. You will will see a list containing many of Pharo's core tools, including the System Browser, the Playground, the package manager Iceberg, and many others. We will discuss them all in more detail in the coming chapters.
 
 !!!Interacting with Pharo
 
-Pharo offers three ways to interact with the system using a mouse or other
-pointing device.
+Pharo offers three ways to interact with the system using a mouse or other pointing device.
 
-""click"" (or left-click): this is the most often used mouse button, and is
-normally equivalent to left-clicking (or clicking a single-mouse button without
-any modifier key). For example, click on the background of the Pharo window to
-bring up the ==World== menu (Figure *@fig:worldMenu*).
+""click"" (or left-click): this is the most often used mouse button, and is normally equivalent to left-clicking (or clicking a single mouse button without any modifier key). For example, click on the background of the Pharo window to bring up the World Menu (Figure *@fig:worldMenu*).
 
-""action-click"" (or right-click): this is the next most used button. It is used
-to bring up a contextual menu that offers different sets of actions depending on
-where the mouse is pointing (see Figure *@fig:operating*). If you do not have a
-multi-button mouse, then normally you will configure the control modifier key to
-action-click with the mouse button.
+""action-click"" (or right-click): this is the next most used button. It is used to bring up a contextual menu that offers different sets of actions depending on where the mouse is pointing (see Figure *@fig:operating*). If you do not have a multi-button mouse, then normally you would configure action-click to be performed when clicking the mouse button and holding down the control modifier.
 
-""meta-click"": Finally, you may meta-click on any object displayed in the image
-to activate the "morphic halo", an array of handles that are used to perform
-operations on the on-screen objects themselves, such as inspecting or resizing
-them (see Figure *@fig:halos*). If you let the mouse linger over a handle, a
-help balloon will explain its function. In Pharo, how you meta-click depends on
-your operating system: either you must hold ==Shift-Ctrl== or ==Shift-Alt== (on
-Windows or Linux) or ==Shift-Option== (on OS X) while clicking.
+""meta-click"": Finally, you may meta-click on any object displayed in the image to activate the "Morphic halo", an array of handles that are used to perform operations on the on-screen objects themselves, such as inspecting or resizing them (see Figure *@fig:halos*). If you let the mouse linger over a handle, a help balloon will explain its function. In Pharo, how you meta-click depends on your operating system: either you must hold ==Ctrl-Shift== or ==Alt-Shift== (on Windows or Linux) or ==Option-Shift== (on macOS) while clicking.
 
 +Action Click (right click) brings the contextual menu.>file://figures/operating.png|width=60|label=fig:operating+
 
 +Meta-Clicking on a window opens the Halos.>file://figures/addHalo.png|width=70|label=fig:halos+
 
-!!!Sending Messages
+!!!Sending messages
 
-Open a ""Playground"" from the ""Browse"" menu.
-The ""Playground"" tool will open (you may recognize it as the ""Workspace"" tool, from previous versions of Pharo). 
-We can use ""Playground"" to quickly execute Pharo code. 
+Open a ""Playground"" from the Browse menu - either in the menu bar or through the World Menu. The Playground tool will open (you may recognize it as the ""Workspace"" tool, from previous versions of Pharo). We can use Playground to quickly execute Pharo code. 
 
+Type the following expression in the open Playground:
 
-Type the following expression ==ProfStef go== code in the ""Playground"", then perform a ==Do it== as shown in Figure *@fig:pharotutorial*. 
+[[[language=smalltalk
+ProfStef go
+]]]
 
-+Executing an expression is simple with the ==Do it== menu item.>file://figures/PharoTutorialOption.png|width=60|label=fig:pharotutorial+
+Then perform a ""Do it"" as shown in Figure *@fig:pharotutorial*.
 
-This expression will trigger the ProfStef tutorial (as shown in Figure *@fig:ProfStef*). 
-It is a simple and interactive tutorial that will teach you the basics of Pharo.
++Executing an expression is simple with the ""Do it"" menu item.>file://figures/PharoTutorialOption.png|width=60|label=fig:pharotutorial+
 
-Congratulations, you have just sent your first message!
-Pharo is based on the concept of sending messages to objects.
-The Pharo objects are like your soldiers ready to obey once you send them a message they can understand. 
-We will see how an object can understand a message, later on.
+This expression will trigger the ""ProfStef"" tutorial (as shown in Figure *@fig:ProfStef*), which is a great place to start to get a feel for Pharo syntax.
+
+Congratulations! You have just sent your first message! Pharo is based on the concept of sending messages to objects. The Pharo objects are like your soldiers, just waiting for you to send them a message they can understand. We will see exactly how an object understands a message later on.
 
 +ProfStef is a simple interactive tutorial to learn about Pharo syntax.>file://figures/ProfStef.png|width=60|label=fig:ProfStef+
 
-!!!! About vocabulary.
-If you talk to Pharoers for a while, you will notice that they generally do not
-use expressions like ''call an operation'' or ''invoke a method'', as developers
-do in other programming languages. 
-Instead they will say ''send a message''.
-This reflects the idea that objects are responsible for their own actions and that the method associated with the message is looked up dynamically. When sending a message to an object, the object, and not the sender, selects the appropriate method for responding to your message. In most cases, the method with the same name as the message is executed.
+!!!!About vocabulary
 
-As a user you do not need to understand how each message works, the only thing you need to know is what the available messages are for the objects that interest you.
-This way an object can hide its complexity, and coding can be kept as simple as possible without losing flexibility.
+If you talk to Pharoers for a while, you will notice that they generally do not use phrases like ''call an operation'' or ''invoke a method'', which you might hear in other programming languages. Instead they will say ''send a message''. This reflects the idea that objects are responsible for their own actions and that the method associated with the message is looked up dynamically. When sending a message to an object it is the object, and not the sender, that selects the appropriate method for responding to your message. In most (but not all) cases, the method with the same name as the message is executed.
 
-How to find the available messages for each object is something we will explore
-later on.
+As a user you do not need to understand how each message works, the only thing you need to know is what the available messages are for the objects that interest you. This way an object can hide its complexity, and coding can be kept as simple as possible without losing flexibility.
 
-!!!Saving, Quitting and Restarting a Pharo Session
+How to find the available messages for each object is something we will explore later on.
 
-You can exit Pharo at any point, by closing the Pharo window as you do any other
-application window. Additionally you can use the menu bar or the ""World Menu"" and select
-either ==Save and quit== or ==Quit==.
+!!!Saving, quitting and restarting a Pharo session
 
-In any case, Pharo will display a prompt to ask you about saving your image. If
-you do save your image and reopen it, you will see that things are ''exactly''
-as you left them.
-This happens because the image file stores all the objects (edited text, window positions, added methods... of course because they are all objects) that Pharo has loaded into your memory so that nothing is lost on exit.
+You can exit Pharo at any point by closing the Pharo window just as you do with any other application window. Additionally you can use the menu bar, or the World Menu, and select either ""Save and quit"" or ""Quit"".
 
-When you start Pharo for the first time, the Pharo virtual machine loads the
-image file that you specified. 
-This file contains a snapshot of a large number of objects, including a vast amount of pre-existing code and programming tools (all of which are objects). 
-As you work with Pharo, you will send messages to these objects, you will create new objects, and some of these objects will die and their memory will be reclaimed (garbage-collected).
+In either case, Pharo will display a prompt to ask you about saving your image. If you do save your image and reopen it, you will see that things are ''exactly'' as you left them: the running programs, the open windows, the ''positions'' of the open windows. This happens because the image file stores ''all'' the objects (the edited text, the added methods, the window positions... because they are ''all'' objects) that Pharo has loaded into your memory so that ''nothing'' is lost on exit.
 
-When you quit Pharo, you will normally save a snapshot that contains all of your
-objects. 
-If you save normally, you will overwrite your old image file with the
-new snapshot. 
-Alternatively, you may save the image under a new name.
+When you start Pharo for the first time, the Pharo virtual machine loads the image file that you specified. This file contains a snapshot of a large number of objects, including a vast amount of pre-existing code and programming tools (all of which are also, you guessed it, objects). As you work with Pharo, you will send messages to these objects, you will create new objects (by sending messages to objects!), and some of these objects will 'die' and their memory will be reclaimed (garbage collected).
 
-As mentioned earlier, in addition to the ==.image== file, there is also a ==.changes== file.
-This file contains a log of all the changes to the source code that you have made using the standard tools.
-Most of the time you do not need to worry about this file at all. 
-As we shall see, however, the ==.changes== file can be very useful for recovering from errors, or replaying lost changes. More about this later!
+When you quit Pharo, you will normally save a snapshot that contains all of your objects. If you save normally, you will overwrite your old image file with the new snapshot. Alternatively, you may save the image under a new name.
 
-It may seem like the image is the key mechanism for storing and managing
-software projects, but that is not the case. 
-As we shall see soon, there are much better tools for managing code and sharing software developed by teams. 
-Images are very useful, but you should learn to be very cavalier about creating and throwing away images, since versioning tools ==Iceberg== offer much
-better ways to manage versions and share code amongst developers. 
-In addition, if you need to persist objects, you can use several systems such as ==Fuel== (a
-fast object binary serializer), ==STON== (a textual object serializer) or a database.
+When you save your image the ==.image== file is updated with the snapshot of your running Pharo system. The ==.changes== file will also be updated: it will have a log of all the changes you've made to the image since the last update appended to it. As we've seen above, the ==.changes== file can be very useful for recovering from errors, or replaying lost changes. More about this later!
+
+It may seem like the image file should be the key mechanism for storing and managing software projects, but in practice that is not the case at all. There are much better tools for managing code and sharing software that is developed in a team. Images are useful, but you should be very cavalier about creating and throwing away images. Versioning tools such as Iceberg offer us a much better way to manage and share code. In addition, if you need to persist objects, you can use a package such as Fuel (a fast object binary serializer) or STON (a textual object serializer), or even use a database.
 
 !!!Playgrounds and Transcripts
 
-Let us start with some exercises:
+Let's do some simple exercises to get comfortable in our new environment:
 
 # Close all open windows within Pharo.
 # Look in the menu and open a Transcript and a Playground.
-# Position and resize the transcript and playground windows so that the playground just overlaps the Transcript (see Figure *@fig:HelloWorld*).
+# Position and resize the transcript and playground windows so that the Playground just overlaps the Transcript (see Figure *@fig:HelloWorld*).
 
-You can resize windows by dragging one of the corners. At any time only one
-window is active; it is in front and has its border highlighted.
+You can resize windows by dragging one of the corners. At any time only one window is active; it is in front and has its border highlighted.
 
-!!!!About Transcript.
-The ==Transcript== is an object that is often used for logging system messages.
-It is a kind of ''system console''.
+!!!!About Transcript
 
-!!!!About Playground.
-==Playgrounds== are useful for typing snippets of code that you would like to
-experiment with. You can also use playgrounds simply for typing any text
-that you would like to remember, such as to-do lists or instructions for anyone
-who will use your image.
+The ""Transcript"" is an object that is often used for logging system messages. Think of it as a kind of 'system console', like you would see in a web browser's developer tools.
 
-Type the following text into the playground:
-[[[
+!!!!About Playground
+
+A ""Playground"" is useful for typing and running snippets of code that you would like to experiment with. You can also use Playgrounds for typing ''any'' text that you would like to remember, such as to-do lists or instructions for anyone who will use your image.
+
+Type the following text into the Playground:
+
+[[[language=smalltalk
 Transcript show: 'hello world'; cr.
 ]]]
 
-Try double-clicking at various points on the text you have just typed. Notice
-how an entire word, entire string, or all of the text is selected, depending on
-whether you click within a word, at the end of the string, or at the end of the
-entire expression. In particular, if you place the cursor before the first
-character or after the last character and double-click, you select the complete
-paragraph.
+Try double-clicking at various points on the text you have just typed. Notice how an entire word, an entire line, or all of the text is selected, depending on whether you click within a word, at the end of a line, or at the end of the entire expression. In particular, if you place the cursor before the first character or after the last character and double-click, you select the complete paragraph.
 
-Select the text you have typed, right click and select ==Do it==. Notice how the
-text "hello world" appears in the transcript window (See Figure
-*@fig:HelloWorld*). Do it again.
+Select the text you have typed, right click and select ""Do it"". Notice how the text ==hello world== appears in the Transcript window (See Figure *@fig:HelloWorld*). Do it again!
 
 +Executing an expresssion: displaying a string in the Transcript.>file://figures/HelloWorld_new.png|width=90|label=fig:HelloWorld+
 
-!!!Keyboard Shortcuts
+!!!Keyboard shortcuts
 
-If you want to evaluate an expression, you do not always have to right click.
-Instead, you can use keyboard shortcuts shown in menu items. Even though Pharo
-may seem like a mouse driven environment it contains over 200 shortcuts that
-allow you operate the different tools, as well as the facility to assign a
-keyboard shortcut to any of the 110 000 methods contained in the Pharo image. 
+If you want to evaluate an expression, you do not always have to right click. Instead, you can use the keyboard shortcuts that are shown next to each menu item. Even though Pharo may seem like a mouse driven environment, it contains over 200 shortcuts for all of its different tools, as well as the facility to assign a keyboard shortcut to ''any'' of the 110 000 methods contained in the Pharo image. 
 
-Depending on your platform, you may have to press one of the modifier keys which
-are Control, Alt, and Command. We will use ==CMD== in the rest of the book: so
-each time you see something like ==CMD-d==, just replace it with the appropriate
-modifier key depending on your OS. The corresponding modifier key in Windows is
-==CTRL==, and in Linux is either ==ALT== or ==CTRL==, so each time you see
-something like ==CMD-d==, just replace it with the appropriate modifier key
-depending on your OS.
+Depending on your platform, you may have to press one of the modifier keys which are Control, Alt, and Command. We will use ==Cmd== in the rest of the book, so each time you see something like ==Cmd-D==, just replace it with the appropriate modifier key depending on your operating system. The corresponding modifier key in Windows is ==Ctrl==, and in Linux it is either ==Alt== or ==Ctrl==.
 
-In addition to ==Do it==, you might have noticed ==Do it and go==, ==Print it==,
-==Inspect it== and several other options in the context menu. Let's have a quick
-look at each of these.
+In addition to ""Do it"", you might have noticed ""Do it and go"", ""Print it"", ""Inspect it"" and several other options in the context menu. Let's have a quick look at each of these.
 
-!!!Doing vs. Printing
-Type the expression ==3 + 4== into the playground. Now ==Do it== with the
-keyboard shortcut.
+!!!Doing vs. printing
 
-Do not be surprised if you saw nothing happen! What you just did is send the
-message ==\+== with argument 4 to the number 3. Normally the resulting 7 would
-have been computed and returned to you, but since the playground did not know
-what to do with this answer, it simply did not show the answer. If you want to
-see the result, you should ==Print it== instead. ==Print it== actually compiles
-the expression, executes it, sends the message ==printString== to the result,
-and displays the resulting string.
+Type the expression ==3 + 4== into the playground. Now ""Do it"" with the keyboard shortcut ==Cmd-D==.
 
-Select ==3\+4== and ==Print it== (==CMD-p==). This time we see the result we
-expect.
+Do not be surprised if you saw nothing happen! What you just did is send the message ==\+== with argument ==4== to the number ==3==. Normally the resulting ==7== would have been computed and returned to you, but since the playground did not know what to do with this answer, it simply did not show the answer. If you want to see the result, you should ""Print it"" instead. ""Print it"" actually compiles the expression, executes it, then sends the message ==printString== to the result, and displays the resulting string.
 
-[[[testcase=true
+Select ==3 + 4== and ""Print it"" (==Cmd-P==). This time we see the result we expect.
+
+[[[testcase=true|language=smalltalk
 3 + 4
 >>> 7
 ]]]
 
-We use the notation ==>>>== as a convention in this book to indicate that a
-particular Pharo expression yields a given result when you ==Print it==.
+We use the notation ==>>>== as a convention in this book to indicate that a particular Pharo expression yields a given result when you ""Print it"".
 
 +Inspecting a simple number using ==Inspect==.>file://figures/inspector.png|width=80|label=fig:inspector+
 
 !!!Inspect
 
-Select or place the cursor on the line of ==3\+4==, and this time ==Inspect it==
-(==CMD-i==).
+Select or place the cursor on the line of ==3 + 4==, and this time ""Inspect it"" (==Cmd-I==).
 
-Now you should see a new window titled "Inspector on a SmallInteger(7)" as shown
-in Figure *@fig:inspector*. The inspector is an extremely useful tool that
-allows you to browse and interact with any object in the system. The title tells
-us that 7 is an instance of the class ==SmallInteger==. The top panel allows us
-to browse the instance variables of an object and their values. The bottom
-panel can be used to write expressions to send messages to the object. Type
-==self squared== in the bottom panel of the inspector, and ==Print it==.
+Now you should see a new window titled "Inspector on a SmallInteger(7)" as shown in Figure *@fig:inspector*. The inspector is an extremely useful tool that allows you to browse and interact with any object in the system. The title tells us that ==7== is an instance of the class ==SmallInteger==. The top panel allows us to browse the instance variables of an object and their values. The bottom panel can be used to write expressions to send messages to the inspected object. Try typing ==self squared== in the bottom panel of the inspector and then ""Print it"".
 
-The inspector presents specific tabs that will show different information and
-views on the object depending on the kind of object you are inspecting. Inspect
-==Morph new openInWorld== you should get a situation similar to the one of
-Figure *@fig:inspectorMorph*.
+The inspector presents specific tabs that show different information and views on an object depending on the kind of object you are inspecting. Inspect ==Morph new openInWorld== you should get something similar to Figure *@fig:inspectorMorph*.
 
 +Inspecting a Morph using ==Inspect==.>file://figures/inspectMorph.png|width=80|label=fig:inspectorMorph+
 
-
-!!!Other Operations
+!!!Other operations
 
 Other right-click options that may be used are the following:
 
-- ==Do it and go== additionally opens a ''navigable'' inspector on the side of the playground. It allows us to navigate the object structure. Try with the previous expression ==Morph new openInWorld== and navigate the structure.
+- ""Do it and go"" additionally opens a ''navigable'' inspector on the side of the playground. It allows us to navigate the object structure. Try it with the previous expression ==Morph new openInWorld== and then navigate the structure.
 
-- ==Basic Inspect it== opens the classic inspector that offers a more minimal GUI and live updates of changes to the object.
+- ""Basic Inspect it"" opens the classic inspector that offers a more minimal interface and live updates of changes to the object.
 
-- ==Debug it== opens the debugger on the code.
+- ""Debug it"" opens the debugger on the code.
 
-- ==Profile it== profiles the code with the Pharo profile tool which shows how much time is spent for each message sent.
+- ""Profile it"" profiles the code with the Pharo profile tool, showing you how much time is spent for each message that is sent.
 
-- ==Code search== offers several options provided by System Browser, such as browsing the source code of an expression, searching for senders and implementors, and so on.
+- ""Code search"" offers several options provided by System Browser, such as browsing the source code of an expression, searching for senders and implementors, and so on.
 
+!!!Calypso: the System Browser
 
-!!!Calypso: The System Browser
+The ""System Browser"", also known as "Class Browser", is one of the key tools used for programming in Pharo. As we shall see, there are actually several interesting browsers available in Pharo, but this is the basic one you will find in any image. The current implementation of the System Browser is called ""Calypso"". The previous version of the System Browser was called ""Nautilus"".
 
-The ==System Browser==, also known as "Class Browser", is one of the key tools
-used for programming. As we shall see, there are several interesting browsers
-available for Pharo, but this is the basic one you will find in any image. The
-current implementation of the System Browser is called Calypso. Previous version of the System Browser was called Nautilus.
+!!!!Opening the System Browser on a given method
 
-!!!!Opening the System Browser on a Given Method
++The System Browser showing the ==slowFactorial== method of the class ==Integer==.>file://figures/system-browser-annotated.pdf|width=100|label=fig:systemBrowser+
 
-+The System Browser showing the ==slowFactorial== method of class ==Integer==.>file://figures/system-browser-annotated.pdf|width=100|label=fig:systemBrowser+
+This is not the usual way that we open a browser on a method: we can use much more advanced tools! But for the sake of this exercise, please execute the following code snippet:
 
-This is not the usual way that we open a browser on a method: we use more
-advanced tools! But for the sake of this exercise, execute the following code
-snippet:
-
-[[[
-ClyFullBrowser openOnMethod: Integer>>#slowFactorial
+[[[language=smalltalk
+ClyFullBrowserMorph openOnMethod: Integer>>#slowFactorial
 ]]]
 
-It will open a system browser on the method ==slowFactorial==. We should get a
-System Browser like in Figure *@fig:systemBrowser*. The title bar indicates that
-we are browsing the class ==Integer== and its method ==factorial==. Figure
-*@fig:systemBrowser* shows the different entities displayed by the browser:
-packages, classes, protocols, methods and method definition.
+It will open a System Browser on the method ==slowFactorial==, showing something like in Figure *@fig:systemBrowser*. The title bar of 'Integer>>#slowFactorial' indicates that we are browsing the class ==Integer== and its method ==slowFactorial==. Figure *@fig:systemBrowser* shows the different entities displayed by the browser: packages, classes, protocols, methods and the method definition.
 
-In Pharo, the default System Browser is Calypso. However, it is possible to
-have other System Browsers installed in the Pharo enviroment.
-Each System Browser may have its own GUI that may be very different from the
-Calypso GUI. From now on, we will use the terms ==Browser==, ==System Browser==
-and ==Calypso== interchangeably.
+In Pharo, the default System Browser is Calypso. However, as we have mentioned, it is possible to have other System Browsers installed in the Pharo enviroment. Each System Browser may have its own GUI that may be very different from the Calypso GUI. From now on, we will use the terms 'Browser', 'System Browser' and 'Calypso' interchangeably.
 
 +The System Browser showing the ==printString== method of class ==Object==.>file://figures/browsingprintString.png|width=100|label=fig:systemBrowser2+
 
-!!!Navigating using Calypso (the System Browser)
+!!!Navigating using the System Browser
 
-Pharo has ""Spotter"" (see below) to find fast information. Now we just want to
-show you the working flow of the System Browser. Usually with ""Spotter"" we go
-directly to the class or the method.
+There are ways to get to the class or method you're looking for in Pharo fast - very fast indeed. Later on we'll introduce you to ""Spotter"", one of the quickest ways to find an object in Pharo. But for now, while we're still learning, let's try taking the slow road by only using the System Browser to find the ==printString== method defined in the class ==Object==. At the end of the navigation, we will get the situation depicted in *@fig:systemBrowser2*:
 
-Let us take the slow path to find the ==printString== method defined in class ==Object==.
-At the end of the navigation, we will get the situation depicted in
-*@fig:systemBrowser2*.
+-""Open the Browser"": Either by using the World Menu or the shortcut ==Cmd-O Cmd-W==. When a new System Browser window first opens, all panes but the leftmost are empty. This first pane lists all known ""packages"", which contain groups of related classes.
+-""Filter packages"": Type part of the name of the package in the left most filter. It filters the list of packages to be shown in the list above it. Type 'Kern' for example.
+-""Expand the ==Kernel== package and select the ==Object== element"": When we select a package, it causes the second pane to show a list of all of the ""classes"" in the selected package. You should see the class hierarchy of ==ProtoObject==.
+-""Select the ==Object== class"": When a class is selected, the remaining two panes will be populated. The third pane displays the ""protocols"" of the currently selected class. These are convenient groupings of related methods which we'll discuss further later in the book. If no protocol is selected you should see all methods in the fourth pane.
+-""Select the ==printing== protocol"": You may have to scroll down to find it - ==Object== is a pretty important class and has lots of protocols. You can also click on the third pane and type ==pr==, to typeahead-find the ==printing== protocol. Now select it, and in the fourth pane you will see only the methods related to printing.
+-""Select the ==printString== method"": Now we see in the bottom pane the source code of the ==printString== method, shared by all objects in the system (except those that override it).
 
+There are much better way to find a method, for example, just type it in a Playground and select the word and use ""Implementors of it"" in the ""Code search"" context menu item, which you can bring up with an action-click, or just use the keyboard shortcut ==Cmd-M==.
 
+!!!Finding classes
 
--""Open the Browser."" When a new System Browser window first opens, all panes but the leftmost are empty. This first pane lists all known packages, which contain groups of related classes.
--""Filter packages."" Type part of the name of the package in the left most filter. It filters the list of packages to be shown in the list above it. Type 'Kern' for example.
--""Expand the ==Kernel== package and select the ==Object== element."" When we select a package, it causes the second pane to show a list of all of the classes in the selected package. You should see the hierarchy of ==ProtoObject==.
--""Select the ==Object== class."" When a class is selected, the remaining two panes will be populated. The third pane displays the protocols of the currently selected class. These are convenient groupings of related methods. If no protocol is selected you should see all methods in the fourth pane.
--""Select the ==printing== protocol."" You may have to scroll down to find it. You can also click on the third pane and type ==pr==, to typeahead-find the ==printing== protocol. Now select it, and you will see in the fourth pane only methods related to printing.
--""Select the ==printString== Method."" Now we see in the bottom pane the source code of the ==printString== method, shared by all objects in the system (except those that override it).
+There are several ways to find a class in Pharo. The first, as we have just seen above, is to know (or guess) what package it is in, and to navigate to it using the Browser.
 
-There are much better way to find a method, for example, just type it in a Playground and select the word and use Implementors of it in the Code search menu item.
+A second way is to send the ==browse== message to an instance or the class itself, asking it to open a Browser on itself. Suppose we want to browse the class ==Point==:
 
-!!!Finding Classes
+-""Using the Message ==browse=="": Type ==Point browse== into a Playground and then ""Do it"". A Browser will open on the ==Point== class. You can do the same with ==10@20== (which is an instance of the class ==Point==).
+-""Using ==Cmd-B=="": There is also a keyboard shortcut ==Cmd-B== that you can use in any text pane; select the word and press ==Cmd-B==. Use this keyboard shortcut to browse the class ==Point==.
 
-There are several ways to find a class in Pharo. The first, as we have just
-seen above, is to know (or guess) what package it is in, and to navigate to it
-using the browser.
-
-A second way is to send the ==browse== message to an instance or the class itself, asking it to open a
-browser on itself. Suppose we want to browse the class ==Point==.
-
--""Using the Message ==browse==."" Type ==Point browse== into a playground and ==Do it==. A browser will open on the ==Point== class. You can do the same with ==10@20== (an instance of the class ==Point==).
-
--""Using ==CMD-b== to Browse."" There is also a keyboard shortcut ==CMD-b== (browse) that you can use in any text pane; select the word and press ==CMD-b==. Use this keyboard shortcut to browse the class ==Point==.
-
-Notice that when the ==Point== class is selected but no protocol or method is selected, instead of the source code of a method, we see a class definition. This is nothing more than an ordinary message that is sent to the parent class, asking it to create a subclass. If you click on the ==Comments== button at the bottom of the class pane, you can see the class comment in a dedicated pane.
+Notice that, when the ==Point== class is selected but no protocol or method is selected, instead of the source code of a method we see a class definition. This is nothing more than an ordinary message that is sent to the parent class, asking it to create a subclass. If you click on the ""Comments"" button at the bottom of the class pane, you can see the class comment in a dedicated pane.
 
 %+The Boolean class with the comments section>file://figures/Boolean.png|width=100|label=fig:boolean+
-In addition the system supports the following mouse shortcuts
+In addition the system supports the following mouse shortcuts:
 
-- ==CMD-Click== on a word: open the definition of a class when the word is a class name. You get also the implementors of the message when you click on a selector that is in the body of a method.
-- ==CMD-Shift-Click== on a word: open a list browser with all the refs of the class when the word is a class name. You get also the senders of the message when you click on a selector that is in the body of a method.
+- ==Cmd-Click== on a word: open the definition of a class when the word is a class name. You get also the implementors of the message when you click on a selector that is in the body of a method.
+- ==Shift-Cmd-Click== on a word: open a list browser with all the refs of the class when the word is a class name. You get also the senders of the message when you click on a selector that is in the body of a method.
 
-!!!Using Spotter
+!!!!Using Spotter
 
-The fastest (and probably the coolest) way to find a class is to use
-""Spotter"". Pressing ==Shift\+Enter== opens ==Spotter==, a very powerful tool
-for finding classes, methods, and many other related actions. Figure
-*@fig:spotter* shows that we look for ==Point==.
+The fastest (and probably the coolest) way to find a class is to use ""Spotter"". Pressing ==Shift-Enter== opens ""Spotter"", a very powerful tool for finding classes, methods, and many other related actions. Figure *@fig:spotter* shows Spotter being used to  look for ==Point==.
 
-+Using Spotter (shift\+enter) to browse the class ==Point==.>file://figures/spotter.png|width=80|label=fig:spotter+
++Using Spotter ==Shift-Enter== to browse the class ==Point==.>file://figures/spotter.png|width=80|label=fig:spotter+
 
-""Spotter"" offers several possibilities as shown in Figure *@fig:spotter*. You
-can specify to Spotter the kind of ''categories'' you are interested in. For
-example, using ==\#class== followed by the word you look for, indicates that you
-are interested in classes. This is the default so you do not need to type
-==#class==.
+""Spotter"" offers several possibilities as shown in Figure *@fig:spotter*. You can specify to Spotter the kind of ''category'' you are interested in. For example, using ==#Classes== followed by the work you match against for, indicates that you are interested in classes.
 
-Figure *@fig:spotter2* shows how we can ask ""Spotter"" to show all the
-implementors of a given messages. We do not have to type the full category name.
-Other Categories are menu, packages, method (==#implementor==), examples
-(==#example==), pragma (==#pragma==), senders (==#sender==), class references
-(==#reference==) but also playground code snippets (using ==\#playground==).You
-can just type the beginning of the category to identify it i.e., ==#ref Point==
-will give all the reference to the class ==Point==.
+Figure *@fig:spotter2* shows how we can ask ""Spotter"" to show all the implementors of a given messages. We do not have to type the full category name. Other categories are
+
+- ==#Menu==, matching entries from the World Menu
+- ==#Packages==, matching packages in the system
+- ==#Implementors==, the implementors of a matching method
+- ==#Senders==, the senders of matching messages
+- ==#Help==, matching documents in Pharo's help system
+
+You can also just type the beginning of the category to identify it, i.e. ==#sen printOn:== will give all the senders of the message ==printOn:==.
 
 +Looking for implementors matching ==printString==.>file://figures/Spotter2.png|width=80|label=fig:spotter2+
 
-""Spotter"" can be used even to browse through the OS file system, and has a
-history category where previous searches are stored for quickly going back to
-popular searches.
+By default, Spotter shows matches from multiple categories, all grouped together under their category heading. You can navigate through each category to see more results.
 
-""Navigating Results."" In addition we can use ""Spotter"" to navigate to our search results similarly
-to how we use System Browser. Spotter categorizes its search results: for
-example, classes are under Classes category, methods under the Implementors
-category, help topics under Help Topics category, etc.
+!!!!Using 'Find class' in the System Browser
 
-!!!Using 'Find class' in System Browser
-In the SystemBrowser you can also search for a class via its name. For example,
-suppose that you are looking for some unknown class that represents dates and
-times.
+In the System Browser you can also search for a class by its name. For example, suppose that you are looking for some unknown class that represents dates and times.
 
-In the System Browser, click anywhere in the package pane or the class pane, and
-launch the Class Search window by typing ==CMD-f==, or selecting ==Find
-class== from the right-click context menu. Type ==time== in the dialog box
-and click ==OK== (or press ==Enter==).
+In the System Browser, click anywhere in the package pane or the class pane, and launch the Class Search window by typing ==Cmd-F==, or selecting ""Find class"" from the right-click context menu. Type ==time== in the dialog box. A list of classes is displayed, whose names contain the substring ==time==. Choose one (say, ==Time==), and click ""OK"" (or press ==Enter==), and the Browser will show it.
 
-A list of classes is displayed, whose names contain the substring
-==time==. Choose one (say, ==Time==), and the browser will show it. If you want to
-browse one of the others, select its name (in any text pane), and type
-==CMD-b==, or you can choose ==Browse== from the right-click context menu.
+!!!Finding methods
 
-+The Finder showing all classes defining a method named ==now==.>file://figures/finder.png|width=80|label=fig:finder+
+Sometimes you can guess the name of a method, or at least part of the name of a method, more easily than the name of a class. For example, if you are interested in the current time, you might expect that there would be a method called ==now==, or at least one containing "now" as a substring. But where might it be? ""Spotter"" and ""Finder"" can help you!
 
-!!!Finding Methods
+!!!!With Spotter
 
-Sometimes you can guess the name of a method, or at least part of the name of a
-method, more easily than the name of a class. For example, if you are interested
-in the current time, you might expect that there would be a method called "now",
-or containing "now" as a substring. But where might it be? ""Spotter"" and
-""Finder"" can help you.
+As we've already said, Spotter can also find methods. You can use the ==#Implementors== category to search for methods - just type ==#Implementors aMethodName==. It will display all the methods that are implemented and have a similar or the same name. For instance, you will see all the methods starting with "now" if you type ==#imp now==.
 
-!!!! With Spotter. 
-With ""Spotter"" you can also find methods. Either by getting a class and
-navigating or using the  ==#implementor a method name==  category. 
+!!!!With Finder
 
-It will display all the methods that are implemented and have the same name. For example you will get all the method starting with ==now==.
+Open the ""Finder"", either through the ""Browse"" menu on the menu bar, or through the World Menu. Type ==now== in the top left search box, cick ""Search"" (or just press the ==Enter== key). You should see a list of results similar to the one in Figure *@fig:finder*.
 
-
-!!!! With Finder. 
-Open the Finder available from the menu Browse. Type ==now== in the top left search box,
-click ==Search== (or just press the ==Enter== key). You should see a list of
-results similar to the one in Figure *@fig:finder*.
-
-The Finder will display a list of all the method names that contain the
-substring "now". To scroll to ==now== itself, move the cursor to the list and
-type "n"; this type-ahead trick works in all scrolling windows. Expanding the
-"now" item shows you the classes that implement a method with this name.
-Selecting any one of them will display the source code for the implementation
-in the code pane on the bottom. It is also possible to search for the exact match, by typing =="now"== in the top left search bar, using quotes you will only get the exact match. 
-
-
+The Finder will display a list of all the method names that contain the substring "now". To scroll to ==now== itself, move the cursor to the list and type "n"; this type-ahead trick works in all scrolling windows. Expanding the "now" item shows you the classes that implement a method with this name. Selecting any one of them will display the source code for the implementation in the code pane on the bottom. It is also possible to search for the exact match, by typing =="now"== in the top left search bar; by using quotes you will only get the exact match. 
 
 !!!Finding Methods using Examples
 
-Using the Finder you can look for classes or methods based on their names as mentioned above.
-You can also look for string inside the complete method body, comments included. 
+Using the Finder you can look for classes or methods based on their names as mentioned above. You can also look for a string inside the whole method bodies, comments included. 
 
-But the Finder offers a unique and powerful facility. 
-At other times, you may have a good idea that a method exists, but will have no
-idea what it might be called. The Finder can still help! 
-For example, suppose that you would like to find a method that turns a string into upper
-case (for example, transforming =='eureka'== into =='EUREKA'==). We can give the
-inputs and expected output of a method and the Finder will try to find it for
-you.
-
-The ""Finder"" has a really powerful functionality: you can give the receiver,
-arguments and expected result and the finder tries to find the corresponding
-message.
+But the Finder also offers a unique and powerful facility. At times you may have an inkling that a method exists, but have no idea what it might be called; you know how it should behave, but you don't know what it's called. But the Finder can still help! Suppose that you want find a method that upcases a string (for example, transforming =='eureka'== into =='EUREKA'==). We can give Finder the inputs and expected outputs of a method and it will (try to) find it for you.
 
 +Looking for a method that given the string =='eureka'== returns the string =='EUREKA'==.>file://figures/FinderEureka.png|width=80|label=fig:finder2+
 
-!!! Finder at Work
+In the Finder, select the ""Examples"" mode using the second dropdown box (the one that shows ""Selectors"" by default).
 
-In the Finder, select the ""Examples"" mode using the second combo-box (the one
-that shows ==Selectors== by default).
+Type =='eureka' . 'EUREKA'== into the search box and press the ==Enter== key or click the ""Search"" button (don't forget the single quotes!).
 
-Type =='eureka' . 'EUREKA'== into the search box and press the ==Enter== key (don't forget the single quotes).
+The Finder will then suggest a method that does what you were looking for, as well as display a list of classes that implement methods with the same name. In this case, it determined that the ==asUppercase== method is the one that performed the operation that fit your example as shown in Figure *@fig:finder2*.
 
-The ""Finder"" will then suggest a method that does what you were looking for,
-as well as display a list of classes that implement methods with the same name.
-In this case, it determined that the ==asUppercase== method is the one that performed the operation that fit your example as shown in Figure *@fig:finder2*.
+Click on the =='eureka' asUppercase -> 'EUREKA'== line, to show the list of classes that implement the method ==asUppercase==.
 
-Click on the =='eureka' asUppercase -\-> 'EUREKA'== expression, to show the list
-of classes that implement that method.
+An asterisk at the beginning of a line in the list of classes indicates that this method is the one that was actually used to obtain the desired result. So the asterisk in front of ==String== lets us know that the method ==asUppercase== defined in the class ==String== was executed and returned the result we wanted. The classes that do not have an asterisk are just the other implementors of ==asUppercase==, which share the method name but did ''not'' return the result you wanted. So the method ==asUppercase== defined in ==Character== was not executed in our example, because =='eureka'== is not a ==Character== instance (it's a ==String==).
 
-An asterisk at the beginning of a line in the list of classes
-indicates that this method is the one that was actually used to obtain the
-requested result. So, the asterisk in front of ==String== lets us
-know that the method ==asUppercase== defined in the class ==String== was
-executed and returned the result we wanted. The classes that do not have an
-asterisk are just other implementors of ==asUppercase==, which share the method
-name but were ''not'' used to return the wanted result. 
-So the method ==Character>>asUppercase== was not executed in our example, because =='eureka'== is not a ==Character== instance (but is instead a ==String==).
+You can also use the Finder to search for methods with one or more arguments. For example, if you are looking for a method that will find the greatest common factor of two integers, you might try ==25 . 35 . 5==. You can also give Finder multiple examples to narrow the search space; the help text in the bottom pane explains how.
 
-You can also use the Finder to search for methods by arguments and results. 
-For example, if you are looking for a method that will find the greatest common factor of two integers, you might try ==25 . 35 . 5== as an example. 
-You can also give the method finder multiple examples to narrow the search space; the help text in the bottom pane explains how.
+So far, we've seen a lot of tools that are useful when we're trying to ''find'' something in Pharo. Now let's take a look at some other other tools in Pharo, while we write a new method through the technique of ''Test-Driven Development''.
 
+!!!Defining a new method with Test-Driven Development
 
-!!!Defining a New Method
+Pharoers ''love'' Test-Driven Development (TDD). TDD was discovered, or possibly reinvented, by Kent Beck and Ward Cunningham while they were working in Smalltalk, the language from which Pharo grew out. It is this heritage that makes TDD popular among the Pharo community, and also makes Pharo a great language to learn about TDD.
 
-The advent of Test Driven Development (TDD) has changed the way we write code.
-The idea behind TDD is that we write a test that defines the desired behaviour of our code before we write the code itself. 
-Only then do we write the code that satisfies the test.
+The idea behind TDD is that we describe the desired behaviour of our program in an automated test ''before'' we write any code; we write a ''failing test first''. Then we write code until the test passes, because when the test passes we know that we've achieved the behviour we want. 
 
-Suppose that our assignment is to write a method that "says something loudly and with emphasis". 
-What exactly could that mean? 
-What would be a good name for such a method? How can we make sure that programmers who may have to maintain our
-method in the future have an unambiguous description of what it should do? 
-We can answer all of these questions by giving an example.
+Suppose that our assignment is to write a method that "says something loudly and with emphasis". What exactly does that mean? What would be a good name for such a method? How can we make sure that the programmers  maintain our method in the future (including ourselves) have an unambiguous description of what the method should do? We can answer all of these questions by writing an example of our method being used.
 
-Our goal is to define a new method named ==shout== in the class ==String==. The
-idea is that this message should turn a string into its uppercase version as
-shown in the example below:
+Our goal is to define a new method named ==shout== in the class ==String==. The idea is that this message should turn a string into its uppercase version as shown in the example below:
 
 [[[testcase=true
 'No panic' shout
 >>> 'NO PANIC!'
 ]]]
 
-However, before creating the ==shout== method itself, we must first create a
-test method! 
-In the next section, we use the "No Panic" example to create our test method.
+However, before creating the ==shout== method itself, we must first create a test! In the next section, we will use the example above as the basis for our test method.
 
 !!!Defining a New Test Method
 
-How do we create a new method in Pharo? First, we have to decide which class the
-method should belong to. In this case, the ==shout== method that we are testing
-will go in class ==String==, so the corresponding test will, by convention, go
-in a class called ==StringTest==.
+How do we create a new method in Pharo? First, we have to decide which class the method should belong to. In this case, the ==shout== method that we are testing will go in class ==String==, so the corresponding test will, by convention, go in a class called ==StringTest==.
 
-First, open a browser on the class ==StringTest==, and select an appropriate
-protocol for our method, in this case =='tests - converting'==. The highlighted
-text in the bottom pane is a template that reminds you what a Pharo method looks
-like. Delete this template code (remember, you can either click on the beginning
-or the end of the text, or press ==CMD-a==, to "Select All"), and start typing
-your method. 
-We can turn our "No Panic" code example into the test method
-itself:
+First, open a browser on the class ==StringTest==, using any of the methods we've shown you above, and select an appropriate protocol for our method, in this case =='tests - converting'== looks about right, as we're testing converting a string into a shouty string. The highlighted text in the bottom pane is a template that reminds you what a Pharo method looks like. Delete this template code (remember, you can either click on the beginning or the end of the text, or press ==Cmd-A==, to select all of the text), and start typing your method.
+
+We can turn our "No Panic" code example into the test method itself:
 
 [[[
 testShout
 	self assert: ('No panic' shout = 'NO PANIC!')
 ]]]
 
-Once you have typed the text into the browser, notice that the right upper corner is orange.
-This is a reminder that the pane contains unsaved changes. So, select ==Accept
-(s)== by right clicking in the bottom pane, or just type ==CMD-s==, to compile
-and save your method. You should see a situation similar to the one depicted in
-Figure *@fig:testshout*.
+==self== refers to the object the method is defined in, and the ==assert:== method is the test class's way of running a test. It says 'the following expression must be true'. And so we're saying '==No panic' shout== is equal to =='NO PANIC'=='
+
+Once you have typed the text into the browser, notice that the right upper corner is orange. This is a reminder that the pane contains changes that have not been 'saved', which really means that they have not been compiled as part of the class. So, select ""Accept"" by right clicking in the bottom pane, or just hit ==Cmd-S==, to compile and save your method. You should see a situation similar to the one depicted in Figure *@fig:testshout*.
 
 +Defining a test method in the class ==StringTest==.>file://figures/DefiningTestShout.png|width=70|label=fig:testshout+
 
-%+Defining a test method in the class ==StringTest==.>file://figures/testshout-00.png|width=70|label=fig:testshout+
+If this is the first time you have accepted any code in your image, you will likely be prompted to enter your name. Since many people have contributed code to the image, it is important to keep track of everyone who creates or modifies methods. Simply enter your first name and last name without any spaces.
 
-If this is the first time you have accepted any code in your image, you will
-likely be prompted to enter your name. Since many people have contributed code
-to the image, it is important to keep track of everyone who creates or modifies
-methods. Simply enter your first and last names, without any spaces.
-
-Because there is no method called ==shout== yet, the automatic code checker
-(Quality Assistance) will inform you that the message ==shout== is sent but not implemented, you will see it in the lower browser pane and on the same line where you wrote the code. This can be quite useful if you have merely made a typing mistake, but in this case, we really do mean ==shout==, since that is the method we are about to create. We confirm this by selecting the first option from the menu of choices.
+Because there is no method called ==shout== yet, the automatic code checker (Quality Assistance) will inform you that the message ==shout== is sent but not implemented, you will see it in the lower browser pane and on the same line where you wrote the code. This can be quite useful if you have merely made a typing mistake, but in this case, we really do mean ==shout==, since that is the method we are about to create. So we push on!
 
 !!!Running Your Test Method
 
-Run your newly created test: open the ""Test Runner"" from the World Menu (or
-press on the circle icon in front of the method name this is faster and cooler).
+We can run this new test in a few ways: in the ""Test Runner"" tool, by clicking on the little grey circle next to the test method name, by right clicking on the test method and selecting ""Run tests"", or by pressing ==Cmd-T== while the test method is selected in the method pane. You can ''also'' click the little grey circle next to the class the test is defined in, in the class pane of the Browser, which will run ''all'' the tests in the test class. That's a lot of ways to run a test - and that's not even all of them!
 
-In the ""Test Runner"" the leftmost two panes are a bit like the top panes in
-the System Browser. The left pane contains a list of packages, but it's
-restricted to those packages that contain test classes.
+Let's take a look at the ""Test Runner"" way first, but feel free to try all the other ways too.
 
-Select ==CollectionsTests-Strings== package, and the pane to the right will show
-all of the test classes in it, which includes the class ==StringTest==. Class
-names are already selected, so click ==Run Selected== to run all these tests.
+!!!Running tests with the Test Runner
 
-%+Failed test - Message not Understood>file://figures/preview-1.png|width=70|label=fig:messageNotUnderstood+
+Open the Test Runner from the World menu, under ""Browse"". In the Test Runner the leftmost two panes are a bit like the top panes in the System Browser. The left pane contains a list of packages, restricted to those packages that contain test classes.
 
-You should see the upper right pane turn red, which indicates that there was an
-error in running the tests. The list of tests that gave rise to errors is shown
-in the bottom right pane. As you can see, the method ==StringTest>>testShout==
-is the culprit. (Note that ==StringTest>>testShout== is the Pharo way of
-identifying the ==testShout== method of the ==StringTest== class.) If you click
-on that method in the bottom right pane, the erroneous test will run again, this
-time in such a way that you see the error happen: ==Instance of ByteString did not understand #shout== (see Figure *@fig:shoutError*).
+Select ==Collections-Strings-Tests-Base== package (filter the list by typing ==Strings== rather than scrolling through all the packages) and the pane to the right will show all of the test classes in it, which includes the class ==StringTest==. All the class names are already selected, so click ""Run Selected"" to run all these tests.
+
+You should see the upper right pane turn red, which indicates that there was an ''error'' in running the tests. The list of tests that gave rise to errors is shown in the bottom right pane. As you can see, and as we expected, the method ==StringTest>>#testShout== is the culprit.
+
+Note here that ==StringTest>>#testShout== is just the Pharo way of identifying the ==testShout== method of the ==StringTest== class. The formula, which you'll see again and again, is ==ClassName>>#methodName==.
+
+If you click on that method in the bottom right pane, the erroneous test will run again, but this time in such a way that you see the error happen: ==Instance of ByteString did not understand #shout== (see Figure *@fig:shoutError*). This is the point you'd reach by running the test by clicking the little grey button.
 
 +Looking at the error in the debugger.>file://figures/testshout-00.png|width=70|label=fig:shoutError+
 
-The window that opens with the error message is the Pharo debugger. We will look
-at the debugger and how to use it in Chapter:
+The window that opens with the error message is the Pharo debugger. We will look at the debugger in detail and learn how to use it in Chapter:
 *The Pharo Environment>../Environment/Environment.pillar@cha:env*.
 
 +Pressing the Create button in the debugger prompts you to select in which class to create the new method.>file://figures/preview-2.png|width=50|label=fig:createPromptWhichClass+
 
 !!!Implementing the Tested Method
 
-The error is, of course, exactly what we expected: running the test generates an
-error because we have not yet written a method that tells strings how to shout.
-Nevertheless, it's good practice to make sure that the test fails because this
-confirms that we have set up the testing machinery correctly and that the new
-test is actually being run. Once you have seen the error, you can ==Abandon==
-the running test, which will close the debugger window.
+The error is, of course, exactly what we expected: running the test generates an error because we have not yet written a method that tells strings how to shout. Nevertheless, it's ''absolutely best practice'' to run the test and to make sure that it fails. This confirms that we have set up the testing machinery correctly and that the new test is actually being run; you need to know the rubber is hitting the road, so to speak. Once you have seen the error, you can ""Abandon"" the running test, which will close the debugger window.
 
 +The automatically created ==shout== method waiting for a real definition.>file://figures/shoutInDebugger-4.png|width=70|label=fig:shoutShouldBeImplemented+
 
+But what if we didn't close the debugger...?
+
 !!!!Coding in the Debugger
 
-Instead of pressing ==Abandon==, you can define the missing method using the
-==Create== button right in the debugger. This will prompt you to select a class
-in which to define the new method (see Figure *@fig:createPromptWhichClass*),
-then prompt you to select a protocol for that method, and finally take you to a
-code editor window in the debugger, in which you can edit the code for this new
-method. Note that since the system cannot implement the method for you, it
-creates a generic method that is tagged as to be implemented (see Figure
-*@fig:shoutShouldBeImplemented*).
+Instead of pressing ""Abandon"", you can define the missing method using the ""Create"" button, right in the debugger itself. This will prompt you to select a class in which to define the new method (see Figure *@fig:createPromptWhichClass*), then prompt you to select a protocol for that method, and then finally take you to a code editor window in the debugger, in which you can edit the code for this newly created method. Note that since the system cannot implement the method for you, it creates a generic method that is 'tagged' as to be implemented (see Figure *@fig:shoutShouldBeImplemented*).
 
-Now let's define the method that will make the test succeed! Right inside the
-debugger edit the ==shout== method with this definition (as shown in Figure *@fig:shoutInDBG*):
+Now let's define the method that will make the test pass! Right inside the debugger edit the ==shout== method with this definition (as shown in Figure *@fig:shoutInDBG*):
 
 [[[
 shout
-  ^ self asUppercase,'!'
+  ^ self asUppercase , '!'
 ]]]
 
-The comma is the string concatenation operation, so the body of this method
-appends an exclamation mark to an upper-case version of whatever String object
-the shout message was sent to. The ==^== tells Pharo that the expression that
-follows is the answer to be returned from the method, in this case the new
-concatenated string.
+The comma is the ""string concatenation"" operation, so the body of this method appends an exclamation mark to an upper-case version of ==self==, which is whatever string object the shout message was sent to. The ==^== tells Pharo that the expression that follows is the answer to be returned from the method, in this case the brand new string.
 
 +Defining the ==shout== method right inside the debugger.>file://figures/shoutInDebuggerForReal.png|width=70|label=fig:shoutInDBG+
 
-When you've finished implementing the method, do not forget to compile it using
-==CMD-s== and you can press ==Proceed== and continue with the tests. Note that
-==Proceed== simply continues on running the test suite, and does not re-run the
-failed method.
+When you've finished implementing the method, do not forget to compile it using ==Cmd-S==, and then you can press ""Proceed"" and continue with the tests. Note that ""Proceed"" simply continues on running the test suite, and does not re-run the failed method.
 
 !!!!Does this method work?
-Let's run the tests and see. Click on ==Run Selected== again in the Test Runner,
-and this time you should see a green bar and text indicating that all of the
-tests ran with no failures and no errors. When you get to a green bar, it's a
-good idea to save your work by saving the image (==World Menu > Pharo > Save==), and
-take a break. So, do that right now!
 
-!!!Chapter Summary
+Well, let's run the tests and see. Click on ""Run Selected"" again in the Test Runner, and this time you should see a green bar and text indicating that all of the tests ran with no failures and no errors. When you get that green bar, or the little grey circle next to the test method goes green, it's a good idea to save your work by saving the image (""World Menu > Pharo > Save""), and take a break. You deserve it, well done!
 
-This chapter has introduced you to the Pharo environment and shown you how to
-use some of the major tools, such as the System Browser, Spotter, the Finder,
-the Debugger, and the Test Runner. You have also seen a little of Pharo's
-syntax, even though you may not understand it all yet.
+!!!Chapter summary
 
--A running Pharo system consists of a ''virtual machine'', a ==.sources== file, and ==.image== and ==.changes== files. Only these last two change, as they record a snapshot of the running system.
--When you open a Pharo image, you will find yourself in exactly the same state (i.e., with exactly the same running objects) that you had when you last saved that image.
--You can click on the Pharo background to bring up the ""World Menu"" and launch various tools.
--A ""Playground"" is a tool for writing and evaluating snippets of code. You can also use it to store arbitrary text.
--You can use keyboard shortcuts on text in the playground, or any other tool, to evaluate code. The most important of these are ==Do it== (==CMD-d==), ==Print it== (==CMD-p==), ==Inspect it== (==CMD-i==), and ==Browse it== (==CMD-b==).
--The ""System Browser"" is the main tool for browsing Pharo code and for developing new code.
--The ""Test runner"" is a tool for running unit tests, and aids in Test Driven Development.
--The ""Debugger"" allows you to examine errors and exceptions (such as errors or failures encountered when running tests). You can even create new methods right in the debugger.
--The ""Finder"" allows you to look for classes, methods and more. In addition it lets you find methods based on the actual object receiving the message, the message arguments and returned object.
--"Spotter" is a powerful to navigate the system and find information.
+This chapter has been a whirlwind tour to introduce you to the Pharo environment and some of the major tools you will use to program in it. You have also seen a little of Pharo's syntax, even though you may not understand it all yet. Here's a little summary of what we've learned:
+
+- Pharo systems can be managed on your comuputer using the Pharo Launcher. Alternatively, you can download Pharo using the Zeroconf scripts.
+- A running Pharo system consists of a ""virtual machine"", a ""source file"" (==.sources==), an ""image file"" (==.image==) and a ""changes file"" (==.changes==). Only these last two change, as they record the latest snapshot of your running system.
+- When you open a Pharo image, you will find yourself in exactly the same state (i.e., with exactly the same running objects) that you had when you last saved that image.
+- You can click on the Pharo background to bring up the ""World Menu"" and launch various tools.
+- A ""Playground"" is a tool for writing and evaluating snippets of code. You can also use it to store arbitrary text.
+- You can use keyboard shortcuts on text in the Playground, or any other tool, to evaluate code. The most important of these are ""Do it"" (==Cmd-D==), ""Print it"" (==Cmd-P==), ""Inspect it"" (==Cmd-I==), and ""Browse it"" (==Cmd-B==).
+- The ""System Browser"" is the main tool for browsing Pharo code and for developing new code.
+- The ""Spotter"" is a powerful tool to navigate the system and find information.
+- The ""Finder"" allows you to look for classes, methods and more. In addition it lets you find methods based on the object receiving the message, the message arguments, and the returned object.
+- The ""Test Runner"" is a tool for running unit tests, and aids in Test-Driven Development.
+- The ""Debugger"" allows you to examine errors and exceptions (such as errors or failures encountered when running tests). You can even create new methods right in the debugger.
+
+
