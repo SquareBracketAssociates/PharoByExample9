@@ -1,6 +1,6 @@
 !!Developing a simple counter
 
-To start ourselves off in Pharo, let's write a simple counter by following the steps given below. In this exercise you will learn how to create packages, classes, methods, instances, unit tests and more. This simple tutorial covers most of the important actions you will perform when developing in Pharo. You can also watch the companion videos available in the Pharo MOOC at *http://mooc.pharo.org*: they help illustrate this tutorial. Be aware that the videos were filmed for Pharo 8 and so some details will be different in Pharo 9.
+To start off in Pharo, let's write a simple counter by following the steps given below. In this exercise you will learn how to create packages, classes, methods, instances, unit tests and more. This tutorial covers most of the important actions you will perform when developing in Pharo. You can also watch the companion videos available in the Pharo MOOC at *http://mooc.pharo.org*, which help illustrate this tutorial.
 
 Note that the development flow promoted by this little tutorial is ''traditional'' in the sense that you will define a package, a class, ''then'' define its instance variables, ''then'' define its methods, and ''then'' finally execute it. Now in Pharo, developers usually follow a different workflow called Test-Driven Development (much as we saw in the last chapter): they execute an expression that raises an error. These errors are caught by the Debugger and the developer codes directly in the debugger, allowing the system to define instance variables and methods on the fly for them.
 
@@ -89,11 +89,9 @@ And so there is no other mechanism to access our instance variable from outside 
 
 A method is usually placed into a ''protocol''. These protocols are just a group of methods - they have no meaning in Pharo, but they do convey important information to the readers of your class. Although protocols can have any name, Pharo programmers follow certain conventions when naming protocols. If you define a method and are not sure what protocol it should be in, first take a look through existing code and see if you can find an appropriate protocol that already exists.
 
-!!!!Create a method
+!!!Create a method
 
-Now let us create the accessor methods for the instance variable ==count==. Start by selecting the class ==Counter== in a Browser, and make sure the you are editing the instance side of the class (i.e., we define methods on the ''instances'' of our class) by selecting the ""Inst. side"" radio button.
-
-Click on the ""Inst. side method"" tab and define your method. 
+Now let us create the accessor methods for the instance variable ==count==. Start by selecting the class ==Counter== in a Browser, and make sure you are editing the instance side of the class (i.e., we define methods on ''instances'' of our class) by selecting the instance side tab. Then define your method.
 
 Figure *@MethodEditor* shows the method editor ready to define a method.
 +The method editor selected and ready to define a method.>file://figures/MethodEditor.png|label=MethodEditor+
@@ -290,7 +288,7 @@ Define a new instance creation method called ==startingAt:==. This method receiv
 What do we do first? Why, we define a test of course:
 
 [[[
-TestCounter >> testStartingAt
+TestCounter >> testCounterStartingAt5
 	self assert: (Counter startingAt: 5) count equals: 5
 ]]]
 
