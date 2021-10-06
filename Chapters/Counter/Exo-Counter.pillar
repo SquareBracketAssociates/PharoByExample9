@@ -1,4 +1,5 @@
 !!Developing a simple counter
+@cha:counter
 
 To start off in Pharo, let's write a simple counter by following the steps given below. In this exercise you will learn how to create packages, classes, methods, instances, unit tests and more. This tutorial covers most of the important actions you will perform when developing in Pharo. You can also watch the companion videos available in the Pharo MOOC at *http://mooc.pharo.org*, which help illustrate this tutorial.
 
