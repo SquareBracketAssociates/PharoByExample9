@@ -266,7 +266,7 @@ We use the notation ==>>>== as a convention in this book to indicate that a part
 
 Select or place the cursor on the line of ==3 + 4==, and this time ""Inspect it"" (==Cmd-I==).
 
-Now you should see a new window titled "Inspector on a SmallInteger(7)" as shown in Figure *@fig:inspector*. The inspector is an extremely useful tool that allows you to browse and interact with any object in the system. The title tells us that ==7== is an instance of the class ==SmallInteger==. The top panel allows us to browse the instance variables of an object and their values. The bottom panel can be used to write expressions to send messages to the inspected object. Try typing ==self squared== in the bottom panel of the inspector and then ""Print it"".
+Now you should see a new window titled "Inspector on 7" as shown in Figure *@fig:inspector*. The inspector is an extremely useful tool that allows you to browse and interact with any object in the system. The subtitle of the window, "a SmallInteger (7)", tells us that ==7== is an instance of the class ==SmallInteger==. The top panel allows us to browse the instance variables of an object and their values. The bottom panel can be used to write expressions to send messages to the inspected object. Try typing ==self squared== in the bottom panel of the inspector and then ""Print it"".
 
 The inspector presents specific tabs that show different information and views on an object depending on the kind of object you are inspecting. Inspect ==Morph new openInWorld== you should get something similar to Figure *@fig:inspectorMorph*.
 
