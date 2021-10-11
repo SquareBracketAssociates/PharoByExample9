@@ -165,6 +165,12 @@ CounterTest >> testCountIsSetAndRead
    self assert: c count equals: 7
 ]]]
 
+!!!!A typographic convention
+
+Pharoers frequently use the notation ==ClassName >> methodName== to identify the class to which a method belongs. For example, the ==count== method we wrote above in our class ==Counter== would be referred to as ==Counter >> count==. Just keep in mind that this is not ''exactly'' Pharo syntax, but more like a convenient notation we use to indicate "the instance method ==count== which belongs to the class ==Counter==".
+
+From now on, when we show a method in this book, we will write the name of the method in this form. Of course, when you actually type the code into the browser, you don't have to type the class name or the ==>>==; instead, you just make sure that the appropriate class is selected in the class pane.
+
 Verify that the test passes by executing either pressing the circle icon in front of the method (as shown by Figure *@FirstGreenTest*) or using the Test Runner available in the ""Tools"" menu.
 
 As you now have your first green test, it's a good time to save your work.
@@ -301,6 +307,8 @@ Your implementation should look something like:
 Counter class >> startingAt: anInteger
 	^ self new count: anInteger.  
 ]]]
+
+Here we see the notation for identifying a ''class side'' method in our text: ==ClassName class >> methodName== just means "the class side method ==startingAt:== on the class ==Counter==".
 
 What does ==self== refer to here? As always, ==self== refers to the object that the method is defined in, and so here it refers to the ==Counter== class itself. 
 
