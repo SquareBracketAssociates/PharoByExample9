@@ -1,83 +1,36 @@
 !!A first application
 @cha:firstApp
 
-In this chapter, we will develop a simple game: LightsOut
-(*http://en.wikipedia.org/wiki/Lights_Out_(game)*). 
-Along the way we will show most of the tools that Pharo programmers use to construct and debug their
-programs, and show how programs are shared with other developers. 
-We will define a buggy method and show you how to fix it.
-We will present the browser, the object inspector, the debugger and the way to version code. 
-
-In Pharo you can develop in a traditional way, by defining a class, then its instance variables, then its methods. 
-However, in Pharo your development flow can be much more productive than that! You can define instance variables and
-methods on the fly. 
-You can also code in the debugger using the exact context of currently executed objects. 
-This chapter will sketch such alternate way and show you how you can be really productive.
+In this chapter we will develop a simple game: LightsOut (*http://en.wikipedia.org/wiki/Lights_Out_(game)*). In doing so we will increase our familiarity with the Browser, the Inspector, the Debugger, and versioning code with Iceberg. It's important to become proficient with these core tools. Once again, we will encourage you to take a test-first approach to developing this game by using Test-Driven Development.
 
 +The Lights Out game board.>file://figures/gameLO.png|width=30|label=fig:gameLO+
 
-We will code the game but doing so we will make mistakes and we will show you 
-how we recover from these mistakes. So this may be a bit frustrating for you and more
-boring for us to describe but this is a key aspect of programming. 
-We have to show how to handle errors and find bugs.
+A word of warning: this chapter contains a few deliberate mistakes in order for us to demonstrate how to handle errors and find bugs. Sorry if you find this a bit frustrating, but do try and follow along, as these are also important techniques that we need to see in action.
 
 !!!The Lights Out game
 
-To show you how to use Pharo's programming tools, we will build a simple game
-called ""Lights Out"".
-The game board consists of a rectangular array of light yellow cells.
-When you click on one of the cells, the four surrounding cells turn blue. 
-Click again, and they toggle back to light yellow.
- The object of the game is to turn blue as many cells as possible.
+The game board consists of a rectangular array of light yellow cells. When you click on one of the cells, the four surrounding cells turn blue. Click again, and they toggle back to light yellow. The object of the game is to turn as many cells blue as possible.
 
-""Lights Out"" is made up of two kinds of objects: the game board itself, and 100 individual cell objects. 
-The Pharo code to implement the game will contain two classes: one for the game and one for the cells. 
-We will now show you how to define these classes using the Pharo development tools.
+"Lights Out" is made up of two kinds of objects: the game board itself, and 100 individual cell objects. The Pharo code to implement the game will contain two classes: one for the game and one for the cells.
 
 !!!Creating a new package
 @fstApp:Packages
 
-We have already seen the browser in Chapter
-*: A Quick Tour of Pharo>../PharoTour/PharoTour.pillar@cha:tour* where we
-learned how to navigate to packages, classes and methods, and saw how to define
-new methods. Now we will see how to create packages and classes.
+We'll need to define a package, which we'll do once again in the Browser. If you need a reminder of how to do this, consult Chapter *: A Quick Tour of Pharo>../PharoTour/PharoTour.pillar@cha:tour* and Chapter *: Developming a simple counter>../Exo-Counter/Exo-Counter.pillar@cha:counter*.
 
 +Create a Package and class template.>file://figures/createPackageFull.png|width=90|label=fig:createPackage+
 
-From the ==World== menu, open a ""System Browser"". Right-click on an existing
-package in the Package pane and select ==New package== from the menu. Type
-the name of the new package (we use ==PBE-LightsOut==) in the dialog box and
-click ==OK== (or just press the return key). The new package is created, and
-positioned alphabetically in the list of packages (see Figure
-*@fig:createPackage*).
-
-""Hints:"" You can type ==PBE== in the filter to get your package filtered out
-the other ones (See Figure *@fig:createPackageFiltered*).
+We'll call this package ==PBE-LightsOut==. It might be a good idea to filter the package list once you've created the new package: just type ==PBE== into the filter and you should only see our package.
 
 +Filtering our package to work more efficiently.>file://figures/createPackageFullFiltered.png|width=90|label=fig:createPackageFiltered+
 
-
 !!!Defining the class ==LOCell==
 
-At this point there are, of course, no classes in the new package. However, the
-main editing pane displays a template to make it easy to create a new class (see
-Figure *@fig:createPackageFiltered*).
-
-This template shows us a Pharo expression that sends a message to a class
-called ==Object==, asking it to create a subclass called ==NameOfSubClass==. The
-new class has no variables, and should belong to the category (package)
-==PBE-LightsOut==.
+At this point there are, of course, no classes in the new package. However, the main editing pane displays a template to make it easy to create a new class (see Figure *@fig:createPackageFiltered*). Let's fill it in with what we need.
 
 !!!Creating a new class
 
-We simply edit the template to create the class that we really want. Modify the
-class creation template as follows:
-
-- Replace ==Object== with ==SimpleSwitchMorph==.
-- Replace ==NameOfSubClass== with ==LOCell==.
-- Add ==mouseAction== to the list of instance variables.
-
-You should get the following class definition:
+Here's the new class definition we're going to use:
 
 [[[caption= ==LOCell== class definition|label=scr:ClassLOCell
 SimpleSwitchMorph subclass: #LOCell
@@ -86,64 +39,34 @@ SimpleSwitchMorph subclass: #LOCell
 	package: 'PBE-LightsOut'
 ]]]
 
-This new definition consists of a Pharo expression that sends a message to
-the existing class ==SimpleSwitchMorph==, asking it to create a subclass called
-==LOCell==. (Actually, since ==LOCell== does not exist yet, we passed the symbol
-==\#LOCell== as an argument, representing the name of the class to create.) We
-also tell it that instances of the new class should have a ==mouseAction==
-instance variable, which we will use to define what action the cell should take
-if the mouse should click on it.
+Let's think for a minute about what you're looking at with this template. Is this a special form we fill in to create a class? Is it a new syntax? No, it's just another message being sent to another object! The message is ==subclass:instanceVariableNames:classVariableNames:package==, which is a bit of a mouthful, and we're sending it to the class ==SimpleSwitchMorph==. The arguments are all strings, apart from the name of the subclass we're creating, which is a symbol ==#LOCell==. The package is our new package, and the ==mouseAction== instance variable is going to be used to define what action the cell should take when it gets clicked on.
 
-At this point you still have not created anything. Note that the top right of
-the panel changed to orange. This means that there are unsaved changes. To
-actually send this subclass message, you must save (accept) the source code.
-Either right-click and select ==Accept==, or use the shortcut ==CMD-s== (for
-"Save"). The message will be sent to ==SimpleSwitchMorph==, which will cause the
-new class to be compiled. You should get the situation depicted in Figure
-*@fig:pannelAtNewClass*.
+So why are we subclassing ==SimpleSwitchMorph== rather than ==Object==? We'll see benefits of subclassing already specialized classes very soon. And we'll find out what that ==mouseAction== instance variable is all about.
 
-
+To send the message, accept the code either through the menu or the ==Cmd-S== shortcut. The message sends, the new class compiles, and we get something like *@fig:pannelAtNewClass*.
 
 +The newly-created class LOCell.>file://figures/pannelAtNewClass.png|width=100|label=fig:pannelAtNewClass+
 
-Once the class definition is accepted, the class is created and appears in the
-class pane of the browser (see Figure *@fig:pannelAtNewClass*). The editing pane
-now shows the class definition. Below you get the Quality Assistant's feedback:
-It runs automatically quality rules on your code and reports them.
+The new class appears in the class pane of the browser, and the editing pane now shows the class definition. At the bottom of the windom you'll get the Quality Assistant's feedback: it automatically runs some quality checks on your code and reports them. Don't worry about it too much for now.
 
+!!!About comments
 
-!!! About comments
+Pharoers put a very high value on the readability of their code to help explain what's going on, but also on good comments.
 
-Pharoers put a very high value on the readability of their code, but also good
-quality comments.
+!!!!Method comments
 
-!!!!!Method comments.
-People have the tendency to believe that it is not necessary to comment well
-written methods: it is plain wrong and encourages sloppiness. Of course, bad
-code should renamed and refactored. Obviously commenting trivial methods makes
-no sense. A comment should not be the code written in english but an explanation
-of what the method is doing, its context, or the rationale behind its
-implementation. When reading a comment, the reader should be comforted that his
-hypotheses are correct.
+There's been a tendency in the recent past to believe that well written, expressive methods don't need comments; the intent and meaning should be obvious just by reading it. This is just plain wrong and encourages sloppiness. Of course, crufty and hard to understand code should be worked on, renamed, and refactored. A good comment does not excuse hard to read code. And obviously writing comments for trivial methods makes no sense; a comment should not just be the code written again in English. Your comments should aim to be an explanation of what the method is doing, its context, and possibly the rationale behind its implementation. A reader should be comforted by your comment, is should show that what they assumed about the code was correct and should dispel any confusion they might have.
 
-!!!!! Class comments.
-For the class comment, the Pharo class comment template gives a good idea of a
-strong class comment. Read it! It is based on CRC for Class Responsibility
-Collaborators. 
-So in a nutshell the comments state the responsibility of the class in a couple of sentences and how it collaborates with other classes to
-achieve this responsibilities. 
-In addition we can state the API (main messages an object understands), give an example (usually in Pharo we define examples as
-class methods), and some details about internal representation or implementation rationale.
+!!!!Class comments
+
+For the class comment, the Pharo offers you a template with some suggestions of what makes a good class comment. So read it! The format is based on Class (or Candidate) Responsibility Collaborator cards (CRC cards), developed by Kent Beck and Ward Cunningham from many influences while they were working in Smalltalk in the 1980s (see their paper *"A Laboratory For Teaching Object-Oriented Thinking">https://c2.com/doc/oopsla89/paper.html* for more details). In a nutshell the idea is to  state the ''responsibility'' of the class in a couple of sentences, and how it ''collaborates'' with other classes to achieve this. In addition we can state the class' API (the main messages an object understands), give an example of the class being used (usually in Pharo we define examples as class methods), and some details about the internal representation or the rationale behind the implementation.
 
 !!!Adding methods to a class
 
-Now let's add some methods to our class. Select the ==Inst. side method==
-tab next to the class definition tab. You will see a template for method creation in the editing
-pane. Select the template text, and replace it by the following (do not forget
-to compile it):
+Now let's add some methods to our class. First, let's add this instance side method:
 
 [[[caption=Initializing instance of LOCell|label=scr:InitLOCell
-initialize
+LOCell >> initialize
 	super initialize.
 	self label: ''.
 	self borderWidth: 2.
@@ -154,107 +77,65 @@ initialize
 	self turnOff
 ]]]
 
-Note that the characters =='\'== on line 3 are two separate single quotes with
-nothing between them, not a double quote! ==\'\'== denotes the empty string.
-Another way to create an empty string is ==String new.== Do not forget to compile this method Pharo 
-using the ""accept"" menu item (CMD-s/Option-s).
+Recall from previous chapters that we use the syntax ==ClassName >> methodName== to explicitly show which class the method is defined in.
+
+Note that the characters ==''== on line 3 are two separate single quotes with nothing between them, not a double quote! ==''== is the empty string. Another way to create an empty string is ==String new.== Do not forget to compile the method!
 
 +The newly-created method ==initialize==.>file://figures/initialize.png|width=100|label=fig:initialize+
 
+There's a lot going on in this method, let's go through it all.
 
-!!!!! Initialize methods.
-Notice that the method is called ==initialize==. The name is very significant!
-By convention, if a class defines a method named ==initialize==, it is
-called right after the object is created. So, when we execute ==LOCell new==,
-the message ==initialize== is sent automatically to this newly created object.
-==initialize== methods are used to set up the state of objects, typically to set
-their instance variables; this is exactly what we are doing here.
+!!!!!Initialize methods
 
-!!!!! Invoking superclass initialization.
-The first thing that this method does (line 2) is to execute the ==initialize==
-method of its superclass, ==SimpleSwitchMorph==. The idea here is that any
-inherited state will be properly initialized by the ==initialize== method of the
-superclass. It is always a good idea to initialize inherited state by sending
-==super initialize== before doing anything else. We don't know exactly what
-==SimpleSwitchMorph==’s ==initialize== method will do (and we don't care), but
-it's a fair bet that it will set up some instance variables to hold reasonable
-default values. So we had better call it, or we risk starting in an unclean
-state.
+First off, it's another ==initialize== method as we saw with our counter in the last chapter. As a reminder, these methods are special as, by convention, they're executed straight after an instance is created.  So, when we execute ==LOCell new==, the message ==initialize== is sent automatically to the newly created object. ==initialize== methods are used to set up the state of objects, typically to set their instance variables, and this is exactly what we are doing here.
 
-The rest of the method sets up the state of this object. Sending ==self label:
-\'\'==, for example, sets the label of this object to the empty string.
+!!!!!Invoking superclass initialization
 
-!!!!! About point and rectangle creation.
-The expression ==0\@0 corner: 16\@16== probably needs some explanation. ==0\@0==
-represents a ==Point== object with ==x== and ==y== coordinates both set to 0. In
-fact, ==0\@0== sends the message ==@== to the number 0 with argument 0. The
-effect will be that the number 0 will ask the ==Point== class to create a new
-instance with coordinates ==(0,0)==. Now we send this newly created point the
-message ==corner: 16\@16==, which causes it to create a ==Rectangle== with
-corners ==0\@0== and ==16\@16==. This newly created rectangle will be assigned
-to the ==bounds== variable, inherited from the superclass.
+But the first thing this method is to execute the ==initialize== method of its superclass, ==SimpleSwitchMorph==. The idea here is that any inherited state from the superclass will be properly initialized by the ==initialize== method of the superclass. It is ''always'' a good idea to initialize inherited state by sending ==super initialize== before sdoing anything else. We don't know exactly what ==SimpleSwitchMorph==’s ==initialize== method will do when we call it, ''and we don't care'', but it's a fair bet that it will set up some instance variables to hold reasonable default values that a ==SimpleSwitchMorph== is going to need. So we had better call it, or we risk our new object starting off in an invalid state.
 
-Note that the origin of the Pharo screen is the top left, and the ==y==
-coordinate increases downwards.
+The rest of the method sets up the state of this object. Sending ==self label: ''==, for example, sets the label of this object to the empty string.
 
-!!!!! About the rest.
-The rest of the method should be self-explanatory. Part of the art of writing
-good Pharo code is to pick good method names so that the code can be
-read like a kind of pidgin English. You should be able to imagine the object
-talking to itself and saying \"Self, use square corners!\", \"Self, turn off\!\".
+!!!!!About point and rectangle creation
 
+The expression ==0@0 corner: 16@16== needs some explanation. ==0@0== constructs a ==Point== object with its ==x== and ==y== coordinates both set to 0. In fact, ==0@0== sends the message ==@== to the number ==0== with argument ==0==. The effect will be that the number ==0== will ask the ==Point== class to create a new instance with the coordinates ==(0,0)==. Now we send this newly created point the message ==corner: 16@16==, which causes it to create a ==Rectangle== with corners ==0@0== and ==16@16==. This newly created rectangle will be assigned to the ==bounds== variable, inherited from the superclass. And this ==bounds== variable determines how big our Morph is going to be - in effect we're just saying "be a 16 by 16 pixel square".
 
+Note that the origin of the Pharo screen is the top left, and the ==y== coordinate increases as we go down the screen.
 
-Notice that there is a little green arrow next to your method (see
-Figure *@fig:initialize*). This means the method exists in the superclass and is
-overridden in your class.
+!!!!!About the rest
+
+The rest of the method should be self-explanatory. Part of the art of writing good Pharo code is to pick good method names so that the code can be read like (very basic) English. You should be able to imagine the object talking to itself and sayig "Self, use square corners!", "Self, turn off!".
+
+Notice that there is a little green arrow next to your method (see Figure *@fig:initialize*). This means the method exists in the superclass and is overridden in your class.
 
 !!!Inspecting an object
 
-You can immediately test the effect of the code you have written by creating a
-new ==LOCell== object and inspecting it: Open a ==Playground==, type the
-expression ==LOCell new==, and ""Inspect"" it (using the menu item with the same
-name).
+You can immediately test the effect of the code you have written by creating a new ==LOCell== object and inspecting it: Open a Playground, type the expression ==LOCell new==, and inspect it.
 
 +The inspector used to examine a ==LOCell== object.>file://figures/inspectLOCell.png|width=80|label=fig:inspectLOCell+
 
-The left-hand column of the inspector shows a list of instance variables and the
-value of the instance variable is shown in the right column (see Figure
-*@fig:inspectLOCell*).
+In the ""Raw"" tab of the Inspector The left-hand column shows a list of instance variables and the value of the instance variable is shown in the right column (see Figure *@fig:inspectLOCell*). Other tabs show other aspects of the ==LOCell==, take a look at them and experiment.
 
 +When we click on an instance variable, we inspect its value (another object).>file://figures/inspectBounds.png|width=80|label=fig:inspectBounds+
 
-If you click on an instance variable the inspector will open a new pane with the
-detail of the instance variable (see Figure *@fig:inspectBounds*).
+If you click on an instance variable the Inspector will open a new pane with the detail of the instance variable (see Figure *@fig:inspectBounds*).
 
 +A ==LOCell== opened in the ""World"".>file://figures/LOCellOpenInWorld.png|width=80|label=fig:LOCellOpenInWorld+
 
-!!!!! Executing expressions.
-The bottom pane of the inspector is a mini-playground. It's useful because in
-this playground the pseudo-variable ==self== is bound to the object selected.
+!!!!!Executing expressions
 
-Go to that Playground at the bottom of the pane and type the text ==self bounds:
-(200\@200 corner: 250\@250)== ""Do it"". To refresh the values, click on the
-==update== button (the blue little circle) at the top right of the pane. The
-==bounds== variable should change in the inspector. Now type the text ==self
-openInWorld== in the mini-playground and ""Do it"".
+The bottom pane of the Inspector acts as a mini-playground. It's useful because in this playground the pseudo-variable ==self== is bound to the object selected.
 
-The cell should appear near the top left-hand corner of the screen (as shown in
-Figure *@fig:LOCellOpenInWorld*) and exactly where its bounds say that it should
-appear. Meta-click on the cell to bring up the Morphic halo. Move the cell with
-the brown (next to top-right) handle and resize it with the yellow
-(bottom-right) handle. Notice how the bounds reported by the inspector also
-change. (You may have to click refresh to see the new bounds value.) Delete the
-cell by clicking on the ==x== in the pink handle.
+Go to that Playground at the bottom of the pane and type the text ==self bounds: (200 @ 200 corner: 250 @ 250)== and then "Do it". To refresh the values, click on the ==update== button (the blue little circle) at the top right of the pane. The ==bounds== variable should change in the inspector. Now type the text ==self openInWorld== in the mini-playground and ""Do it"".
+
+!!!!!The Morphic Halo
+
+The cell should appear near the top left-hand corner of the screen (as shown in Figure *@fig:LOCellOpenInWorld*) and exactly where its bounds say that it should appear - i.e. 200 pixels down from the top and 200 pixels in from the left. Meta-click (==Option-Shift-Click==) on the cell to bring up the ""Morphic Halo"". The Morphic halo represents a visual way to interact with a Morph, using the 'handles' that now surround the Morph. Move the cell with the brown handle (next to top-right) and resize it with the yellow handle (bottom-right). Notice how the bounds reported by the inspector also change (you may have to click refresh to see the new bounds value). Delete the cell by clicking on the ==x== in the pink handle.
 
 !!!Defining the class ==LOGame==
-Now let's create the other class that we need for the game, which we will name
-==LOGame==.
 
-Make the class definition template visible in the browser main window. Do this
-by clicking on the package name (or right-clicking on the Class pane and
-selecting ==Add Class==). Edit the code so that it reads as follows, and
-""Accept"" it.
+Now let's create the other class that we need for the game, ==LOGame==.
+
+Make the class definition template visible in the Browser main window. Do this by clicking on the package name, or right-clicking on the Class pane. Edit the code so that it reads as follows, and accept it.
 
 [[[caption=Defining the LOGame class|label=scr:DefineLOGame
 BorderedMorph subclass: #LOGame
@@ -263,18 +144,14 @@ BorderedMorph subclass: #LOGame
 	package: 'PBE-LightsOut'
 ]]]
 
-Here we subclass ==BorderedMorph==. ==Morph== is the superclass of all of the
-graphical shapes in Pharo, and (unsurprisingly) a ==BorderedMorph== is a
-==Morph== with a border. We could also insert the names of the instance
-variables between the quotes on the second line, but for now, let's just leave
-that list empty.
+Here we subclass ==BorderedMorph==. ==Morph== is the superclass of all of the graphical shapes in Pharo. We've already seen a ==SimpleSwitchMorph==, which is a ==Morph== that can be toggled on and off, and (unsurprisingly) a ==BorderedMorph== is a ==Morph== with a border. We could also insert the names of the instance variables between the quotes on the second line, but for now, let's just leave that list empty.
 
 !!!Initializing our game
-Now let's define an ==initialize== method for ==LOGame==. Type the following
-into the browser as a method for ==LOGame== and ""Accept"" it.
+
+Let's define an ==initialize== method for ==LOGame==. Type the following into the Browser as a method for ==LOGame== and ""Accept"" it.
 
 [[[lineNumber=false|caption=Initialize the game|label=scr:InitiGame
-initialize
+LOGame >> initialize
 	| sampleCell width height n |
 	super initialize.
 	n := self cellsPerSide.
@@ -282,69 +159,47 @@ initialize
 	width := sampleCell width.
 	height := sampleCell height.
 	self bounds: (5 @ 5 extent: (width * n) @ (height * n) + (2 * self borderWidth)).
-	cells := Array2D new: n tabulate: [ :i :j | self newCellAt: i at: j ]
+	cells := Array2D
+        new: n
+        tabulate: [ :i :j | self newCellAt: i at: j ]
 ]]]
 
 +Declaring ==cells== as a new instance variable.>file://figures/doesntKnowCell.png|width=60|label=fig:doesntKnowCell+
 
-Pharo will complain that it doesn't know the meaning of ==cells== (see Figure
-*@fig:doesntKnowCell*). It will offer you a number of ways to fix this.
+That's a lot, but don't worry about it for now. We're going to fill in the details as we go on.
 
-Choose ""Declare new instance variable"", because we want ==cells== to be an
-instance variable.
+Pharo will complain that it doesn't know the meaning of ==cells== (see Figure *@fig:doesntKnowCell*). It will offer you a number of ways to fix this. Choose ""Declare new instance variable"", because we want ==cells== to be an instance variable.
 
-!!! Taking advantage of the debugger
-At this stage if you open a ==Playground==, type ==LOGame new==, and ""Do it"",
-Pharo will complain that it doesn't know the meaning of some of the terms (see
-Figure *@fig:doesntKnowCellsPerSide*). It will tell you that it doesn't know of
-a message ==cellsPerSide==, and will open a debugger. But ==cellsPerSide== is
-not a mistake; it is just a method that we haven't yet defined. We will do so,
-shortly.
+!!!Taking advantage of the Debugger
+
+At this stage if you open a ==Playground==, type ==LOGame new==, and ""Do it"", Pharo will complain that it doesn't know the meaning of some of the terms in the method(see Figure *@fig:doesntKnowCellsPerSide*). It will tell you that ==LOGame== doesn't understand the message ==cellsPerSide==, it will open a Debugger. But ==cellsPerSide== is not a mistake; it is just a method that we haven't yet defined. We will do so.
 
 +Pharo detecting an unknown selector.>file://figures/doesntKnowCellsPerSide.png|width=100|label=fig:doesntKnowCellsPerSide+
 
-Now let us do it: type ==LOGame new== and ""Do it"". Do not close the debugger.
-Click on the button ==Create== of the debugger, when prompted, select
-""LOGame"", the class which will contain the method, click on ""ok"", then when
-prompted for a method protocol enter ==accessing==. The debugger will create the
-method ==cellsPerSide== on the fly and invoke it immediately. As there is no
-magic, the created method will simply raise an exception and the debugger will
-stop again (as shown in Figure *@fig:cellsPerSideShould*) giving you the
-opportunity to define the behavior of the method.
-
+Do not close the Debugger. Click on the button ==Create== in the Debugger and, when prompted, select ==LOGame==, the class which will contain the method. Click on ""Ok"", then when prompted for a method protocol enter ==accessing==. The Debugger will create the method ==cellsPerSide== on the fly and invoke it immediately. The default implementation of a method generated this way is to with a body of ==self shouldBeImplemented==. This is then evaluated, which raises an exception and opens... the Debugger again on the method definition.
 
 +The system created a new method with a body to be defined.>file://figures/cellsPerSideShould.png|width=100|label=fig:cellsPerSideShould+
 
-Here you can write your method. This method could hardly be simpler: it answers
-the constant 10. One advantage of representing constants as methods is that if
-the program evolves so that the constant then depends on some other features,
-the method can be changed to calculate this value.
+Here you can write your new method's definition. This method could hardly be simpler: it always returns the number ==10==. One advantage of representing constants as methods is that, if the program evolves so that the constant then depends on some other features, the method can be changed to calculate this value.
 
 [[[
-cellsPerSide
+LOGame >> cellsPerSide
 	"The number of cells along each side of the game"
 	^ 10
 ]]]
 
 +Defining ==cellsPerSide== in the debugger.>file://figures/cellPerSideInDebugger.png|width=80|label=fig:cellPerSideInDebugger+
 
-Define the method ==cellsPerSide== in the debugger. Do not forget to compile the
-method definition by using ""Accept"". You should obtain a situation as shown by
-Figure *@fig:cellPerSideInDebugger*. If you press the button ""Proceed"" the
-program will continue its execution - here it will stop since we did not define
-the method ==newCellAt:==. 
+Do not forget to compile the method definition by using ""Accept"" when you've written it. You should end up with something looking like Figure *@fig:cellPerSideInDebugger*. If you press the button ""Proceed"" the program will continue its execution, and it will stop again as we haven't defined the method ==newCellAt:==. 
 
-We could use the same process but for now we stop to explain a bit what we did so far. 
-Close the debugger, and look at the class definition once again (which you can do by clicking on ""LOGame"" on the second
-pane of the ""System Browser""), you will see that the browser has modified it to include the instance variable ==cells==.
+We could use the same process but for now we'll stop to explain what we've done so far. Close the Debugger, and look at the class definition once again (which you can do by clicking on ""LOGame"" on the second pane of the ""System Browser""). You will see that the browser has modified it to include the instance variable ==cells==.
 
+!!!Studying the initialize method
 
-!!! Studying the initialize method
-
-Let us now study the method ==initialize==.
+Let's take a closer look at the ==initialize== method on a ==LOGame==.
 
 [[[lineNumber=true|caption=Initialize the game|label=scr:InitiGame
-initialize
+LOGame >> initialize
 	| sampleCell width height n |
 	super initialize.
 	n := self cellsPerSide.
@@ -357,99 +212,47 @@ initialize
 		tabulate: [ :i :j | self newCellAt: i at: j ]
 ]]]
 
-!!!!! Line 2
-At line 2, the expression ==\| sampleCell width height n \|== declares 4
-temporary variables. They are called temporary variables because their scope and
-lifetime are limited to this method. Temporary variables with explanatory names
-are helpful in making code more readable. Lines 4\-7 set the value of these
-variables.
+!!!!!Line 2
 
-How big should our game board be? Big enough to hold some integral number of
-cells, and big enough to draw a border around them. How many cells is the right
-number? 5? 10? 100? We don't know yet, and if we did, we would probably change
-our minds later. So we delegate the responsibility for knowing that number to
-another method, which we name ==cellsPerSide==, and which we will write in a
-minute or two. Don't be put off by this: it is actually good practice to code by
-referring to other methods that we haven't yet defined. Why? Well, it wasn't
-until we started writing the ==initialize== method that we realized that we
-needed it. And at that point, we can give it a meaningful name, and move on,
-without interrupting our flow.
+At line 2, the expression ==| sampleCell width height n |== declares four temporary variables. They are called temporary variables because their scope and lifetime are entirely limited to the method. Well named temporary variables can be helpful in making code more readable. Lines 4-7 set the value of these variables.
 
-!!!!! Line 4
-The fourth line uses this method, ==n := self cellsPerSide.== sends the message
-==cellsPerSide== to ==self==, i.e., to this very object. The response, which
-will be the number of cells per side of the game board, is assigned to ==n==.
+!!!!!Line 4
 
-The next three lines create a new ==LOCell== object, and assign its width and
-height to the appropriate temporary variables.
+How big should our game board be? Big enough to hold some number of cells, and big enough to draw a border around them. And how many cells is the right number? 5? 10? 100? We just don't know yet, and if even if we thought we did know, we'd probably want change our minds later on. So we delegate the responsibility for knowing that number to a method, ==cellsPerSide==, which we'll write in a bit. Don't be put off by this: it's very good practice to write code by referring to other methods that we haven't yet defined. Why? Well, it wasn't until we started writing the ==initialize== method that we realized that we needed it. So when we realise that we're going to need it we can just give it a meaningful name and then move on to defining the rest of our method without interrupting our flow of thoughts. Deferring these decisions and implementations is a superpower.
 
-!!!!! Line 8
-Line 8 sets the bounds of the new object. Without worrying too much about the
-details just yet, believe us that the expression in parentheses creates a square
-with its origin (i.e., its top-left corner) at the point (50,50) and its
-bottom-right corner far enough away to allow space for the right number of
-cells.
+And so line 4, ==n := self cellsPerSide.==, sends the message ==cellsPerSide== to ==self==. The response, which will be the number of cells per side of the game board, is assigned to the temporary variable ==n==.
+
+The next three lines create a new ==LOCell== object, and then we assign its width and height our ==width== and ==height== temporary variables. Why? We're using this instance of ==LOCell== to find out what the dimensions of a cell are, because the most appropriate place to hold that information is in a ==LOCell== itself.
+
+!!!!!Line 8
+
+Line 8 sets the bounds of our new ==LOGame==. Without worrying too much about the details just yet, believe us that the expression in parentheses creates a square with its origin (i.e., its top-left corner) at the point (50,50) and its bottom-right corner far enough away to allow space for the right number of cells.
 
 !!!!! Last line
-The last line sets the ==LOGame== object's instance variable ==cells== to a
-newly created ==Array2D== with the right number of rows and columns. We do this
-by sending the message ==new: tabulate:== to the ==Array2D== class (classes are
-objects too, so we can send them messages). We know that ==new: tabulate:==
-takes two arguments because it has two colons (:) in its name. The arguments go
-right after the colons. If you are used to languages that put all of the
-arguments together inside parentheses, this may seem weird at first. Don't
-panic, it's only syntax! It turns out to be a very good syntax because the name
-of the method can be used to explain the roles of the arguments. For example, it
-is pretty clear that ==Array2D rows: 5 columns: 2== has 5 rows and 2 columns, and
-not 2 rows and 5 columns.
 
-==Array2D new: n tabulate: [ :i :j \| self newCellAt: i at: j ]== creates a new
-n X n two dimensional array (matrix) and initializes its elements. The initial value of each element
-will depend on its coordinates. The (i,j)^^th^^ element will be initialized to
-the result of evaluating ==self newCellAt: i at: j.==
+The last line sets the ==LOGame== object's instance variable ==cells== to a newly created ==Array2D== with the right number of rows and columns. We do this by sending the message ==new:tabulate:== to the ==Array2D== class. We know that ==new:tabulate:== takes two arguments because it has two colons (==:==) in its name. The arguments go after each of the colons. If you are used to languages that put all of the arguments together inside parentheses, this may seem weird at first. Don't panic, it's only syntax! It turns out to be a very good syntax because the name of the method can be used to explain the roles of the arguments. For example, it is pretty clear that ==Array2D rows: 5 columns: 2== has 5 rows and 2 columns, and not 2 rows and 5 columns.
+
+==Array2D new: n tabulate: [ :i :j | self newCellAt: i at: j ]== creates a new n by n two-dimensional array (a matrix), and initializes its elements. The initial value of each element will depend on its coordinates. The ''(i,j)''^^th^^ element will be initialized to the result of evaluating ==self newCellAt: i at: j==.
 
 !!!Organizing methods into protocols
 
-Before we define any more methods, let's take a quick look at the third pane at the top of the browser. 
-In the same way that the first pane of the browser lets us categorize classes into packages, the protocol pane lets us categorize
-methods so that we are not overwhelmed by a very long list of method names in the method pane. 
-These groups of methods are called "protocols".
+Before we define any more methods, let's take a quick look at the third pane at the top of the browser. In the same way that the first pane of the browser lets us categorize classes into packages, the protocol pane lets us categorize methods so that we are not overwhelmed by a very long list of method names in the method pane. These groups of methods are called "protocols".
 
-By default, you will have ==instance side== virtual protocol, which contains all of the methods in the class. 
+By default, you will have the ==instance side== virtual protocol, which contains all of the methods in the class.
 
-If you have followed along with this example, the protocol pane may well contain
-the ==initialization== and ==overrides== protocols. These protocols are added automatically
-when you override ==initialize==. 
-Pharo 8 ""System Browser"" organizes the methods automatically, and add them to the appropriate protocol, when possible.
+If you have followed along with this example, the protocol pane may well contain the ==initialization== and ==overrides== protocols. These protocols are added automatically when you override ==initialize==. The Pharo Browser organizes the methods automatically, and adds them to the appropriate protocol whenever possible.
 
-How does the ""System Browser"" know that this is the right protocol? 
-Well, in general Pharo can't know exactly, but for example if there is also an ==initialize== method in the superclass, and it assumes that our ==initialize== method should go in the same protocol as the one that it overrides.
+How does the Browser know that this is the right protocol? Well, in general Pharo can't know exactly. But if, for example, there is also an ==initialize== method in the superclass, it will assume that our ==initialize== method should be in the same protocol as the method it overrides.
 
-The protocol pane may contain the protocol ""as yet unclassified"". 
-Methods that aren't organized into protocols can be found here. 
-You can right-click in the protocol pane and select ""categorize all uncategorized"" to fix this, or you can organize manually.
+The protocol pane may also contain the protocol ""as yet unclassified"". Methods that aren't organized into protocols can be found here. You can right-click in the protocol pane and select ""categorize all uncategorized"" to fix this, or you can just organize things yourself manually.
 
+!!!Finishing the game
 
-!!! A typographic convention
-Pharoers frequently use the notation ==Class >> method== to identify the class
-to which a method belongs. For example, the ==cellsPerSide== method in class
-==LOGame== would be referred to as ==LOGame >> cellsPerSide==. 
-Just keep in mind that this is not Pharo syntax exactly, but merely a convenient notation to indicate "the instance method ==cellsPerSide== which belongs to the class ==LOGame==". 
-The corresponding notation for a class-side method would be ==LOGame class >> #someClassSideMethod==.
+Now let's define the other methods that are used by ==LOGame >> initialize==. You could either do this through the Browser or through the Debugger, but either way let's start with ==LOGame >> newCellAt:at:==, in the ==initialization== protocol:
 
-From now on, when we show a method in this book, we will write the name of the
-method in this form. Of course, when you actually type the code into the
-browser, you don't have to type the class name or the ==>>==; instead, you just
-make sure that the appropriate class is selected in the class pane.
-
-
-!!! Finishing the game
-Now let's define the other method that are used by ==LOGame >> initialize==.
-Let's define ==LOGame >> newCellAt: at:== in the ==initialization== protocol.
-
-%caption=An initialization helper method|label=scr:NewCellAt
 [[[
 LOGame >> newCellAt: i at: j
+
 	"Create a cell for position (i,j) and add it to my on-screen representation at the appropriate screen position. Answer the new cell"
 
 	| c origin |
@@ -460,21 +263,15 @@ LOGame >> newCellAt: i at: j
 	c mouseAction: [ self toggleNeighboursOfCellAt: i at: j ].
 ]]]
 
-Pay attention the previous code is not fully correct. 
-Therefore, it will produce an error and this is on purpose. 
+Note: the previous code is not correct. It will produce an error - this is on purpose.
 
-!!!!!Formatting.
-As you can see there are some tabulation and empty lines. 
-To keep the same convention you can right-click on the method edit area and click on
-==Format== (or use ==CMD-Shift-f== shortcut). This will format your method.
+!!!!!Formatting
 
+As you can see there is some indentation and empty lines in our method definition. Pharo can take care of this formatting for you: you can right-click on the method edit area and click on ==Format== (or use ==Cmd-Shift-F== shortcut). This will format your method nicely.
 
-!!!!! Toggle neighbours.
-The method defined above created a new ==LOCell==, initialized to position (i,
-j) in the Array2D of cells. The last line defines the new cell's ==mouseAction==
-to be the block ==[ self toggleNeighboursOfCellAt: i at: j ]==. In effect, this
-defines the callback behaviour to perform when the mouse is clicked. The
-corresponding method also needs to be defined.
+!!!!!Toggle neighbours
+
+The method defined above created a new ==LOCell==, initialized to position ''(i, j)'' in the ==Array2D== of cells. The last line defines the new cell's ==mouseAction== to be the block ==[ self toggleNeighboursOfCellAt: i at: j ]==. In effect, this defines the callback behaviour to perform when the mouse is clicked. And so the corresponding method also needs to be defined:
 
 [[[caption=The callback method|label=scr:Toggle
 LOGame >> toggleNeighboursOfCellAt: i at: j
@@ -489,98 +286,54 @@ LOGame >> toggleNeighboursOfCellAt: i at: j
 		ifTrue: [ (cells at: i at: j + 1) toggleState ]
 ]]]
 
-The method ==toggleNeighboursOfCellAt:at:== toggles the state of the four cells
-to the north, south, west and east of cell (i, j). The only complication is that
-the board is finite, so we have to make sure that a neighboring cell exists
-before we toggle its state.
+The method ==toggleNeighboursOfCellAt:at:== toggles the state of the four cells to the north, south, west and east of cell ''(i, j)''. The only complication is that the board is finite, so we have to make sure that a neighboring cell exists before we toggle its state.
 
-Place this method in a new protocol called ==game logic==. (Right-click in the
-protocol pane to add a new protocol.) To move (re-classify) the method, you can
-simply click on its name and drag it to the newly-created protocol (see Figure
-*@fig:dropProtocol*).
+Place this method in a new protocol called ==game logic==. (Right-click in the protocol pane to add a new protocol). To move (re-classify) a method, you can simply click on its name and drag it to the newly-created protocol (see Figure *@fig:dropProtocol*).
 
 +Drag a method to a protocol.>file://figures/dropProtocol.png|width=80|label=fig:dropProtocol+
 
-!!! Final LOCell methods
+!!!Final ==LOCell== methods
 
 To complete the Lights Out game, we need to define two more methods in class
 ==LOCell== this time to handle mouse events.
+
+First, ==mouseAction:== is a simple accessor method:
 
 [[[caption=A typical setter method|label=scr:TypicalSetter
 LOCell >> mouseAction: aBlock
 	mouseAction := aBlock
 ]]]
 
-The method above does nothing more than set the cell's ==mouseAction== variable
-to the argument, and then answers the new value. Any method that changes the
-value of an instance variable in this way is called a ''setter method''; a
-method that answers the current value of an instance variable is called a
-''getter method''.
+We should put it in the ==accessing== protocol.
 
-Go to the class ==LOCell==, define ==LOCell >> mouseAction:== and put it in the
-==accessing== protocol.
-
-Finally, we need to define a method ==mouseUp:==. This will be called
-automatically by the GUI framework if the mouse button is released while the
-cursor is over this cell on the screen. Add the  ==LOCell >> mouseUp:==
-method.
+Finally, we need to override the ==mouseUp:== method. This will be called automatically by the GUI framework if the mouse button is released while the cursor is over this cell on the screen:
 
 [[[caption=An event handler|label=scr:MouseUp
 LOCell >> mouseUp: anEvent
+
+    self toggleState.
 	mouseAction value
 ]]]
 
-What this method does is to send the message ==value== to the object stored in
-the instance variable ==mouseAction==. In ==LOGame >> newCellAt: i at: j== we
-created the ''block'' ==[self toggleNeighboursOfCellAt: i at: j ]== which is
-toggling all the neighbours of a cell and we assigned this block to the
-==mouseAction== of the cell. Therefore sending the ==value== message causes this
-block to be evaluated, and consequently the state of the cells will toggle.
+First, this method toggles the state of the current cell. Then it sends the message ==value== to the object stored in the instance variable ==mouseAction==. In ==LOGame >> newCellAt: i at: j== we created the block ==[self toggleNeighboursOfCellAt: i at: j ]== which will all the neighbours of a cell when it is evaluated, and we assigned this block to the ==mouseAction== instance variable of the cell. Therefore sending the ==value== message causes this block to be evaluated, and consequently the state of the neighbouring cells will toggle.
 
-!!!Using the debugger
+!!!Using the Debugger
 
-That's it: the Lights Out game is complete! If you have followed all of the
-steps, you should be able to play the game, consisting of just 2 classes and 7
-methods. In a Playground, type ==LOGame new openInHand== and ""Do it"" .
+That's it: the Lights Out game is complete! If you have followed all of the steps, you should be able to play the game, consisting of just two classes and seven methods. In a Playground, type ==LOGame new openInHand== and ""Do it"" .
 
-The game will open, and you should be able to click on the cells and see how it
-works. Well, so much for theory... When you click on a cell, a debugger will
-appear. In the upper part of the debugger window you can see the execution
-stack, showing all the active methods. Selecting any one of them will show, in
-the middle pane, the code being executed in that method, with the part
-that triggered the error highlighted.
+The game will open, and you should be able to click on the cells and see how it works. Well, so much for theory... When you click on a cell, a Debugger will appear. In the upper part of the debugger window you can see the execution stack, showing all the active methods. Selecting any one of them will show, in the middle pane, the code being executed in that method, with the part that triggered the error highlighted.
 
-Click on the line labeled ==LOGame >> toggleNeighboursOfCellAt: at:== (near the
-top). The debugger will show you the execution context within this method where
-the error occurred (see Figure *@fig:debuggerHighlight*).
+Click on the line labeled ==LOGame >> toggleNeighboursOfCellAt: at:== (near the top). The Debugger will show you the execution context within this method where the error occurred (see Figure *@fig:debuggerHighlight*).
 
-+The debugger, with the method ==toggleNeighboursOfCell:at:== selected.>file://figures/debuggerHighlight.png|width=85|label=fig:debuggerHighlight+
++The Debugger, with the method ==toggleNeighboursOfCell:at:== selected.>file://figures/debuggerHighlight.png|width=85|label=fig:debuggerHighlight+
 
-At the bottom of the debugger is a variable zone. You can inspect the object
-that is the receiver of the message that caused the selected method to execute,
-so you can look here to see the values of the instance variables. You can also
-see the values of the method arguments.
+At the bottom of the Debugger is an area for all the variables in scope. You can inspect the object that is the receiver of the message that caused the selected method to execute, so you see here the values of the instance variables. You can also see the values of the method arguments, as well as intermediate values that have been calculated during execution.
 
-Using the debugger, you can execute code step by step, inspect objects in
-parameters and local variables, evaluate code just as you can in a playground,
-and, most surprisingly to those used to other debuggers, change the code while
-it is being debugged! Some Pharoers program in the debugger almost all the
-time, rather than in the browser. The advantage of this is that you see the
-method that you are writing as it will be executed, with real parameters in the
-actual execution context.
+Using the Debugger, you can evaluate the code step by step, inspect objects in parameters and local variables, evaluate code just as you can in a playground, and, most surprisingly to those used to other debuggers, actually change the code while it is being debugged. Some Pharoers program in the Debugger rather than the Browser almost all the time. The advantage of this is that you see the method that you are writing as it will be executed, with real parameters in the actual execution context.
 
-In this case we can see in the first line of the top panel that the
-==toggleState== message has been sent to an instance of ==LOGame==, while it
-should clearly have been an instance of ==LOCell==. The problem is most likely
-with the initialization of the cells matrix. Browsing the code of
-==LOGame >> initialize== shows that ==cells== is filled with the return values
-of ==newCellAt: at:==, but when we look at that method, we see that there is no
-return statement there! By default, a method returns ==self==, which in the case
-of ==newCellAt: at:== is indeed an instance of ==LOGame==. The syntax to return
-a value from a method in Pharo is ==^==.
+In this case we can see in the first line of the top panel that the ==toggleState== message has been sent to an instance of ==LOGame==, while it should clearly have been an instance of ==LOCell==. The problem is most likely with the initialization of the cells matrix. Browsing the code of ==LOGame >> initialize== shows that ==cells== is filled with the return values of ==newCellAt:at:==, but when we look at that method, we see that there is no return statement there! By default, a method returns ==self==, which in the case of ==newCellAt:at:== is indeed an instance of ==LOGame==. The syntax to return a value from a method in Pharo is ==^==.
 
-Close the debugger window. Add the expression ==^ c== to the end of the method
-==LOGame >> newCellAt:at:== so that it returns ==c==.
+Close the Debugger window and add the expression ==^ c== to the end of the method ==LOGame >> newCellAt:at:== so that it returns ==c==:
 
 [[[caption=Fixing the bug.|label=scr:BugFix
 LOGame >> newCellAt: i at: j
@@ -595,188 +348,51 @@ LOGame >> newCellAt: i at: j
 	^ c
 ]]]
 
-Often, you can fix the code directly in the debugger window and click
-==Proceed== to continue running the application. In our case, because the bug
-was in the initialization of an object, rather than in the method that failed,
-the easiest thing to do is to close the debugger window, destroy the running
-instance of the game (with the halo ==CMD-Alt-Shift== and click), and create a
-new one.
+Often, you can fix the code directly in the Debugger window and click ==Proceed== to continue running the application. In our case, because the bug was in the initialization of an object, rather than in the method that failed, the easiest thing to do is to close the Debugger window, destroy the running instance of the game (by opening the halo with ==Alt-Shift-Click== and selecting the pink ==x==), and then create a new one.
 
-Execute ==LOGame new openInHand== again because if you use the old game
-instance it will still contain the block with the old logic.
+Execute ==LOGame new openInHand== again because if you use the old game instance it will still contain the blocks with the old logic.
 
-Now the game should work properly... or nearly so. If we happen to move the
-mouse between clicking and releasing, then the cell the mouse is over will also
-be toggled. This turns out to be behavior that we inherit from
-==SimpleSwitchMorph==. We can fix this simply by overriding ==mouseMove:== to do
-nothing:
+Now the game should work properly... or nearly so. If we happen to move the mouse between clicking and releasing, then the cell the mouse is over will also be toggled. This turns out to be behavior that we inherit from ==SimpleSwitchMorph==. We can fix this simply by overriding ==mouseMove:== to do nothing:
 
 [[[caption=Overriding mouse move actions|label=scr:MouseMove
 LOCell >> mouseMove: anEvent
 ]]]
 
-Finally we are done!
+And now finally we are done!
 
-!!!!! About the debugger.
+!!!!!About the Debugger
 
-By default when an error occurs in Pharo, the system displays a debugger.
-However, we can fully control this behavior. For example we can write the error
-in a file. We can even serialize the execution stack in a file, zip and reopen
-it in another image. Now when we are in development mode the debugger is
-available to let us go as fast as possible. In production system, developers
-often control the debugger to hide their mistakes from their clients.
+By default when an error occurs in Pharo, the system displays a Debugger. However, we can fully control this behavior and make it do something else. For example, we can write the error to a file, or we can even serialize the execution stack to a file, zip and then reopen it in another Pharo image. When we are developing our software the Debugger is available to let us go as fast as possible. But in a production system developers will often want to control the Debugger to prevent their mistakes interferring too much with their users' work.
 
+!!!And if all else fails...
 
-!!! In case everything fails
+First, do not stress! It's perfectly normal to make a mess of things when you program. If anything, it's the rule and not the exception. Probably the most annoying thing that can happen when you're starting to experiment with graphical elements in Pharo is the screen become cluttered with seemingly indestructible widgets. Don't panic. Try and get an Inspector up on one of them by using a meta-click (==Option-Shift-Click== or equivalent) to open the Morphic halo, select the menu handle, "debug > inspect". Once you get an Inspector open you're home free:
 
-First do not stress! It is normal to mess up and there is no point to have 
-Second if you do not succeed to delete the game. 
-Try to get an inspector on any graphical element of the game using the halos: Option-Shift+Click and choose menu
-and the debug... menu and inspect Morph.
-
-From there you can execute 
 - if you are inspecting the game itself: ==self delete==.
 - if you are inspect a game cell: ==self owner delete==. 
 
-
-
 !!!Saving and sharing Pharo code
 
-Now that you have ""Lights Out"" working, you probably want to save it somewhere
-so that you can archive it and share it with your friends. Of course, you can
-save your whole Pharo image, and show off your first program by running it, but
-your friends probably have their own code in their images, and don't want to
-give that up to use your image. What you need is a way of getting source code
-out of your Pharo image so that other programmers can bring it into theirs.
+Now that you have ""Lights Out"" working, you probably want to save it somewhere so that you can archive it and share it with your friends. Of course, you can save your whole Pharo image, and show off your first program by running it, but your friends probably have their own code in their images, and don't want to give that up to use your image. What you need is a way of getting source code out of your Pharo image so that other programmers can bring it into theirs.
 
-We'll discuss the various ways to save and share code in a subsequent chapter, Chapter *@cha:Iceberg*. For now, here is an overview of some of the available methods.
+We showed you the basics of using Iceberg and git to save, share and version your projects, and you should feel free to do that again with Lights Out. If you would like to learn more about Iceberg, and you're feeling impatient, then you should feeel free to skip ahead to Chapter *@cha:Iceberg*.
 
-
-!!!Iceberg: Pharo and Git
-
-Iceberg is the new default tool for versioning your code using git and handling git repositories directly from Pharo images.
-
-!!!!! Declared repositories.
-Iceberg is accessible through world menu ==Tools > Iceberg==.
-When opened you will first see a ""Repositories"" screen. 
-There you can find all git repositories managed by Iceberg. 
-Do not care about the Pharo repository, it is there for people that want to contribute to Pharo.
-
-+Repositories screen.>file://figures/icebergRepositories.png|width=60|label=fig:icebergRepositories+
-
-
-!!!!! Adding a new repository.
-To manage our example with git and Iceberg, we should add it first. 
-Press Add on the toolbar of ""Repositories"" screen. 
-On the Figure *@fig:icebergNewRepository* there are multiple options.
-The one we are interested in is ""New repository"". 
-Enter the project name like in the Figure *@fig:icebergNewRepository*. 
-As you can see Pharo proposes you to follow the convention to place your code inside a folder named ==src==. We advise to follow this convention.
-You can name your project ==PBE-LightsOut==.
-
-+Creating new repository.>file://figures/icebergNewRepository.png|width=60|label=fig:icebergNewRepository+
-
-
-!!!!! Adding a package.
-After creating new repository you will notice that the ""Repositories"" screen has changed. 
-It will contain newly created repository, with the "Not Loaded" status, which basically means, that now your repository is empty
-and that you should add packages to it (see Figure *@fig:icebergUpdatedRepositories*).
-
-+Updated repositories screen.>file://figures/icebergUpdatedRepositories.png|width=60|label=fig:icebergUpdatedRepositories+
-
-Now, to add packages, double click on the PBE-LightsOut repository, and in the new dialog press ==Add package== in the toolbar.
-Select checkmark before the ""PBE-LightsOut"" package and press ==Add==, it is also possible to add multiple packages by selecting checkmark before the package name.
-The repository now contains the added package, with the status ""Uncommitted changes"", as shown in Figure *@fig:icebergWorkingCopy*.
-
-+Iceberg working copy dialog.>file://figures/icebergWorkingCopy.png|width=60|label=fig:icebergWorkingCopy+
-
-!!!!! Committing changes.
-One more thing remains is to actually commit those changes. Select ==Commit== on the toolbar to get the commit dialog.
-Here you can see all the files that are beeing committed, with a green plus next to their name (Figure *@fig:icebergCommitDialog*).
-Before committing enter the meaningful message for that particular commit, and finally press ==Commit==.
-Note that Iceberg adds some metadata about the file format and the location of the code without the directory. 
-
-+Iceberg working copy dialog.>file://figures/icebergCommitDialog.png|width=60|label=fig:icebergCommitDialog+
-
-
-
-In this example, we used Iceberg to version our project using git. 
-Have in mind that all committed changes, are performed on your ''local'' machine.
-To connect your local repository, to remote repository (e.g., GitHub) you need to add it, you can do that by selecting ==Repository== on the Working copy dialog browser (Figure *@fig:icebergWorkingCopy*) and select the ""Add remote"" button on the top right.
-This is covered in Chapter *@cha:Iceberg*.
+If you're still reading this, we're now going to take a look at exporting your Pharo code as files.
 
 !!!Saving code in a file
 
-If you do not want to use a version control system such Git you can save the code of a package, class, or method simply.
+You can also save the code of your package by writing it to a file, an action commonly called "filing out" by all Pharoers, Squeakers and related communities. The right-click menu in the Package pane will give you the option to select ""Extra > File Out"" the whole of the ==PBE-LightsOut== package. The resulting file is more or less human readable, but is really intended for computers, not humans. You can email this file to your friends, and they can "file it in" to their own image.
 
-+File Out our PBE-LightsOut.>file://figures/fileOut.png|width=60|label=fig:fileOut+
-
-You can also save the code of your package by "filing out" the code. 
-The right-click menu in the Package pane will give you the option to ==Extra > File Out== the whole of
-package ==PBE-LightsOut==. The resulting file is more or less human readable,
-but is really intended for computers, not humans. You can email this file to
-your friends, and they can file it into their own Pharo images using the file
-list browser.
-
-Right-click on the ==PBE-LightsOut== package and file out the contents (see
-Figure *@fig:fileOut*). You should now find a file named ==PBE-LightsOut.st== in
-the same folder on disk where your image is saved. Have a look at this file with
-a text editor.
+File out the ==PBE-LightsOut== package (see Figure *@fig:fileOut*). You should now find a file named ==PBE-LightsOut.st== in the same folder on disk where your image is saved. Have a look at this file with a text editor to get a feel for what the code looks like when it's in a file. If you don't want to leave Pharo to look at the file, try inspecting =='PBE-LightsOut.st' asFileReference'== in a Playground.
 
 +Import your code with the file browser.>file://figures/fileBrowser.png|width=100|label=fig:fileBrowser+
 
-Open a fresh Pharo image and use the ==File Browser== tool (==Tools \-\-> File
-Browser==) to file in the ==PBE-LightsOut.st== fileout (see Figure
-*@fig:fileBrowser*) and ==fileIn==.
-Verify that the game now works in the new image.
+Open a fresh Pharo image and use the ""File Browser"" tool (""System > File Browser"") to file in the ==PBE-LightsOut.st== fileout (see Figure *@fig:fileBrowser*). Right-click on the file and select ""Install into the image"". Verify that the game now works in the new image.
 
-!!! About Setter/Getter convention
-If you are used to getters and setters in other programming languages, you might
-expect these methods to be called ==setMouseAction== and ==getMouseAction==.
-The Pharo convention is different. A getter always has the same name as the variable
-it gets, and a setter is named similarly, but with a trailing ":", hence
-==mouseAction== and ==mouseAction:==. Collectively, setters and getters are
-called ''accessor methods'', and by convention they should be placed in the
-==accessing== protocol. In Pharo, all instance variables are private to the
-object that owns them, so the only way for another object to read or write those
-variables is through accessor methods like this one. In fact, the instance
-variables can be accessed in subclasses too.
+!!!Accessor conventions
 
-!!!On categories vs. packages
-
-Historically, Pharo packages were implemented as "categories" (a group of
-classes). With the newer versions of Pharo, the term category is being
-deprecated, and replaced exclusively by package.
-
-If you use an older version of Pharo or an old tutorial, the class template
-will be as follow:
-
-[[[
-SimpleSwitchMorph subclass: #LOCell
-	instanceVariableNames: 'mouseAction'
-	classVariableNames: ''
-	category: 'PBE-LightsOut'
-]]]
-
-It is equivalent to the one we mentioned earlier. In this book we only use the
-term ""package"". The Pharo package is also what you will be using to version
-your source code using Iceberg versioning tool: the new tool to manage source code via Git.  
-This book version has two new chapters covering Iceberg and package management (see Chapters *@cha:Iceberg* and *@cha:configure*).
-
-
+If you are used to getters and setters in other programming languages, you might expect these methods to be called ==setMouseAction== and ==getMouseAction==. The Pharo convention is different. A getter always has the same name as the variable it gets, and a setter is named similarly, but with a trailing ":" to allow it to take an argument, hence ==mouseAction== and ==mouseAction:==. Collectively, setters and getters are called ''accessor methods'', and by convention they should be placed in the ==accessing== protocol. In Pharo, ''all'' instance variables are private to the object that owns them, so the only way for another object to read or write those variables is through accessor methods. Instance variables can of course be accessed in subclasses too, but you can never access another object's instance variables - not even ones in another instance of your class, or the class object itself.
 
 !!!Chapter summary
 
-In this chapter you have seen how to create packages, classes and methods. In
-addition, you have learned how to use the System browser, the inspector, the debugger and Iceberg to version your code using git.
-
--Packages are groups of related classes.
--A new class is created by sending a message to its superclass.
--Protocols are groups of related methods inside a class.
--A new method is created or modified by editing its definition in the browser and then accepting the changes.
--The inspector offers a simple, general-purpose GUI for inspecting and interacting with arbitrary objects.
--The browser detects usage of undeclared variables, and offers possible corrections.
--The ==initialize== method is automatically executed after an object is created in Pharo. You can put any initialization code there.
--The debugger provides a high-level GUI to inspect and modify the state of a running program.
--You can share source code by filing out a package, class or method.
--Using Iceberg and git.
+In this chapter we've had a chance to reinforce what we've learned about Pharo so far, and to apply it to writing a simple game using the Morphic framework. We've learned how to open the Morphic halo around graphical elements on the screen, how to manipulate them, and (importantly) how to get rid of them. We've also learned how to "file out" and "file in" Pharo packages for quick sharing.
