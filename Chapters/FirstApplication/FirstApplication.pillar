@@ -1,7 +1,7 @@
 !!A first application
 @cha:firstApp
 
-In this chapter we will develop a simple game: LightsOut (*http://en.wikipedia.org/wiki/Lights_Out_(game)*). In doing so we will increase our familiarity with the Browser, the Inspector, the Debugger, and versioning code with Iceberg. It's important to become proficient with these core tools. Once again, we will encourage you to take a test-first approach to developing this game by using Test-Driven Development.
+In this chapter we will develop a simple game: Lights Out (*http://en.wikipedia.org/wiki/Lights_Out_(game)*). In doing so we will increase our familiarity with the Browser, the Inspector, the Debugger, and versioning code with Iceberg. It's important to become proficient with these core tools. Once again, we will encourage you to take a test-first approach to developing this game by using Test-Driven Development.
 
 +The Lights Out game board.>file://figures/gameLO.png|width=30|label=fig:gameLO+
 
@@ -16,7 +16,7 @@ The game board consists of a rectangular array of light yellow cells. When you c
 !!!Creating a new package
 @fstApp:Packages
 
-We'll need to define a package, which we'll do once again in the Browser. If you need a reminder of how to do this, consult Chapter *: A Quick Tour of Pharo>../PharoTour/PharoTour.pillar@cha:tour* and Chapter *: Developming a simple counter>../Exo-Counter/Exo-Counter.pillar@cha:counter*.
+We'll need to define a package, which we'll do once again in the Browser. If you need a reminder of how to do this, consult Chapter *: A Quick Tour of Pharo>../PharoTour/PharoTour.pillar@cha:tour* and Chapter *: Developing a simple counter>../Exo-Counter/Exo-Counter.pillar@cha:counter*.
 
 +Create a Package and class template.>file://figures/createPackageFull.png|width=90|label=fig:createPackage+
 
@@ -47,7 +47,7 @@ To send the message, accept the code either through the menu or the ==Cmd-S== sh
 
 +The newly-created class LOCell.>file://figures/pannelAtNewClass.png|width=100|label=fig:pannelAtNewClass+
 
-The new class appears in the class pane of the browser, and the editing pane now shows the class definition. At the bottom of the windom you'll get the Quality Assistant's feedback: it automatically runs some quality checks on your code and reports them. Don't worry about it too much for now.
+The new class appears in the class pane of the browser, and the editing pane now shows the class definition. At the bottom of the window you'll get the Quality Assistant's feedback: it automatically runs some quality checks on your code and reports them. Don't worry about it too much for now.
 
 !!!About comments
 
@@ -91,7 +91,7 @@ First off, it's another ==initialize== method as we saw with our counter in the 
 
 !!!!!Invoking superclass initialization
 
-But the first thing this method is to execute the ==initialize== method of its superclass, ==SimpleSwitchMorph==. The idea here is that any inherited state from the superclass will be properly initialized by the ==initialize== method of the superclass. It is ''always'' a good idea to initialize inherited state by sending ==super initialize== before sdoing anything else. We don't know exactly what ==SimpleSwitchMorph==’s ==initialize== method will do when we call it, ''and we don't care'', but it's a fair bet that it will set up some instance variables to hold reasonable default values that a ==SimpleSwitchMorph== is going to need. So we had better call it, or we risk our new object starting off in an invalid state.
+But the first thing this method is to execute the ==initialize== method of its superclass, ==SimpleSwitchMorph==. The idea here is that any inherited state from the superclass will be properly initialized by the ==initialize== method of the superclass. It is ''always'' a good idea to initialize inherited state by sending ==super initialize== before doing anything else. We don't know exactly what ==SimpleSwitchMorph==’s ==initialize== method will do when we call it, ''and we don't care'', but it's a fair bet that it will set up some instance variables to hold reasonable default values that a ==SimpleSwitchMorph== is going to need. So we had better call it, or we risk our new object starting off in an invalid state.
 
 The rest of the method sets up the state of this object. Sending ==self label: ''==, for example, sets the label of this object to the empty string.
 
@@ -103,7 +103,7 @@ Note that the origin of the Pharo screen is the top left, and the ==y== coordina
 
 !!!!!About the rest
 
-The rest of the method should be self-explanatory. Part of the art of writing good Pharo code is to pick good method names so that the code can be read like (very basic) English. You should be able to imagine the object talking to itself and sayig "Self, use square corners!", "Self, turn off!".
+The rest of the method should be self-explanatory. Part of the art of writing good Pharo code is to pick good method names so that the code can be read like (very basic) English. You should be able to imagine the object talking to itself and saying "Self, use square corners!", "Self, turn off!".
 
 Notice that there is a little green arrow next to your method (see Figure *@fig:initialize*). This means the method exists in the superclass and is overridden in your class.
 
@@ -218,7 +218,7 @@ At line 2, the expression ==| sampleCell width height n |== declares four tempor
 
 !!!!!Line 4
 
-How big should our game board be? Big enough to hold some number of cells, and big enough to draw a border around them. And how many cells is the right number? 5? 10? 100? We just don't know yet, and if even if we thought we did know, we'd probably want change our minds later on. So we delegate the responsibility for knowing that number to a method, ==cellsPerSide==, which we'll write in a bit. Don't be put off by this: it's very good practice to write code by referring to other methods that we haven't yet defined. Why? Well, it wasn't until we started writing the ==initialize== method that we realized that we needed it. So when we realise that we're going to need it we can just give it a meaningful name and then move on to defining the rest of our method without interrupting our flow of thoughts. Deferring these decisions and implementations is a superpower.
+How big should our game board be? Big enough to hold some number of cells, and big enough to draw a border around them. And how many cells is the right number? 5? 10? 100? We just don't know yet, and if even if we thought we did know, we'd probably want change our minds later on. So we delegate the responsibility for knowing that number to a method, ==cellsPerSide==, which we'll write in a bit. Don't be put off by this: it's very good practice to write code by referring to other methods that we haven't yet defined. Why? Well, it wasn't until we started writing the ==initialize== method that we realized that we needed it. So when we realize that we're going to need it we can just give it a meaningful name and then move on to defining the rest of our method without interrupting our flow of thoughts. Deferring these decisions and implementations is a superpower.
 
 And so line 4, ==n := self cellsPerSide.==, sends the message ==cellsPerSide== to ==self==. The response, which will be the number of cells per side of the game board, is assigned to the temporary variable ==n==.
 
@@ -269,9 +269,9 @@ Note: the previous code is not correct. It will produce an error - this is on pu
 
 As you can see there is some indentation and empty lines in our method definition. Pharo can take care of this formatting for you: you can right-click on the method edit area and click on ==Format== (or use ==Cmd-Shift-F== shortcut). This will format your method nicely.
 
-!!!!!Toggle neighbours
+!!!!!Toggle neighbors
 
-The method defined above created a new ==LOCell==, initialized to position ''(i, j)'' in the ==Array2D== of cells. The last line defines the new cell's ==mouseAction== to be the block ==[ self toggleNeighboursOfCellAt: i at: j ]==. In effect, this defines the callback behaviour to perform when the mouse is clicked. And so the corresponding method also needs to be defined:
+The method defined above created a new ==LOCell==, initialized to position ''(i, j)'' in the ==Array2D== of cells. The last line defines the new cell's ==mouseAction== to be the block ==[ self toggleNeighboursOfCellAt: i at: j ]==. In effect, this defines the callback behavior to perform when the mouse is clicked. And so the corresponding method also needs to be defined:
 
 [[[caption=The callback method|label=scr:Toggle
 LOGame >> toggleNeighboursOfCellAt: i at: j
@@ -315,7 +315,7 @@ LOCell >> mouseUp: anEvent
 	mouseAction value
 ]]]
 
-First, this method toggles the state of the current cell. Then it sends the message ==value== to the object stored in the instance variable ==mouseAction==. In ==LOGame >> newCellAt: i at: j== we created the block ==[self toggleNeighboursOfCellAt: i at: j ]== which will all the neighbours of a cell when it is evaluated, and we assigned this block to the ==mouseAction== instance variable of the cell. Therefore sending the ==value== message causes this block to be evaluated, and consequently the state of the neighbouring cells will toggle.
+First, this method toggles the state of the current cell. Then it sends the message ==value== to the object stored in the instance variable ==mouseAction==. In ==LOGame >> newCellAt: i at: j== we created the block ==[self toggleNeighboursOfCellAt: i at: j ]== which will all the neighbors of a cell when it is evaluated, and we assigned this block to the ==mouseAction== instance variable of the cell. Therefore sending the ==value== message causes this block to be evaluated, and consequently the state of the neighboring cells will toggle.
 
 !!!Using the Debugger
 
@@ -362,7 +362,7 @@ And now finally we are done!
 
 !!!!!About the Debugger
 
-By default when an error occurs in Pharo, the system displays a Debugger. However, we can fully control this behavior and make it do something else. For example, we can write the error to a file, or we can even serialize the execution stack to a file, zip and then reopen it in another Pharo image. When we are developing our software the Debugger is available to let us go as fast as possible. But in a production system developers will often want to control the Debugger to prevent their mistakes interferring too much with their users' work.
+By default when an error occurs in Pharo, the system displays a Debugger. However, we can fully control this behavior and make it do something else. For example, we can write the error to a file, or we can even serialize the execution stack to a file, zip and then reopen it in another Pharo image. When we are developing our software the Debugger is available to let us go as fast as possible. But in a production system developers will often want to control the Debugger to prevent their mistakes interfering too much with their users' work.
 
 !!!And if all else fails...
 
@@ -375,7 +375,7 @@ First, do not stress! It's perfectly normal to make a mess of things when you pr
 
 Now that you have ""Lights Out"" working, you probably want to save it somewhere so that you can archive it and share it with your friends. Of course, you can save your whole Pharo image, and show off your first program by running it, but your friends probably have their own code in their images, and don't want to give that up to use your image. What you need is a way of getting source code out of your Pharo image so that other programmers can bring it into theirs.
 
-We showed you the basics of using Iceberg and git to save, share and version your projects, and you should feel free to do that again with Lights Out. If you would like to learn more about Iceberg, and you're feeling impatient, then you should feeel free to skip ahead to Chapter *@cha:Iceberg*.
+We showed you the basics of using Iceberg and git to save, share and version your projects, and you should feel free to do that again with Lights Out. If you would like to learn more about Iceberg, and you're feeling impatient, then you should feel free to skip ahead to Chapter *@cha:Iceberg*.
 
 If you're still reading this, we're now going to take a look at exporting your Pharo code as files.
 
