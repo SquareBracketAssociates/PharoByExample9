@@ -86,13 +86,13 @@ The class we have defined has one instance variable named ==count==, and we're g
 # Instance variables are ''completely private'' to the object
 # The ''only'' way to interact with an object is by ''sending messages'' to it
 
-And so there is no other mechanism to access our instance variable from outside of our counter than by sending a message to the object. What must do is define a method that returns the value of the instance variable. Such methods are called ''accessors''. So, let's define an accessor method for our instance variable ==count==.
+And so there is no other mechanism to access our instance variable from outside of our counter than by sending a message to the object. What must do is define a method that returns the value of the instance variable. Such methods are called ''getter'' methods. So, let's define an accessor method for our instance variable ==count==.
 
 A method is usually placed into a ''protocol''. These protocols are just a group of methods - they have no meaning in Pharo, but they do convey important information to the readers of your class. Although protocols can have any name, Pharo programmers follow certain conventions when naming protocols. If you define a method and are not sure what protocol it should be in, first take a look through existing code and see if you can find an appropriate protocol that already exists.
 
 !!!Create a method
 
-Now let us create the accessor methods for the instance variable ==count==. Start by selecting the class ==Counter== in a Browser, and make sure you are editing the instance side of the class (i.e., we define methods on ''instances'' of our class) by selecting the instance side tab. Then define your method.
+Now let us create the getter method for the instance variable ==count==. Start by selecting the class ==Counter== in a Browser, and make sure you are editing the instance side of the class (i.e., we define methods on ''instances'' of our class) by selecting the instance side tab. Then define your method.
 
 Figure *@MethodEditor* shows the method editor ready to define a method.
 +The method editor selected and ready to define a method.>file://figures/MethodEditor.png|label=MethodEditor+
@@ -123,7 +123,7 @@ This expression first creates a new instance of ==Counter==, and then sends the 
 
 !!!Adding a setter method
 
-Complementing the accessor method we usually find the ''setter'' method. These are used to change the value of an instance variable from outside the object. For example, the expression ==Counter new count: 7== first creates a new ==Counter== instance and then sets its value to ==7== by sending it the message ==count: 7==.
+Complementing the getter method we find the ''setter'' method. These are used to change the value of an instance variable from outside the object. For example, the expression ==Counter new count: 7== first creates a new ==Counter== instance and then sets its value to ==7== by sending it the message ==count: 7==. Getters and setters are collectively referred to as ''accessor'' methods.
 
 This example shows a setter method in action:
 
