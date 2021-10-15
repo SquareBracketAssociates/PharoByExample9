@@ -454,7 +454,7 @@ Select ==Collections-Strings-Tests-Base== package (filter the list by typing ==S
 
 You should see the upper right pane turn red, which indicates that there was an ''error'' in running the tests. The list of tests that gave rise to errors is shown in the bottom right pane. As you can see, and as we expected, the method ==StringTest>>#testShout== is the culprit.
 
-Note here that ==StringTest>>#testShout== is just the Pharo way of identifying the ==testShout== method of the ==StringTest== class. The formula, which you'll see again and again, is ==ClassName>>#methodName==.
+Note here that ==StringTest>>#testShout== is just the Pharo way of identifying the ==testShout== method of the ==StringTest== class. The formula, which you'll see again and again to identify methods, is ==ClassName>>#methodName==.
 
 If you click on that method in the bottom right pane, the erroneous test will run again, but this time in such a way that you see the error happen: ==Instance of ByteString did not understand #shout== (see Figure *@fig:shoutError*). This is the point you'd reach by running the test by clicking the little gray button.
 
