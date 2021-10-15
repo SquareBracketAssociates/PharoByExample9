@@ -93,7 +93,7 @@ First off, it's another ==initialize== method as we saw with our counter in the 
 
 But the first thing this method is to execute the ==initialize== method of its superclass, ==SimpleSwitchMorph==. The idea here is that any inherited state from the superclass will be properly initialized by the ==initialize== method of the superclass. It is ''always'' a good idea to initialize inherited state by sending ==super initialize== before doing anything else. We don't know exactly what ==SimpleSwitchMorph==’s ==initialize== method will do when we call it, ''and we don't care'', but it's a fair bet that it will set up some instance variables to hold reasonable default values that a ==SimpleSwitchMorph== is going to need. So we had better call it, or we risk our new object starting off in an invalid state.
 
-The rest of the method sets up the state of this object. Sending ==self label: ''==, for example, sets the label of this object to the empty string.
+The rest of the method sets up the state of this object. Sending ==self label: \''==, for example, sets the label of this object to the empty string.
 
 !!!!!About point and rectangle creation
 
