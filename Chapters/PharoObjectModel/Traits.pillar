@@ -400,5 +400,9 @@ You can also access the overridden method by creating an alias as explained belo
 
 Traits are groups of methods and state that can be reused in different classes, supporting this way 
 a kind of multiple inheritance in the context of a single inheritance language. 
-To handle conflict, 
+A class can be composed of several traits. And traits can define methods having the same name, leading to a conflict.
+
+To handle conflict, the class can redefine the class locally: local methods take precedence over trait ones, or exclude
+a conflicting method. Finally a overridden method (redefine in a class) can be accessed via an alias created at the level of the 
+class use.
 
