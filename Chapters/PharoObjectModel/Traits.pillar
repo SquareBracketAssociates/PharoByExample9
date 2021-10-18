@@ -1,8 +1,7 @@
 !!Traits: reusable class fragments
 @cha:traits
 
-Although Pharo does not provide multiple inheritance, it supports a mechanism called Traits for sharing class fragments (behavior and state) across unrelated classes.
-Traits in their simpler form are collections of methods that can be reused by multiple classes that are not related by inheritance. 
+Traits are collections of methods that can be reused by multiple classes that are not related by inheritance.  Although Pharo does not provide multiple inheritance, it supports a mechanism called Traits for sharing class fragments (behavior and state) across unrelated classes.
 Since Pharo 7.0, traits can also hold state.
 
 Using traits allows one to share code between different classes without duplicating code.
@@ -182,11 +181,10 @@ Counter new increment; increment
 A class is not limited to use only one traits. It can use several traits.
 Imagine that we define another trait called ==TSpeakingAbility==.
 
-
 [[[
 Trait named: #TSpeakingAbility
-	 uses: {}
-	 package: 'Traits-Example'
+	uses: {}
+	package: 'Traits-Example'
 ]]]
 
 This trait defined a method ==speak==.
@@ -196,6 +194,21 @@ TSpeakingAbility >> speak
 	^ 'I''m speaking!'
 ]]]
 
+Now we define a second trait ==TFlyingAbility==.
+
+[[[
+Trait named: #TFlyingAbility
+	instanceVariableNames: ''
+	package: 'Traits-Example'
+]]]
+
+This trait defines a method ==flying==.
+
+[[[
+TFlyingAbility >> fly
+
+	^ 'I''m flying'
+]]]
 
 Now the class ==Duck== can use both traits ==TFlyingAbility== and ==TSpeakingAbility==
 as follows: 
@@ -242,10 +255,8 @@ It means that
 - the trait method ==speak== is not accessible from the class anymore, and
 - the new method is used in place, even by method sending the message ==speak==.
 
-
 [[[
-| d |
-d := Duck new speak
+Duck new speak
 >>> 'QUACK'
 ]]]
 
@@ -260,8 +271,7 @@ The following example shows that the locally redefined version of the method ==s
 of the one of the trait ==TSqueakingAbility==.
 
 [[[
-| d |
-d := Duck new doubleSpeak
+Duck new doubleSpeak
 >>> 'I double: QUACK QUACK'
 ]]]
 
@@ -292,8 +302,7 @@ Duck >> differentSpeak
 ]]]
 
 [[[
-| d |
-d := Duck new differentSpeak
+Duck new differentSpeak
 >>> 'I''m speaking! QUACK'
 ]]]
 
@@ -301,33 +310,95 @@ Pay attention that an alias is not a full method rename.
 Indeed if the overridden method is recursive, it will not call it new name.
 An alias just give a new name to an existing method, it does not change its definition. 
 
-HERE.
+
+!!! Handling conflict
+
+It may happen that two traits used in the same class define the same method. 
+This situation is a conflict.
+To solve conflict, there are two strategies:
+# Using the ==\-== operator, you can exclude the conflicting method from the trait defining, 
+# or defining the conflicting method locally. In such a case, the conflicting methods are overridden and they can be made accessible as previously explained with the ==\@== operator.
+
+Here is an example. Let us define another trait
+
+[[[
+Trait named: #THighFlyingAbility
+	instanceVariableNames: ''
+	package: 'Traits-Example'
+]]]
+
+[[[
+THighFlyingAbility >> fly
+
+	^ 'I''m flying high'
+]]]
+
+When we define the class ==Eagle== that uses the two traits ==THighFlyingAbility== and ==TFlyingAbility==, we will have a
+conflict when sending the message ==fly== because the runtime does not know which method to execute. 
+
+[[[
+Object subclass: #Eagle
+	uses: THighFlyingAbility + TFlyingAbility 
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'Traits-Example'
+]]]
+
+[[[
+Eagle new fly
+>>> 'A class or trait does not properly resolve a conflict between multiple traits it uses.'
+]]]
+
+!!! Conflict resolution: excluding a method
+
+To solve the conflict we can simply exclude during the composition the ==fly== method from the trait ==TFlyingAbility==.
+
+[[[
+Object subclass: #Eagle
+	uses: THighFlyingAbility + (TFlyingAbility - #fly)
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'Traits-Example'
+]]]
+
+Now there is only one ==fly== method.
+
+[[[
+Eagle new fly
+>>> 'I''m flying high'
+]]]
+
+!!! Conflict resolution: redefining the method
+
+To solve the conflict we can simply redefine the conflicting method in the class using the traits. 
+
+[[[
+Object subclass: #Eagle
+	uses: THighFlyingAbility + TFlyingAbility
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'Traits-Example'
+]]]
+
+Now there is only one ==fly== method.
+
+[[[
+Eagle >> fly
+
+	^ 'Flying and flying high'
+]]]
+
+[[[
+Eagle new fly
+>>> 'Flying and flying high'
+]]]
+
+You can also access the overridden method by creating an alias as explained below. 
 
 
-!!! Composing a trait out of other traits
-Trait composition expressions may combine multiple traits using the ==+== operator. 
-In case of conflicts (i.e., if multiple traits define methods with the same name), these conflicts can be resolved by explicitly removing these
-methods (with ==-==), or by redefining these methods in the class or trait that you are defining. 
-It is also possible to ''alias'' methods (with ==@==), providing a new name for them.
+!!! Conclusion
 
-%==Behavior==.
-%[[[label=scr:behaviorwithtraits|caption=Behavior defined using traits.
-%Object subclass: #Behavior
-%    uses: TPureBehavior @ {#basicAddTraitSelector:withMethod:->#addTraitSelector:withMethod:}
-%    instanceVariableNames: 'superclass methodDict format'
-%    classVariableNames: 'ObsoleteSubclasses'
-%    package: 'Kernel-Classes'
-%]]]
+Traits are groups of methods and state that can be reused in different classes, supporting this way 
+a kind of multiple inheritance in the context of a single inheritance language. 
+To handle conflict, 
 
-%Here we see that the method ==addTraitSelector:withMethod:== defined in the
-%trait ==TPureBehavior== has been aliased to
-%==basicAddTraitSelector:withMethod:==.
-
-%% should add something to state initialization. 
-
-
-!!! Managing conflicts
-
-
-
-!!!Conclusion
