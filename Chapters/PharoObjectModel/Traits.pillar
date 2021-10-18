@@ -366,7 +366,7 @@ Object subclass: #Eagle
 	package: 'Traits-Example'
 ]]]
 
-Now there is only one ==fly== method.
+Now there is only one ==fly== method, the one from ==THighFlyingAbility==.
 
 [[[
 Eagle new fly
@@ -375,7 +375,7 @@ Eagle new fly
 
 !!! Conflict resolution: redefining the method
 
-Another way to solve the conflict is that we can simply redefine the conflicting method in the class using the traits. 
+Another way to solve the conflict is to simply redefine the conflicting method in the class using the traits. 
 
 [[[
 Object subclass: #Eagle
