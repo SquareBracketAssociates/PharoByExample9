@@ -7,6 +7,7 @@ Many aspects of Pharo's tooling have changed since the last edition, and we have
 - We have introduced a new 'first contact' chapter with a simple counter example. This lets the reader see the most important operations that define a class, its tests, and save its code.
 - We briefly cover the new system browser, Calypso, as well as the Pharo Launcher.
 - We introduce two new chapters covering Iceberg and package management (see Chapters *@cha:Iceberg* and *@cha:Configure*). Supplementing this is a new book on Pharo and git, available at *http://books.pharo.org*.
+- We added a new chapter on Traits.
 - We have simplified the SUnit chapter, since a companion book is now available at *http://books.pharo.org/*
 - We have revised parts of the book that were wrong in previous editions, such as the Morphic chapter; the current version is a considerable improvement over ''Pharo by Example 5''.
 
@@ -65,9 +66,9 @@ In addition, there are numerous other books on Smalltalk freely available  at *h
 
 Do not be frustrated by parts of Pharo that you do not immediately understand. ''You do not have to know everything''. Alan Knight expresses this as follows:
 
-{{{latex:\begin{quote} }}}{{{html:<blockquote>}}}
-''Try not to care''. Beginning Pharo programmers often have trouble because they think they need to understand all the details of how a thing works before they can use it. This means it takes quite a while before they can master ==Transcript show: 'Hello World'==. One of the great leaps in OO [object-oriented programming] is to be able to answer the question "How does this work?" with "I don't care".
-{{{latex:\end{quote} }}}{{{html:</blockquote>}}}
+
+!!!!!''Try not to care''. 
+Beginning Pharo programmers often have trouble because they think they need to understand all the details of how a thing works before they can use it. This means it takes quite a while before they can master ==Transcript show: 'Hello World'==. One of the great leaps in OO [object-oriented programming] is to be able to answer the question "How does this work?" with "I don't care".
 
 When you do not understand something, simple or complex, do not hesitate to ask us on our mailing lists (pharo-users@lists.pharo.org or pharo-dev@lists.pharo.org), IRC and Discord. We love questions and we welcome people of any skill.
 
