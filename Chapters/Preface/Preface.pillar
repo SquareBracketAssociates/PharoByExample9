@@ -4,9 +4,10 @@ This version of the book is based on the previous version authored by Andrew P. 
 
 Many aspects of Pharo's tooling have changed since the last edition, and we have worked hard to cover these changes:
 
-- We have introduced a new 'first contact' chapter with a simple counter example. This lets the reader see the most important operations that define a class, its tests, and save its code.
+- We have reorganized the beginning of the book to get shorter chapters.
+- We have introduced a new 'first contact' chapter with a simple counter example. This lets the reader see the most important operations to define a class, its tests, and save its code.
 - We briefly cover the new system browser, Calypso, as well as the Pharo Launcher.
-- We introduce two new chapters covering Iceberg and package management (see Chapters *@cha:Iceberg* and *@cha:Configure*). Supplementing this is a new book on Pharo and git, available at *http://books.pharo.org*.
+- We have introduced one new chapter covering Iceberg and package management. Supplementing this is a new book on Pharo and git, available at *http://books.pharo.org*.
 - We added a new chapter on Traits.
 - We have simplified the SUnit chapter, since a companion book is now available at *http://books.pharo.org/*
 - We have revised parts of the book that were wrong in previous editions, such as the Morphic chapter; the current version is a considerable improvement over ''Pharo by Example 5''.
@@ -64,11 +65,10 @@ In addition, there are numerous other books on Smalltalk freely available  at *h
 
 !!!A word of advice
 
-Do not be frustrated by parts of Pharo that you do not immediately understand. ''You do not have to know everything''. Alan Knight expresses this as follows:
+Do not be frustrated by parts of Pharo that you do not immediately understand: ''You do not have to know everything''. Alan Knight expresses this as follows:
 
 
-!!!!!''Try not to care''. 
-Beginning Pharo programmers often have trouble because they think they need to understand all the details of how a thing works before they can use it. This means it takes quite a while before they can master ==Transcript show: 'Hello World'==. One of the great leaps in OO [object-oriented programming] is to be able to answer the question "How does this work?" with "I don't care".
+""''Try not to care''.""  Beginning Pharo programmers often have trouble because they think they need to understand all the details of how a thing works before they can use it. This means it takes quite a while before they can master ==Transcript show: 'Hello World'==. One of the great leaps in OO [object-oriented programming] is to be able to answer the question "How does this work?" with "I don't care".
 
 When you do not understand something, simple or complex, do not hesitate to ask us on our mailing lists (pharo-users@lists.pharo.org or pharo-dev@lists.pharo.org), IRC and Discord. We love questions and we welcome people of any skill.
 
@@ -80,7 +80,7 @@ This book is an open book in the following senses:
 
 - This book just describes the core of Pharo. We encourage others to contribute chapters on the parts of Pharo that we have not described. If you would like to participate in this effort, please contact us. We would like to see more books about Pharo!
 
-- It is also possible to contribute directly to this book via GitHub. Just follow the instructions there and ask any questions you have on the mailing list, IRC or Discord. You can find the GitHub repo at *https://github.com/SquareBracketAssociates/PharoByExample80>https://github.com/SquareBracketAssociates/PharoByExample80*
+- It is also possible to contribute directly to this book via GitHub. Just follow the instructions there and ask any questions you have on the mailing list, IRC or Discord. You can find the GitHub repo at *https://github.com/SquareBracketAssociates/PharoByExample90>https://github.com/SquareBracketAssociates/PharoByExample90*
 
 !!!The Pharo community
 
