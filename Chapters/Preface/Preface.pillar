@@ -91,7 +91,7 @@ The Pharo community is friendly and active. Here is a short list of resources th
 - Pharo has an active on Discord server - a platform for chat based on IRC, just ask for an invitation on Pharo's website *http://pharo.org/community*, in the Discord section. Everybody is welcome.
 - Pharoers started a wiki on Pharo: *https://github.com/pharo-open-documentation/pharo-wiki>https://github.com/pharo-open-documentation/pharo-wiki*
 - An Awesome catalog is maintained with projects: *https://github.com/pharo-open-documentation/awesome-pharo>https://github.com/pharo-open-documentation/awesome-pharo*
-- If you hear about SmalltalkHub, *http://www.smalltalkhub.com/>http://www.smalltalkhub.com/* was the equivalent of SourceForge/GitHub for Pharo projects for about 10 years. Many extra packages and projects for Pharo lived there. Now the community is mainly using git repositories such as GitHub, GitLab and Bitbucket.
+- If you hear about SmalltalkHub, *http://www.smalltalkhub.com/>http://www.smalltalkhub.com/* was the equivalent of SourceForge/GitHub for Pharo projects for about 10 years. Many extra packages and projects for Pharo lived there. Now the community is mainly using git repositories such as GitHub, GitLab, and Bitbucket.
 
 !!!Examples and exercises
 
@@ -115,6 +115,8 @@ We also thank the Pharo community for their enthusiastic support of this book pr
 !!!Hyper special acknowledgments
 
 We want to thank the original authors of this book! Without the initial version it would have been difficult to make this one. ''Pharo by Example'' is a central book for Pharo to welcome newcomers, it has immense value.
+
+Special thank to David Wickes for his massive copy-edit pass.
 
 Thanks to Manfred Kröhnert, Markus Schlager, Werner Kassens, Michael OKeefe, Aryeh Hoffman, Paul MacIntosh, Gaurav Singh, Jigyasa Grover, Craig Allen, Serge Stinckwich, avh-on1, Yuriy Timchuk, zio-pietro for the typos and feedback. Special thanks to Damien Cassou and Cyril Ferlicot for their great help in the book update. 
 

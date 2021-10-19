@@ -2,19 +2,20 @@
 @cha:getting
 
 
-In this chapter , you will learn how to start Pharo and the different files that make up a Pharo system and the roles they perform, learn about the different ways of interacting with the system, and discover some of the basic tools. You will also learn how to define a new method, create an object, and send it messages.
+In this chapter, you will learn how to start Pharo and the different files that make up a Pharo system and the roles they perform, learn about the different ways of interacting with the system, and discover some of the basic tools. You will also learn how to define a new method, create an object, and send it messages.
+The chapter shows (1) how to install Pharo and (2) how to launch Pharo.
 
 
-
-!!!Installing Pharo
+!!! Installing Pharo
 
 Pharo does not need to install anything in your system, as it's perfectly capable of running standalone. As will be explained later, Pharo consists of a virtual machine (VM), an image, a set of changes and a set of sources. There are a number of different ways of getting these installed and set up on your system.
 
-!!!!The Pharo Launcher
+!!!! The Pharo Launcher
 
 Pharo Launcher is a cross-platform application that facilitates the management of multiple Pharo images and VMs. It is available as a free download from *http://pharo.org/download>http://pharo.org/download*.  Click the button for your operating system to download the appropriate Pharo Launcher; it contains everything you need to run Pharo.
 
-!!!!Zeroconf scripts
+
+!!!! Zeroconf scripts
 
 Alternatively, *https://get.pharo.org/* offers a collection of scripts to download specific versions of Pharo. This is really handy for automating the installation of Pharo, or if you prefer to work using your operating system's command line interface.
 
@@ -31,7 +32,7 @@ Then you can execute the following to start the image:
 
 At present these scripts will only work on a a macOS or Linux system.
 
-!!!File components
+!!! File components
 
 Pharo consists of four main component files. Although you do not need to deal with them directly for the purposes of this book, it is useful to understand the role that they each play.
 
@@ -81,7 +82,7 @@ You can use your own local images with Pharo Launcher, in addition to working wi
 +When Pharo opens you should see the following.>file://figures/Pharo80.png|width=80|label=fig:started+
 
 
-!!!Launching Pharo via the command line
+!!! Launching Pharo via the command line
 
 If you are using standalone version do whatever your operating system expects: drag the ==.image== file onto the icon of the virtual machine, or double-click on the ==.image== file, or at the command line type the name of the virtual machine followed by the path to the ==.image== file.
 

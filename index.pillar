@@ -3,10 +3,11 @@ ${inputFile:path=Chapters/Preface/Preface.pillar}$
 
 ${inputFile:path=Chapters/PharoTour/GettingStarted.pillar}$
 
-${inputFile:path=Chapters/PharoTour/Finding.pillar}$
-%1 upbe9 stef
 
 ${inputFile:path=Chapters/PharoTour/PharoTour.pillar}$
+
+${inputFile:path=Chapters/PharoTour/Finding.pillar}$
+%1 upbe9 stef
 
 ${inputFile:path=Chapters/Counter/Exo-Counter.pillar}$
 %2 upbe9 stef
