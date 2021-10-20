@@ -9,12 +9,12 @@ Since Pharo 7.0, traits can also hold state.
 Using traits allows one to share code between different classes without duplicating code.
 This makes it easy for classes to ''reuse'' useful behavior across classes.
 
-As we will show later, traits propose a way to compose and resolve conflicts in disciplined manner. With traits this is not the latest loaded method that wins as this happens with other languages. In Pharo, the composer (be it a class or a trait) takes always precedence and can decide in its context
-how to resolve a conflict: Methods can be removed or accessible under a new name at composition time.
+As we will show later, traits propose a way to compose and resolve conflicts in disciplined manner. With traits this is not the latest loaded method that wins as this happens with other languages. In Pharo, the composer (be it a class or a trait) always takes precedence and can decide in its context
+how to resolve a conflict: Methods can be excluded but still accessible under a new name at composition time.
 
 !!! A simple trait
 
-The following code defines a trait. The ==uses:== clause in an empty array indicating that this trait is not composed of other traits.
+The following code defines a trait. The ==uses:== clause is an empty array indicating that this trait is not composed of other traits.
 
 [[[label=scr:flying|caption=A simple trait.
 Trait named: #TFlyingAbility
@@ -30,8 +30,8 @@ TFlyingAbility >> fly
 	^ 'I''m flying!'
 ]]]
 
-Now we define a class called ==Bird== that uses the trait. 
-The class contains then the ==fly== method.
+Now we define a class called ==Bird==. It uses the trait ==TFlyingAbility==, 
+as a result the class contains then the ==fly== method.
 
 [[[
 Object subclass: #Bird
@@ -79,8 +79,9 @@ Object subclass: #Person
 	package: 'Traits-Example'	
 ]]]
 
-Now in the class ==Person== we define the method ==name==
-and the ==greeting== method will invoke it.
+We define the class ==Person== which uses the trait ==TGreetable==.
+In the class ==Person==, we define the method ==name==. 
+The ==greeting== method will invoke it.
 
 [[[
 Person >> name 
@@ -95,7 +96,7 @@ Person new greeting
 
 
 !!! Self in a trait is the message receiver
-The question of the status of ==self== in a trait may be raised. 
+One may wonder what ==self== refers to in a trait.
 However, there is no difference between ==self== used in a method defined in a class or defined in a trait. 
 ==self== always represents the receiver. The fact that the method is defined in a class or a trait
 has no influence on ==self==. 
@@ -142,8 +143,8 @@ Trait named: #TCounting
 	package: 'Traits-Example'
 ]]]
 
-The trait can initialize its state by redefining the method ==initialize== followed by the class named.
-Here the trait ==TCounting== defines the method ==initializeTCounting==.
+The trait can initialize its state by defining a method ==initialize== followed by the class named.
+Note that this is a coding convention. Here the trait ==TCounting== defines the method ==initializeTCounting==.
 
 [[[
 TCounting >> initializeTCounting
@@ -182,7 +183,7 @@ Counter new increment; increment
 
 !!! A class can use two traits
 
-A class is not limited to use only one trait. It can use several traits.
+A class is not limited to the use only one trait. It can use several traits.
 Imagine that we define another trait called ==TSpeakingAbility==.
 
 [[[
@@ -237,8 +238,7 @@ d fly
 
 !!! Overriding method takes precedence over trait methods
 
-A method originating from a trait acts as if it would have been defined in the class using that trait. 
-Now the user of a trait (be it a class or another trait) can always redefine the method originating from the trait
+A method originating from a trait acts as if it would have been defined in the class (or trait) using that trait. Now the user of a trait (be it a class or another trait) can always redefine the method originating from the trait
 and the redefinition takes precedence in the user over the method of trait. 
 
 Let us illustrate it.
@@ -281,7 +281,7 @@ Duck new doubleSpeak
 
 !!! Accessing overridden trait methods
 
-Sometimes you want to override a method from a trait and at the same time still being able to access the overridden 
+Sometimes you want to override a method from a trait and at the same time still be able to access the overridden 
 method. This is possible by creating an alias to that overridden method in the class trait composition clause using the ==\@== and ==\-\>== operators
 as follows: 
 
@@ -296,8 +296,7 @@ Object subclass: #Duck
 Note that the arrow means that the new method is the same as the old one: it just has a new name. 
 Here we say that ==originalSpeak== is the new name of ==speak==.
 
-The overridden method can be accessed using its new name as any method, by sending a message using it.
-Here we define the method ==differentSpeak== and it is sending the message ==originalSpeak==.
+The overridden method can be accessed sending a message with its new name as with any method. Here we define the method ==differentSpeak== and it is sending the message ==originalSpeak==.
 
 [[[
 Duck >> differentSpeak
@@ -402,12 +401,12 @@ You can also access the overridden methods by creating an alias associated with 
 
 !!! Conclusion
 
-Traits are groups of methods and state that can be reused in different classes, supporting this way 
-a kind of multiple inheritance in the context of a single inheritance language.
-A class can be composed of several traits. And traits can define instance variables and methods.
+Traits are groups of methods and state that can be reused in different users (classes or traits), supporting this way a kind of multiple inheritance in the context of a single inheritance language.
+A class or trait can be composed of several traits. Traits can define instance variables and methods.
 When the traits used in a class define method having the same name, this leads to a conflict.
 
-To handle conflict, the class can redefine the class locally: local methods take precedence over trait ones, or exclude
-a conflicting method. Finally a overridden method (redefined in a class) can be accessed via an alias created at the level of the 
-class composition.
+There are two ways to resolve a conflict:
+- The user (class or trait) can redefine the conflicting method locally: local methods take precedence over trait ones. 
+- The user can exclude a conflicting method. 
+In addition an overridden method can be accessed via an alias defined in the trait composition clause.
 
