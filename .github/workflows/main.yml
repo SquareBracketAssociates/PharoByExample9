@@ -1,0 +1,51 @@
+name: Book generation
+
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Prepare Pillar
+        run: |
+          git clone https://github.com/pillar-markup/pillar.git -b v8.0.12
+          export PATH="$HOME/texlive/bin/x86_64-linux:$PWD/build:$PATH"
+          ./pillar/scripts/ci/install-texlive
+          ./_support/latex/ensure-deps.sh
+          ./pillar/scripts/build.sh
+          
+      - name: Build PDF
+        run: |
+          echo $PATH
+          export PATH="$HOME/texlive/bin/x86_64-linux:$PWD/build:$PATH"
+          echo $PATH
+          pillar build pdf
+          mv _result/pdf/index.pdf _result/pdf/Spec2-wip.pdf
+      - name: Build HTML
+        run: |
+          export PATH="$HOME/texlive/bin/x86_64-linux:$PWD/build:$PATH"
+          pillar build html
+          ls -R _result/
+      - name: Continuous Release
+        if: ${{ github.event_name == 'push' }}
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            _result/pdf/*.pdf
