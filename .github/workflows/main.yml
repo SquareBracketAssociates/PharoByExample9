@@ -34,11 +34,6 @@ jobs:
           echo $PATH
           pillar build pdf
           mv _result/pdf/index.pdf _result/pdf/PBE9-wip.pdf
-      - name: Build HTML
-        run: |
-          export PATH="$HOME/texlive/bin/x86_64-linux:$PWD/build:$PATH"
-          pillar build html
-          ls -R _result/
       - name: Continuous Release
         if: ${{ github.event_name == 'push' }}
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -46,6 +41,12 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: true
-          title: "Development Build"
+          title: "Save PDF"
           files: |
             _result/pdf/*.pdf
+      - name: Build HTML
+        run: |
+          export PATH="$HOME/texlive/bin/x86_64-linux:$PWD/build:$PATH"
+          pillar build html
+          ls -R _result/
+    
