@@ -1,4 +1,4 @@
-name: Book generation
+name: Centralized book generation
 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
@@ -15,4 +15,4 @@ jobs:
   build:
     uses: SquareBracketAssociates/BookBuilderDashboard/.github/workflows/main.yml@master
     with:
-      bookname: Spec2-wip
+      bookname: PharoByExample9-wip
