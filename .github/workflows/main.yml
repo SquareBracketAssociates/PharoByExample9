@@ -33,7 +33,7 @@ jobs:
           export PATH="$HOME/texlive/bin/x86_64-linux:$PWD/build:$PATH"
           echo $PATH
           pillar build pdf
-          mv _result/pdf/index.pdf _result/pdf/Spec2-wip.pdf
+          mv _result/pdf/index.pdf _result/pdf/PBE9-wip.pdf
       - name: Build HTML
         run: |
           export PATH="$HOME/texlive/bin/x86_64-linux:$PWD/build:$PATH"
