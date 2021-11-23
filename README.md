@@ -1,5 +1,5 @@
 # PharoByExample90
-A new version of Pharo by example for Pharo
+A new version of Pharo by example for Pharo. You can find the automatic build at https://github.com/SquareBracketAssociates/PharoByExample9/releases/download/latest/PBE9-wip.pdf
 
 
 Look here for more [Books and Booklets](http://books.pharo.org/).
