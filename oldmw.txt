@@ -1,3 +1,16 @@
+Label `OpeningRepositoryBrowser' multiply defined
+  Label `SaveUncommited' multiply defined
+  Label `scr:InitiGame' multiply defined
+  Label `scr:colorClassInit' multiply defined
+  Label `sec:varieties' multiply defined
+  Reference `fig:fileOut' on page 70 undefined on input line 1515
+  Reference `fig:finder' on page 28 undefined on input line 639
+  Reference `fig:worldMenu' on page 15 undefined on input line 391
+  Reference `fig:worldMenu' on page 16 undefined on input line 401
+
+
+
+
 !!!!!!!!!!!!!!!!!!!!!!!!NEXT CHAPTER NEEDS A REVIEW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 !!!!Using method wrappers to perform test coverage

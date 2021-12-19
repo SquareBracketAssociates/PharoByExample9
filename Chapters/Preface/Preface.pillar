@@ -93,6 +93,7 @@ The Pharo community is friendly and active. Here is a short list of resources th
 - An Awesome catalog is maintained with projects: *https://github.com/pharo-open-documentation/awesome-pharo>https://github.com/pharo-open-documentation/awesome-pharo*
 - If you hear about SmalltalkHub, *http://www.smalltalkhub.com/>http://www.smalltalkhub.com/* was the equivalent of SourceForge/GitHub for Pharo projects for about 10 years. Many extra packages and projects for Pharo lived there. Now the community is mainly using git repositories such as GitHub, GitLab, and Bitbucket.
 
+
 !!!Examples and exercises
 
 We have tried to provide as many examples as possible. In particular, there are examples that show a fragment of code which can be evaluated. We use a long arrow to indicate the result you obtain when you select an expression and from its context menu and choose ""print it"":
@@ -103,6 +104,35 @@ We have tried to provide as many examples as possible. In particular, there are 
 ]]]
 
 In case you want to play with these code snippets in Pharo, you can download a plain text file with all the example code from the Resources sidebar of the original book's web site: *http://books.pharo.org/pharo-by-example*.
+
+!!! Typographic conventions
+
+We always prefix method source code with the class of the method. This way you can also know of which class the method is. 
+
+For example, the book shows a method as: 
+[[[
+MyExampleSetTest >> testIncludes
+    | full empty |
+    full := Set with: 5 with: 6.
+    empty := Set new.
+    self assert: (full includes: 5).
+    self assert: (full includes: 6).
+    self assert: (empty includes: 5) not
+]]] 
+
+And it you want to type it into Pharo you should type the following in the corresponding class.
+
+[[[
+testIncludes
+    | full empty |
+    full := Set with: 5 with: 6.
+    empty := Set new.
+    self assert: (full includes: 5).
+    self assert: (full includes: 6).
+    self assert: (empty includes: 5) not
+]]] 
+
+
 
 !!!Acknowledgments
 
