@@ -338,7 +338,7 @@ Browse this class to see what other methods it provides to interrogate the mouse
 To catch keyboard events, we need to take three steps.
 
 #Give the ''keyboard focus'' to a specific morph. For instance, we can give focus to our morph when the mouse is over it.
-#Handle the keyboard event itself with the ==handleKeystroke:== method. This message is sent to the morph that has keyboard focus when the user presses a key.
+#Handle the keyboard event itself with the ==keyDown:== method. This message is sent to the morph that has keyboard focus when the user presses a key.
 #Release the keyboard focus when the mouse is no longer over our morph.
 
 Let's extend ==CrossMorph== so that it reacts to keystrokes. 
@@ -353,7 +353,7 @@ CrossMorph >> handlesMouseOver: anEvent
 This message is the equivalent of ==handlesMouseDown:== for the mouse position.
 When the mouse pointer enters or leaves the morph, the ==mouseEnter:== and ==mouseLeave:== messages are sent to it.
 
-Define two methods so that ==CrossMorph== catches and releases the keyboard focus, and a third method to actually handle the keystrokes.
+Define two methods so that ==CrossMorph== catches and releases the keyboard focus, a third method to be notified when a key is pressed, and a fourth method to actually handle the key down event.
 %|caption=Getting the keyboard focus when the mouse enters the morph|label=scr:gettingFocus
 [[[language=smalltalk
 CrossMorph >> mouseEnter: anEvent
@@ -362,12 +362,17 @@ CrossMorph >> mouseEnter: anEvent
 %|caption=Handing back the focus when the pointer goes away|label=scr:givebackFocus
 [[[language=smalltalk
 CrossMorph >> mouseLeave: anEvent
-	anEvent hand newKeyboardFocus: nil
+	anEvent hand releaseKeyboardFocus: self
 ]]]
-
-%|label=scr:handleKeystroke|caption=Receiving and handling keyboard events
+%|caption=We want to handle ''key down'' events|label=scr:keyDownHandling
 [[[language=smalltalk
-CrossMorph >> handleKeystroke: anEvent
+CrossMorph >> handlesKeyDown:  anEvent
+	^ true
+]]]
+ 
+%|label=scr:keyDown|caption=Receiving and handling keyboard events
+[[[language=smalltalk
+CrossMorph >> keyDown: anEvent
 	| keyValue |
 	keyValue := anEvent keyValue.
 	keyValue = 30	 "up arrow"
@@ -380,13 +385,23 @@ CrossMorph >> handleKeystroke: anEvent
 		ifTrue: [self position: self position - (1 @ 0)]
 ]]]
 
+
 We have written this method so that you can move the morph using the arrow keys.
-Note that when the mouse is no longer over the morph, the ==handleKeystroke:==
-message is not sent, so the morph stops responding to keyboard commands. 
 To discover the key values, you can open a Transcript window and add ==Transcript show: anEvent keyValue== to the ==handleKeystroke:== method.
 %*@scr:handleKeystroke*.
 The ==anEvent== argument of ==handleKeystroke:== is an instance of ==KeyboardEvent==, another subclass of ==MorphicEvent==. 
 Browse this class to learn more about keyboard events.
+
+If you want to move your morph with ==Ctrl- == like shortcut, you could use code like:
+
+%in Script *@scr:handleKeystroke*:
+%|caption=Using Ctrl-d as shortcut |label=scr:CtrlShortcut
+[[[language=smalltalk
+	anEvent controlKeyPressed ifTrue: [ 
+		anEvent keyCharacter == $d ifTrue: [ 
+			self position: self position + (0 @ 10) ] ]
+]]]
+
 
 !!!Morphic animations
 
@@ -425,17 +440,31 @@ CrossMorph >> initialize
 
 %+The debug handle button.>file://figures/debugHandle.png|width=3|label=fig:debugHandle+
 
-Alternatively, you can modify the ==handleKeystroke:== method so that you can
-use the ==+== and ==-== keys to start and stop stepping. Add the following code
-to the ==handleKeystroke:== method:
-%in Script *@scr:handleKeystroke*:
-%|caption=Add the beginning and the end of the steps|label=scr:startStopSteps
+Alternatively, you can handle ==key stroke== so that you can
+use the ==+== and ==-== keys to start and stop stepping.
+
+Typically text is managed using the KeyStroke events while shortcuts are managed in 
+KeyUp and KeyDown events.
+
+To handle key stroke, we need a method to be notified when a key is pressed, and 
+a second method to actually handle the key stroke event.
+%|caption=We want to handle ''key stroke'' events|label=scr:givebackFocus
 [[[language=smalltalk
-	keyValue = $+ asciiValue
-		ifTrue: [ self startStepping ].
-	keyValue = $- asciiValue
-		ifTrue: [ self stopStepping ]
+CrossMorph >> handlesKeyStroke:  anEvent
+	^ true
 ]]]
+
+
+%|label=scr:startStopSteps|caption=Receiving and handling keyboard stroke events
+[[[language=smalltalk
+CrossMorph >> keyStroke: anEvent
+	| keyValue |
+	keyValue := anEvent keyCharacter.
+	keyValue == $+ ifTrue: [ self startStepping ].
+	keyValue == $- ifTrue: [ self stopStepping ]
+]]]
+
+
 
 !!!Interactors
 
