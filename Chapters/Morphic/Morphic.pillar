@@ -373,16 +373,12 @@ CrossMorph >> handlesKeyDown:  anEvent
 %|label=scr:keyDown|caption=Receiving and handling keyboard events
 [[[language=smalltalk
 CrossMorph >> keyDown: anEvent
-	| keyValue |
-	keyValue := anEvent keyValue.
-	keyValue = 30	 "up arrow"
-		ifTrue: [self position: self position - (0 @ 1)].
-	keyValue = 31	 "down arrow"
-		ifTrue: [self position: self position + (0 @ 1)].
-	keyValue = 29	 "right arrow"
-		ifTrue: [self position: self position + (1 @ 0)].
-	keyValue = 28	 "left arrow"
-		ifTrue: [self position: self position - (1 @ 0)]
+	| key |
+	key := anEvent key.
+	key = KeyboardKey up ifTrue: [ self position: self position - (0 @ 10) ].
+	key = KeyboardKey down ifTrue: [ self position: self position + (0 @ 10) ].
+	key = KeyboardKey right ifTrue: [ self position: self position + (10 @ 0) ].
+	key = KeyboardKey left ifTrue: [ self position: self position - (10 @ 0) ].
 ]]]
 
 
