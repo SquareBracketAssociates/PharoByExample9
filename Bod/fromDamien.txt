@@ -1,0 +1,31 @@
+On 19 Dec 2021, at 19:27, stephane ducasse <stephane.ducasse@inria.fr> wrote:
+
+Salut Damien
+
+Je suis entrain de jouer avec l’idee de publier les livres sur www.bod.fr
+et ils ont comme formats: 15 * 22
+
+Dans le document d'exemple sbabook.tex, au tout début, il y a \pagelayout{\paperbackpage}.
+Si j'ai bien compris leur format, il suffit de remplacer ça par ce qui suit pour produire un PDF à la bonne taille incluant le fond perdu (sinon \setbleed{0mm}).
+Éventuellement, reste à adapter les marges pour l'esthétique, mais comme c'est très proche des dimensions Lulu ça devrait aller comme ça.
+
+\newcommand{\bodpage}{
+	\setstocksize{220mm}{155mm} % final trimmed book dimensions
+	\setbleed{5mm} % additional paper, before trimming
+	\setlrmarginsandblock{.85in}{.65in}{*}
+	\setulmarginsandblock{.75in}{.75in}{*}}
+\pagelayout{\bodpage}
+
+Je ne sais plus comment ça se passe pour configurer les templates Pillar pour qu'il génère ça…
+
+Je me demande si ton template passerait dessus. 
+Est ce que tu as une idee?
+
+S
+
+<Bod80pages.png>
+
+
+
+
+
