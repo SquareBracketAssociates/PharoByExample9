@@ -1,48 +1,26 @@
 !! Collections 
 @cha:collections
 
-To make good use of the collection classes, the reader needs at least a
-superficial knowledge of the wide variety of collections that exist, and their commonalities and differences.
-This is what this chapter is about.
+To make good use of the collection classes, the reader needs at least a superficial knowledge of the wide variety of collections that exist, and their commonalities and differences. This is what this chapter is about.
 
-The collection classes form a loosely-defined group of general-purpose
-subclasses of ==Collection== and ==Stream==. Some of these subclasses such as ==Bitmap==,
-or ==CompiledMethod== are special-purpose classes crafted for
-use in other parts of the system or in applications, and hence not categorized
-as ''Collections'' by the system organization. 
+The collection classes form a loosely-defined group of general-purpose subclasses of ==Collection== and ==Stream==. Some of these subclasses such as ==Bitmap==,  or ==CompiledMethod== are special-purpose classes crafted for use in other parts of the system or in applications, and hence not categorized as ''Collections'' by the system organization. 
 
-In this chapter, we use the term ''Collection Hierarchy'' to mean ==Collection== and its
-subclasses that are ''also'' in the packages labelled ==Collections-*==. We use
-the term ''Stream Hierarchy'' to mean ==Stream== and its subclasses that are
-''also'' in the ==Collections-Streams== packages.
+In this chapter, we use the term ''Collection Hierarchy'' to mean ==Collection== and its subclasses that are ''also'' in the packages labelled ==Collections-*==. We use the term ''Stream Hierarchy'' to mean ==Stream== and its subclasses that are ''also'' in the ==Collections-Streams== packages.
 
-In this chapter we focus mainly on the subset of collection classes shown in
-Figure *@fig:CollClassesTree*. Streams will be discussed separately in
-Chapter *: Streams>../Streams/Streams.pillar@cha:streams*.
+In this chapter we focus mainly on the subset of collection classes shown in Figure *@fig:CollClassesTree*. Streams will be discussed separately in Chapter *: Streams>../Streams/Streams.pillar@cha:streams*.
 
-Pharo by default provide a good set of collections. 
-In addition, the project "Containers" available at *http://www.github.com/Pharo-Containers/* proposes alternate implementations or new collections and data structures. 
+Pharo by default provide a good set of collections. In addition, the project "Containers" available at *http://www.github.com/Pharo-Containers/* proposes alternate implementations or new collections and data structures. 
 
 +Some of the key collection classes in Pharo.>file://figures/CollectionHierarchy.png|label=fig:CollClassesTree+
 
-Let us start with an important point about the design of the collections in Pharo. 
-Their APIs heavily use high-order functions: so while we can use for loops like in old Java, most of the time Pharo developers will use iterator style based on high-order functions.
+Let us start with an important point about the design of the collections in Pharo. Their APIs heavily use high-order functions: so while we can use for loops like in old Java, most of the time Pharo developers will use iterator style based on high-order functions.
 
 !!!High-order functions
 @sec:varieties
 
-Programming with collections using high-order functions rather than individual
-elements is an important way to raise the level of abstraction of a program. The
-Lisp function ==map==, which applies an argument function to every element of a
-list and returns a new list containing the results is an early example of this
-style. Following its Smalltalk root, Pharo adopts this collection-based
-high-order programming as a central tenet. Modern functional programming
-languages such as ML and Haskell have followed Smalltalk's lead.
+Programming with collections using high-order functions rather than individual elements is an important way to raise the level of abstraction of a program. The Lisp function ==map==, which applies an argument function to every element of a list and returns a new list containing the results is an early example of this style. Following its Smalltalk root, Pharo adopts this collection-based high-order programming as a central tenet. Modern functional programming languages such as ML and Haskell have followed Smalltalk's lead.
 
-Why is this a good idea? Let us suppose you have a data structure containing a
-collection of student records, and wish to perform some action on all of the
-students that meet some criteria. Programmers raised to use an imperative
-language will immediately reach for a loop, but the Pharo programmer will
+Why is this a good idea? Let us suppose you have a data structure containing a collection of student records, and wish to perform some action on all of the students that meet some criteria. Programmers raised to use an imperative language will immediately reach for a loop, but the Pharo programmer will
 write:
 
 [[[
@@ -50,31 +28,15 @@ students
 	select: [ :each | each gpa < threshold ]
 ]]]
 
-This expression returns a new collection containing precisely those elements of
-==students== for which the block (the bracketed function) returns ==true==. The
-block can be thought of as a lambda-expression defining an anonymous function
-==x. x gpa < threshold==. This code has the simplicity and elegance of a
+This expression returns a new collection containing precisely those elements of ==students== for which the block (the bracketed function) returns ==true==. The block can be thought of as a lambda-expression defining an anonymous function ==x. x gpa < threshold==. This code has the simplicity and elegance of a
 domain-specific query language.
 
-The message ==select:== is understood by ''all'' collections in Pharo.
-There is no need to find out if the student data structure is an array or a
-linked list: the ==select:== message is understood by both. Note that this is
-quite different from using a loop, where one must know whether ==students== is
-an array or a linked list before the loop can be set up.
+The message ==select:== is understood by ''all'' collections in Pharo. There is no need to find out if the student data structure is an array or a linked list: the ==select:== message is understood by both. Note that this it's quite different from using a loop, where one must know whether ==students== is an array or a linked list before the loop can be set up.
 
-In Pharo, when one speaks of a collection without being more specific about
-the kind of collection, one means an object that supports well-defined protocols
-for testing membership and enumerating the elements. ''All'' collections
-understand the ==testing== messages ==includes:==, ==isEmpty== and
-==occurrencesOf:==. ''All'' collections understand the ==enumeration== messages
-==do:==, ==select:==, ==reject:== (which is the opposite of ==select:==),
-==collect:== (which is like Lisp's ==map==), ==detect:ifNone:==,
-==inject:into:== (which performs a left fold) and many more. It is the ubiquity
+In Pharo, when one speaks of a collection without being more specific about the kind of collection, one means an object that supports well-defined protocols for testing membership and enumerating the elements. ''All'' collections understand the ==testing== messages ==includes:==, ==isEmpty== and ==occurrencesOf:==. ''All'' collections understand the ==enumeration== messages ==do:==, ==select:==, ==reject:== (which is the opposite of ==select:==), ==collect:== (which is like Lisp's ==map==), ==detect:ifNone:==, ==inject:into:== (which performs a left fold) and many more. It is the ubiquity
 of this protocol, as well as its variety, that makes it so powerful.
 
-The table below summarizes the standard protocols supported by most of
-the classes in the collection hierarchy. These methods are defined, redefined,
-optimized or occasionally even forbidden by subclasses of ==Collection==.
+The table below summarizes the standard protocols supported by most of the classes in the collection hierarchy. These methods are defined, redefined, optimized or occasionally even forbidden by subclasses of ==Collection==.
 
 |!Protocol |!Methods |
 | ==accessing== | ==size==, ==capacity==, ==at:==, ==at:put:== |
@@ -91,9 +53,7 @@ optimized or occasionally even forbidden by subclasses of ==Collection==.
 !!!The varieties of collections
 @sec:varieties
 
-Beyond this basic uniformity, there are many different kinds of collections
-either supporting different protocols or providing different behaviour for the
-same requests. Let us briefly observe some of the key differences:
+Beyond this basic uniformity, there are many different kinds of collections either supporting different protocols or providing different behaviour for the same requests. Let us briefly observe some of the key differences:
 
 ;==Sequenceable:==
 :Instances of all subclasses of ==SequenceableCollection== start from a ==first== element and proceed in a well-defined order to a ==last== element. Instances of ==Set==, ==Bag== and ==Dictionary==, on the other hand, are not sequenceable.
@@ -112,16 +72,13 @@ same requests. Let us briefly observe some of the key differences:
 ;==Heterogeneous:==
 :Most collections will hold any kind of element. A ==String==, ==CharacterArray== or ==Symbol==, however, only holds ==Character==s. An ==Array== will hold any mix of objects, but a ==ByteArray== only holds Bytes. A ==LinkedList== is constrained to hold elements that conform to the ==Link== ==accessing== protocol.
 
-
 !!!Collection implementations
 
 @sec:implementation
 
 +Some collection classes categorized by implementation technique.>file://figures/CollectionsByImpl.png|width=100|label=fig:collsByImpl+
 
-These categorizations by functionality are not our only concern; we must also
-consider how the collection classes are implemented. As shown in Figure
-*@fig:collsByImpl*, five main implementation techniques are employed.
+These categorizations by functionality are not our only concern; we must also consider how the collection classes are implemented. As shown in Figure *@fig:collsByImpl*, five main implementation techniques are employed.
 
 - Arrays store their elements in the (indexable) instance variables of the collection object itself; as a consequence, arrays must be of a fixed size, but can be created with a single memory allocation.
 - ==OrderedCollections== and ==SortedCollections== store their elements in an array that is referenced by one of the instance variables of the collection. Consequently, the internal array can be replaced with a larger one if the collection grows beyond its storage capacity.
@@ -129,29 +86,20 @@ consider how the collection classes are implemented. As shown in Figure
 -LinkedLists use a standard singly-linked representation.
 -Intervals are represented by three integers that record the two endpoints and the step size.
 
-In addition to these classes, there are also ''weak'' variants of ==Array==,
-==Set== and of the various kinds of dictionary. These collections hold onto
-their elements weakly, i.e., in a way that does not prevent the elements
-from being garbage collected. The Pharo virtual machine is aware of these
-classes and handles them specially.
-
+In addition to these classes, there are also ''weak'' variants of ==Array==, ==Set== and of the various kinds of dictionary. These collections hold onto  their elements weakly, i.e., in a way that does not prevent the elements from being garbage collected. The Pharo virtual machine is aware of these classes and handles them specially.
 
 !!!Examples of key classes
 
-We present now the most common or important collection classes using simple code
-examples. The main protocols of collections are:
+We present now the most common or important collection classes using simple code examples. The main protocols of collections are:
 
 - messages ==at:==, ==at:put:== — to access an element,
 - messages ==add:==, ==remove:== — to add or remove an element,
 - messages ==size==, ==isEmpty==, ==include:== — to get some information about the collection,
 - messages ==do:==, ==collect:==, ==select:== — to iterate over the collection.
 
-Each collection may implement (or not) such protocols, and when they do, they
-interpret them to fit with their semantics. We suggest you to browse the classes
-themselves in order to identify specific and more advanced protocols.
+Each collection may implement (or not) such protocols, and when they do, they interpret them to fit with their semantics. We suggest you to browse the classes themselves in order to identify specific and more advanced protocols.
 
-We will focus on the most common collection classes: ==OrderedCollection==,
-==Set==, ==SortedCollection==, ==Dictionary==, ==Interval==, and ==Array==.
+We will focus on the most common collection classes: ==OrderedCollection==, ==Set==, ==SortedCollection==, ==Dictionary==, ==Interval==, and ==Array==.
 
 
 !!!Common creation protocol
@@ -235,19 +183,13 @@ Bag withAll: #(7 3 1 3)
 >>> a Bag(7 1 3 3)
 ]]]
 
-
 !!!==Array==
 
-An ==Array== is a fixed-sized collection of elements accessed by integer
-indices. Contrary to the C convention in Pharo, the first element of an array is
-at position 1 and not 0. The main protocol to access array elements is the
-method ==at:== and ==at:put:==. 
+An ==Array== is a fixed-sized collection of elements accessed by integer indices. Contrary to the C convention in Pharo, the first element of an array is at position 1 and not 0. The main protocol to access array elements is the method ==at:== and ==at:put:==. 
 - ==at: anInteger== returns the element at index ==anInteger==. 
 - ==at: anInteger put: anObject== puts ==anObject== at index ==anInteger==. 
 
-Arrays are fixed-size collections therefore we cannot add or
-remove elements at the end of an array. The following code creates an array of
-size 5, puts values in the first 3 locations and returns the first element.
+Arrays are fixed-size collections therefore we cannot add or remove elements at the end of an array. The following code creates an array of size 5, puts values in the first 3 locations and returns the first element.
 
 [[[testcase=true
 | anArray |
@@ -273,51 +215,35 @@ new: 5== creates an array of size 5.
 
 !!!!Creation using ==with:==
 
-The ==with:*== messages allow one to specify the value of the elements. The
-following code creates an array of three elements consisting of the number
-==4==, the fraction ==3/2== and the string =='lulu'==.
+The ==with:*== messages allow one to specify the value of the elements. The following code creates an array of three elements consisting of the number ==4==, the fraction ==3/2== and the string =='lulu'==.
 
 [[[testcase=true
 Array with: 4 with: 3/2 with: 'lulu'
 >>>  {4. (3/2). 'lulu'}
 ]]]
 
-
 !!!!Literal creation with ==#()==
 
-The expression ==#()== creates literal arrays with constants or ''literal''
-elements that have to be known when the expression is compiled, and not when it
-is executed. The following code creates an array of size 2 where the first
-element is the (literal) number ==1== and the second the (literal) string
-=='here'==.
+The expression ==#()== creates literal arrays with constants or ''literal'' elements that have to be known when the expression is compiled, and not when it is executed. The following code creates an array of size 2 where the first element is the (literal) number ==1== and the second the (literal) string =='here'==.
 
 [[[testcase=true
 #(1 'here') size
 >>> 2
 ]]]
 
-Now, if you execute the expression ==#(1+2)==, you do not get an array with a
-single element ==3== but instead you get the array ==#(1 #+ 2)== i.e., with
-three elements: ==1==, the symbol ==#+== and the number ==2==.
+Now, if you execute the expression ==#(1+2)==, you do not get an array with a single element ==3== but instead you get the array ==#(1 #+ 2)== i.e., with three elements: ==1==, the symbol ==#+== and the number ==2==.
 
 [[[testcase=true
 #(1+2)
 >>>  #(1 #+ 2)
 ]]]
 
-This occurs because the construct ==#()== does not execute the expressions it
-contains.  The elements are only objects that are created when parsing the
-expression (called literal objects). The expression is scanned and the resulting
-elements are fed to a new array. Literal arrays contain numbers, ==nil==,
-==true==, ==false==, symbols, strings and other literal arrays. During the
-execution of ==#()== expressions, there are no messages sent.
+This occurs because the construct ==#()== does not execute the expressions it contains.  The elements are only objects that are created when parsing the expression (called literal objects). The expression is scanned and the resulting elements are fed to a new array. Literal arrays contain numbers, ==nil==,
+==true==, ==false==, symbols, strings and other literal arrays. During the execution of ==#()== expressions, there are no messages sent.
 
 !!!!Dynamic creation with =={ . }==
 
-Finally, you can create a dynamic array using the construct =={ . }==. The
-expression =={ a . b }== is totally equivalent to ==Array with: a with: b==.
-This means in particular that the expressions enclosed by =={== and ==}== are
-executed (contrary to the case of ==#()==).
+Finally, you can create a dynamic array using the construct =={ . }==. The expression =={ a . b }== is totally equivalent to ==Array with: a with: b==. This means in particular that the expressions enclosed by =={== and ==}== are executed (contrary to the case of ==#()==).
 
 [[[language=smalltalk|testcase=true
 { 1 + 2 }
@@ -334,8 +260,7 @@ executed (contrary to the case of ==#()==).
 
 !!!!Element Access
 
-Elements of all sequenceable collections can be accessed with messages ==at:
-anIndex== and ==at: anIndex put: anObject==.
+Elements of all sequenceable collections can be accessed with messages ==at: anIndex== and ==at: anIndex put: anObject==.
 
 [[[testcase=true
 | anArray |
@@ -346,19 +271,11 @@ anArray at: 3
 >>> 33
 ]]]
 
-Be careful: general principle is that literal arrays are not be modified! Literal arrays
-are kept in compiled method literal frames (a space where literals appearing in
-a method are stored), therefore unless you copy the array, the second time you
-execute the code your ''literal'' array may not have the value you expect. In
-the example, without copying the array, the second time around, the literal
-==#(1 2 3 4 5 6)== will actually be ==#(1 2 33 4 5 6)==! Dynamic arrays do not
-have this problem because they are not stored in literal frames.
+Be careful: general principle is that literal arrays are not be modified! Literal arrays are kept in compiled method literal frames (a space where literals appearing in a method are stored), therefore unless you copy the array, the second time you execute the code your ''literal'' array may not have the value you expect. In the example, without copying the array, the second time around, the literal ==#(1 2 3 4 5 6)== will actually be ==#(1 2 33 4 5 6)==! Dynamic arrays do not have this problem because they are not stored in literal frames.
 
 !!!==OrderedCollection==
 
-==OrderedCollection== is one of the collections that can grow, and to which
-elements can be added sequentially. It offers a variety of messages such as
-==add:==, ==addFirst:==, ==addLast:==, and ==addAll:==.
+==OrderedCollection== is one of the collections that can grow, and to which elements can be added sequentially. It offers a variety of messages such as ==add:==, ==addFirst:==, ==addLast:==, and ==addAll:==.
 
 [[[testcase=true
 | ordCol |
@@ -370,9 +287,7 @@ ordCol
 
 !!!!Removing Elements
 
-The message ==remove:== ==anObject== removes the first occurrence of an object
-from the collection. If the collection does not include such an object, it
-raises an error.
+The message ==remove:== ==anObject== removes the first occurrence of an object from the collection. If the collection does not include such an object, it raises an error.
 
 [[[testcase=true
 ordCol add: 'GitHub'.
@@ -381,9 +296,7 @@ ordCol
 >>> an OrderedCollection('Seaside' 'SmalltalkHub' 'GitHub')
 ]]]
 
-There is a variant of ==remove:== named ==remove:ifAbsent:== that allows one to
-specify as second argument a block that is executed in case the element to be
-removed is not in the collection.
+There is a variant of ==remove:== named ==remove:ifAbsent:== that allows one to specify as second argument a block that is executed in case the element to be removed is not in the collection.
 
 [[[testcase=true
 result := ordCol remove: 'zork' ifAbsent: [33].
@@ -393,8 +306,7 @@ result
 
 !!!!Conversion
 
-It is possible to get an ==OrderedCollection== from an ==Array== (or any other
-collection) by sending the message ==asOrderedCollection==:
+It is possible to get an ==OrderedCollection== from an ==Array== (or any other collection) by sending the message ==asOrderedCollection==:
 
 [[[testcase=true
 #(1 2 3) asOrderedCollection
@@ -407,24 +319,21 @@ collection) by sending the message ==asOrderedCollection==:
 
 !!!==Interval==
 
-The class ==Interval== represents ranges of numbers. For example, the interval
-of numbers from 1 to 100 is defined as follows:
+The class ==Interval== represents ranges of numbers. For example, the interval of numbers from 1 to 100 is defined as follows:
 
 [[[testcase=true
 Interval from: 1 to: 100
 >>> (1 to: 100)
 ]]]
 
-The result of ==printString== reveals that the class ==Number== provides
-us with a convenience method called ==to:== to generate intervals:
+The result of ==printString== reveals that the class ==Number== provides us with a convenience method called ==to:== to generate intervals:
 
 [[[testcase=true
 (Interval from: 1 to: 100) = (1 to: 100)
 >>> true
 ]]]
 
-We can use ==Interval class>>from:to:by:== or ==Number>>to:by:== to specify the
-step between two numbers as follow:
+We can use ==Interval class>>from:to:by:== or ==Number>>to:by:== to specify the step between two numbers as follow:
 
 [[[testcase=true
 (Interval from: 1 to: 100 by: 0.5) size
@@ -441,10 +350,7 @@ step between two numbers as follow:
 
 !!!==Dictionary==
 
-Dictionaries are important collections whose elements are accessed using keys.
-Among the most commonly used messages of dictionary you will find ==at: aKey==,
-==at: aKey put: aValue==, ==at: aKey ifAbsent: aBlock==, ==keys==, and
-==values==.
+Dictionaries are important collections whose elements are accessed using keys. Among the most commonly used messages of dictionary you will find ==at: aKey==, ==at: aKey put: aValue==, ==at: aKey ifAbsent: aBlock==, ==keys==, and ==values==.
 
 [[[testcase=true
 | colors |
@@ -466,16 +372,9 @@ colors values
 >>> {Color red . Color blue . Color yellow}
 ]]]
 
-Dictionaries compare keys by equality. Two keys are considered to be the same if
-they return true when compared using ==\===. A common and difficult to spot bug
-is to use as key an object whose ==\=== method has been redefined but not its
-==hash== method. Both methods are used in the implementation of dictionary and
-when comparing objects.
+Dictionaries compare keys by equality. Two keys are considered to be the same if they return true when compared using ==\===. A common and difficult to spot bug is to use as key an object whose ==\=== method has been redefined but not its ==hash== method. Both methods are used in the implementation of dictionary and when comparing objects.
 
-In its implementation, a ==Dictionary== can be seen as consisting of a set of
-(key value) associations created using the message ==->==. We can create a
-==Dictionary== from a collection of associations, or we may convert a dictionary
-to an array of associations.
+In its implementation, a ==Dictionary== can be seen as consisting of a set of (key value) associations created using the message ==->==. We can create a ==Dictionary== from a collection of associations, or we may convert a dictionary to an array of associations.
 
 [[[testcase=true
 | colors |
@@ -487,15 +386,9 @@ colors associations
 
 !!!==IdentityDictionary==
 
-While a dictionary uses the result of the messages ==\=== and ==hash== to
-determine if two keys are the same, the class ==IdentityDictionary== uses the
-identity (message ==\=\===) of the key instead of its values, i.e., it
-considers two keys to be equal ''only'' if they are the same object.
+While a dictionary uses the result of the messages ==\=== and ==hash== to determine if two keys are the same, the class ==IdentityDictionary== uses the identity (message ==\=\===) of the key instead of its values, i.e., it considers two keys to be equal ''only'' if they are the same object.
 
-Often ==Symbol==s are used as keys, in which case it is natural to use an
-==IdentityDictionary==, since a ==Symbol== is guaranteed to be globally unique.
-If, on the other hand, your keys are ==String==s, it is better to use a plain
-==Dictionary==, or you may get into trouble:
+Often ==Symbol==s are used as keys, in which case it is natural to use an ==IdentityDictionary==, since a ==Symbol== is guaranteed to be globally unique. If, on the other hand, your keys are ==String==s, it is better to use a plain ==Dictionary==, or you may get into trouble:
 
 [[[testcase=true
 a := 'foobar'.
@@ -516,15 +409,10 @@ trouble at: 'foobar'
 >>> 'a'
 ]]]
 
-Since ==a== and ==b== are different objects, they are treated as different
-objects. Interestingly, the literal =='foobar'== is allocated just once, so is
-really the same object as ==a==. You don't want your code to depend on behaviour
-like this! A plain ==Dictionary== would give the same value for any key equal to
+Since ==a== and ==b== are different objects, they are treated as different objects. Interestingly, the literal =='foobar'== is allocated just once, so is really the same object as ==a==. You don't want your code to depend on behaviour like this! A plain ==Dictionary== would give the same value for any key equal to
 =='foobar'==.
 
-Use only globally unique objects (like ==Symbol==s or ==SmallInteger==s) as keys
-for an ==IdentityDictionary==, and ==String==s (or other objects) as keys for a
-plain ==Dictionary==.
+Use only globally unique objects (like ==Symbol==s or ==SmallInteger==s) as keys for an ==IdentityDictionary==, and ==String==s (or other objects) as keys for a plain ==Dictionary==.
 
 !!!! IdentityDictionary example 
 
@@ -535,16 +423,11 @@ Smalltalk globals keys collect: [ :each | each class ] as: Set
 >>> a Set(ByteSymbol)
 ]]]
 
-Here we are using ==collect:as:== to specify the result collection to be of
-class ==Set==, that way we collect each kind of class used as a key only once.
+Here we are using ==collect:as:== to specify the result collection to be of class ==Set==, that way we collect each kind of class used as a key only once.
 
 !!!==Set==
 
-The class ==Set== is a collection which behaves as a mathematical set, i.e.,
-as a collection with no duplicate elements and without any order.
-In a ==Set==, elements are added using the message ==add:== and they cannot be accessed using
-the message ==at:==.
-Objects put in a set should implement the methods ==hash== and ==\===.
+The class ==Set== is a collection which behaves as a mathematical set, i.e., as a collection with no duplicate elements and without any order. In a ==Set==, elements are added using the message ==add:== and they cannot be accessed using the message ==at:==. Objects put in a set should implement the methods ==hash== and ==\===.
 
 [[[testcase=true
 s := Set new.
@@ -553,8 +436,7 @@ s size
 >>> 2
 ]]]
 
-You can also create sets using ==Set class>>newFrom:== or the conversion message
-==Collection>>asSet==:
+You can also create sets using ==Set class>>newFrom:== or the conversion message ==Collection>>asSet==:
 
 [[[testcase=true
 (Set newFrom: #( 1 2 3 1 4 )) = #(1 2 3 4 3 2 1) asSet
@@ -577,10 +459,7 @@ A ==Bag== is much like a ==Set== except that it does allow duplicates:
 >>> 3
 ]]]
 
-The set operations ''union'', ''intersection'' and ''membership test'' are
-implemented by the ==Collection== messages ==union:==, ==intersection:==, and
-==includes:==. The receiver is first converted to a ==Set==, so these operations
-work for all kinds of collections!
+The set operations ''union'', ''intersection'' and ''membership test'' are implemented by the ==Collection== messages ==union:==, ==intersection:==, and ==includes:==. The receiver is first converted to a ==Set==, so these operations work for all kinds of collections!
 
 [[[testcase=true
 (1 to: 6) union: (4 to: 10)
@@ -597,28 +476,21 @@ work for all kinds of collections!
 >>> true
 ]]]
 
-As we explain below, elements of a set are accessed using iterators (see Section
-*@sec:iterators*).
+As we explain below, elements of a set are accessed using iterators (see Section *@sec:iterators*).
 
 !!!==SortedCollection==
 
-In contrast to an ==OrderedCollection==, a ==SortedCollection== maintains its
-elements in sort order. By default, a sorted collection uses the message ==<\===
-to establish sort order, so it can sort instances of subclasses of the abstract
-class ==Magnitude==, which defines the protocol of comparable objects (==<==,
-==\===, ==>==, ==>\===, ==between:and:==...).
-(See Chapter *: Basic Classes>../BasicClasses/BasicClasses.pier@cha:basicClasses*).
+In contrast to an ==OrderedCollection==, a ==SortedCollection== maintains its elements in sort order. By default, a sorted collection uses the message ==<\=== to establish sort order, so it can sort instances of subclasses of the abstract class ==Magnitude==, which defines the protocol of comparable objects (==<==,
+==\===, ==>==, ==>\===, ==between:and:==...). (See Chapter *: Basic Classes>../BasicClasses/BasicClasses.pier@cha:basicClasses*).
 
-You can create a ==SortedCollection== by creating a new instance and adding
-elements to it:
+You can create a ==SortedCollection== by creating a new instance and adding elements to it:
 
 [[[testcase=true
 SortedCollection new add: 5; add: 2; add: 50; add: -10; yourself.
 >>> a SortedCollection(-10 2 5 50)
 ]]]
 
-More usually, though, one will send the conversion message
-==asSortedCollection== to an existing collection:
+More usually, though, one will send the conversion message ==asSortedCollection== to an existing collection:
 
 [[[language=smalltalk|testcase=true
 #(5 2 50 -10) asSortedCollection
@@ -630,16 +502,14 @@ More usually, though, one will send the conversion message
 >>> a SortedCollection($e $h $l $l $o)
 ]]]
 
-How do you get a ==String== back from this result? ==asString== unfortunately
-returns the ==printString== representation, which is not what we want:
+How do you get a ==String== back from this result? ==asString== unfortunately returns the ==printString== representation, which is not what we want:
 
 [[[testcase=true
 'hello' asSortedCollection asString
 >>> 'a SortedCollection($e $h $l $l $o)'
 ]]]
 
-The correct answer is to either use ==String class>>newFrom:==, ==String
-class>>withAll:== or ==Object>>as:==.
+The correct answer is to either use ==String class>>newFrom:==, ==String class>>withAll:== or ==Object>>as:==.
 
 [[[testcase=true
 'hello' asSortedCollection as: String
@@ -654,9 +524,7 @@ String withAll: 'hello' asSortedCollection
 >>> 'ehllo'
 ]]]
 
-It is possible to have different kinds of elements in a ==SortedCollection== as
-long as they are all comparable. For example, we can mix different kinds of
-numbers such as integers, floats and fractions:
+It is possible to have different kinds of elements in a ==SortedCollection== as long as they are all comparable. For example, we can mix different kinds of numbers such as integers, floats and fractions:
 
 
 [[[language=smalltalk|testcase=true
@@ -664,12 +532,7 @@ numbers such as integers, floats and fractions:
 >>> a SortedCollection((-2/3) 5 5.21)
 ]]]
 
-Imagine that you want to sort objects that do not define the method ==<\=== or
-that you would like to have a different sorting criterion. You can do this by
-supplying a two argument block, called a sortblock, to the sorted collection.
-For example, the class ==Color== is not a Magnitude and it does not implement
-the method ==<\===, but we can specify a block stating that the colors should be
-sorted according to their luminance (a measure of brightness).
+Imagine that you want to sort objects that do not define the method ==<\=== or that you would like to have a different sorting criterion. You can do this by supplying a two argument block, called a sortblock, to the sorted collection. For example, the class ==Color== is not a Magnitude and it does not implement the method ==<\===, but we can specify a block stating that the colors should be sorted according to their luminance (a measure of brightness).
 
 [[[testcase=true
 col := SortedCollection
@@ -681,11 +544,7 @@ col
 
 !!!==Strings==
 
-In Pharo, a ==String== is a collection of ==Character==s. It is
-sequenceable, indexable, mutable and homogeneous, containing only ==Character==
-instances. Like ==Array==s, ==String==s have a dedicated syntax, and are
-normally created by directly specifying a ==String== literal within single
-quotes, but the usual collection creation methods will work as well.
+In Pharo, a ==String== is a collection of ==Character==s. It is sequenceable, indexable, mutable and homogeneous, containing only ==Character== instances. Like ==Array==s, ==String==s have a dedicated syntax, and are normally created by directly specifying a ==String== literal within single quotes, but the usual collection creation methods will work as well.
 
 [[[testcase=true
 'Hello'
@@ -707,14 +566,9 @@ String newFrom: #($h $e $l $l $o)
 >>> 'hello'
 ]]]
 
-In actual fact, ==String== is abstract. When we instantiate a ==String== we
-actually get either an 8-bit ==ByteString== or a 32-bit ==WideString==. To keep
-things simple, we usually ignore the difference and just talk about instances of
-==String==.
+In actual fact, ==String== is abstract. When we instantiate a ==String== we actually get either an 8-bit ==ByteString== or a 32-bit ==WideString==. To keep things simple, we usually ignore the difference and just talk about instances of ==String==.
 
-While strings are delimited by single quotes, a string can contain a single
-quote: to define a string with a single quote we should type it twice. Note that
-the string will contain only one element and not two as shown below:
+While strings are delimited by single quotes, a string can contain a single quote: to define a string with a single quote we should type it twice. Note that the string will contain only one element and not two as shown below:
 
 [[[testcase=true
 'l''idiot' at: 2
@@ -726,8 +580,7 @@ the string will contain only one element and not two as shown below:
 >>> $i
 ]]]
 
-The message ==,== concatenates two instances of ==String==. 
-Such messages can chained as follows: 
+The message ==,== concatenates two instances of ==String==. Such messages can chained as follows: 
 
 [[[testcase=true
 s := 'no', ' ', 'worries'.
@@ -735,9 +588,7 @@ s
 >>> 'no worries'
 ]]]
 
-Since a string is a mutable collection we can also change it using the message
-==at:put:==.
-From a design point of view better avoid mutating strings since strings are often shared over method execution.
+Since a string is a mutable collection we can also change it using the message ==at:put:==. From a design point of view better avoid mutating strings since strings are often shared over method execution.
 
 [[[testcase=true
 s at: 4 put: $h; at: 5 put: $u.
@@ -745,17 +596,14 @@ s
 >>> 'no hurries'
 ]]]
 
-Note that the comma method is defined by ==Collection==, so it will work for any
-kind of collection!
+Note that the comma method is defined by ==Collection==, so it will work for any kind of collection!
 
 [[[testcase=true
 (1 to: 3), '45'
 >>> #(1 2 3 $4 $5)
 ]]]
 
-We can also modify an existing string using ==replaceAll:with:== or
-==replaceFrom:to:with:== as shown below. Note that the number of characters and
-the interval should have the same size.
+We can also modify an existing string using ==replaceAll:with:== or ==replaceFrom:to:with:== as shown below. Note that the number of characters and the interval should have the same size.
 
 [[[testcase=true
 s replaceAll: $n with: $N.
@@ -769,18 +617,14 @@ s
 >>> 'No worries'
 ]]]
 
-In contrast to the methods described above, the method ==copyReplaceAll:==
-creates a new string. (Curiously, here the arguments are substrings rather than
-individual characters, and their sizes do not have to match.)
+In contrast to the methods described above, the method ==copyReplaceAll:== creates a new string. (Curiously, here the arguments are substrings rather than individual characters, and their sizes do not have to match.)
 
 [[[testcase=true
 s copyReplaceAll: 'rries' with: 'mbats'
 >>> 'No wombats'
 ]]]
 
-A quick look at the implementation of these methods reveals that they are
-defined not only for ==String==s, but for any kind of
-==SequenceableCollection==, so the following also works:
+A quick look at the implementation of these methods reveals that they are defined not only for ==String==s, but for any kind of ==SequenceableCollection==, so the following also works:
 
 [[[testcase=true
 (1 to: 6) copyReplaceAll: (3 to: 5) with: { 'three' . 'etc.' }
@@ -789,10 +633,7 @@ defined not only for ==String==s, but for any kind of
 
 !!!!String matching
 
-It is possible to ask whether a pattern matches a string by sending the
-==match:== message. The pattern can use ==*== to match an arbitrary series of
-characters and ==#== to match a single character. Note that ==match:== is sent
-to the pattern and not the string to be matched.
+It is possible to ask whether a pattern matches a string by sending the ==match:== message. The pattern can use ==*== to match an arbitrary series of characters and ==#== to match a single character. Note that ==match:== is sent to the pattern and not the string to be matched.
 
 [[[testcase=true
 'Linux *' match: 'Linux mag'
@@ -804,13 +645,10 @@ to the pattern and not the string to be matched.
 >>> true
 ]]]
 
-More advanced pattern matching facilities are also available in the ==Regex==
-package.
+More advanced pattern matching facilities are also available in the ==Regex== package.
 
 !!!!Substrings
-For substring manipulation we can use messages like ==first==, ==first:==,
-==allButFirst:==, ==copyFrom:to:== and others, defined in
-==SequenceableCollection==.
+For substring manipulation we can use messages like ==first==, ==first:==, ==allButFirst:==, ==copyFrom:to:== and others, defined in ==SequenceableCollection==.
 
 [[[testcase=true
 'alphabet' at: 6
@@ -842,12 +680,8 @@ For substring manipulation we can use messages like ==first==, ==first:==,
 >>> 'p' (not $p)
 ]]]
 
-Be aware that result type can be different, depending on the method used. Most
-of the substring-related methods return ==String== instances. But the messages
-that always return one element of the ==String== collection, return a
-==Character== instance (for example, =='alphabet' at: 6== returns the character
-==$b==). For a complete list of substring-related messages, browse the
-==SequenceableCollection== class (especially the ==accessing== protocol).
+Be aware that result type can be different, depending on the method used. Most of the substring-related methods return ==String== instances. But the messages that always return one element of the ==String== collection, return a ==Character== instance (for example, =='alphabet' at: 6== returns the character
+==$b==). For a complete list of substring-related messages, browse the ==SequenceableCollection== class (especially the ==accessing== protocol).
 
 !!!!Some predicates on strings
 
@@ -877,18 +711,14 @@ generally on collections.
 
 !!!!String templating
 
-There are three messages that are useful to manage string templating:
-==format:==, ==expandMacros==, and ==expandMacrosWith:==.
+There are three messages that are useful to manage string templating: ==format:==, ==expandMacros==, and ==expandMacrosWith:==.
 
 [[[testcase=true
 '{1} is {2}' format: {'Pharo' . 'cool'}
 >>> 'Pharo is cool'
 ]]]
 
-The messages of the ==expandMacros== family offer variable substitution, using
-==<n>== for carriage return, ==<t>== for tabulation, ==<1s>==, ==<2s>==,
-==<3s>== for arguments (==<1p>==, ==<2p>==, surrounds the string with single
-quotes), and ==<1?value1:value2>== for conditional.
+The messages of the ==expandMacros== family offer variable substitution, using ==<n>== for carriage return, ==<t>== for tabulation, ==<1s>==, ==<2s>==, ==<3s>== for arguments (==<1p>==, ==<2p>==, surrounds the string with single quotes), and ==<1?value1:value2>== for conditional.
 
 [[[testcase=true
 'look-<t>-here' expandMacros
@@ -922,8 +752,7 @@ quotes), and ==<1?value1:value2>== for conditional.
 
 !!!!Some other utility methods
 
-The class ==String== offers numerous other utilities including the messages
-==asLowercase==, ==asUppercase== and ==capitalized==.
+The class ==String== offers numerous other utilities including the messages ==asLowercase==, ==asUppercase== and ==capitalized==.
 
 [[[testcase=true
 'XYZ' asLowercase
@@ -955,13 +784,9 @@ The class ==String== offers numerous other utilities including the messages
 >>> 'this sent...too long'
 ]]]
 
-
 !!!! ==asString== vs. ==printString==
 
-Note that there is generally a difference between asking an object its string
-representation by sending the message ==printString== and converting it to a
-string by sending the message ==asString==. Here is an example of the
-difference.
+Note that there is generally a difference between asking an object its string representation by sending the message ==printString== and converting it to a string by sending the message ==asString==. Here is an example of the difference.
 
 [[[testcase=true
 #ASymbol printString
@@ -973,22 +798,12 @@ difference.
 >>> 'ASymbol'
 ]]]
 
-A symbol is similar to a string but is guaranteed to be globally unique. For
-this reason symbols are preferred to strings as keys for dictionaries, in
-particular for instances of ==IdentityDictionary==. See also
-Chapter *: Basic Classes>../BasicClasses/BasicClasses.pier@cha:basicClasses* for
-more about ==String== and ==Symbol==.
+A symbol is similar to a string but is guaranteed to be globally unique. For this reason symbols are preferred to strings as keys for dictionaries, in particular for instances of ==IdentityDictionary==. See also Chapter *: Basic Classes>../BasicClasses/BasicClasses.pier@cha:basicClasses* for more about ==String== and ==Symbol==.
 
 !!!Collection iterators
 @sec:iterators
 
-In Pharo loops and conditionals are simply messages sent to collections or other
-objects such as integers or blocks (see also Chapter
-*: Understanding message syntax>../UnderstandingMessage/UnderstandingMessage.pillar@chapterUnderstandingMessage*).
-In addition to low-level messages such as ==to:do:== which evaluates a block
-with an argument ranging from an initial to a final number, the collection
-hierarchy offers various high-level iterators. Using such iterators will make
-your code more robust and compact.
+In Pharo loops and conditionals are simply messages sent to collections or other objects such as integers or blocks (see also Chapter *: Understanding message syntax>../UnderstandingMessage/UnderstandingMessage.pillar@chapterUnderstandingMessage*). In addition to low-level messages such as ==to:do:== which evaluates a block with an argument ranging from an initial to a final number, the collection hierarchy offers various high-level iterators. Using such iterators will make your code more robust and compact.
 
 !!!!Iterating (==do:)==
 
@@ -1002,13 +817,9 @@ example prints all the strings contained in the receiver to the transcript.
 
 !!!!Variants
 
-There are a lot of variants of ==do:==, such as ==do:without:==,
-==doWithIndex:== and ==reverseDo:==.
+There are a lot of variants of ==do:==, such as ==do:without:==, ==doWithIndex:== and ==reverseDo:==.
 
-For the indexed collections (==Array==, ==OrderedCollection==,
-==SortedCollection==) the message ==doWithIndex:== also gives access to the
-current index. This message is related to ==to:do:== which is defined in class
-==Number==.
+For the indexed collections (==Array==, ==OrderedCollection==, ==SortedCollection==) the message ==doWithIndex:== also gives access to the current index. This message is related to ==to:do:== which is defined in class ==Number==.
 
 
 [[[testcase=true
@@ -1017,11 +828,9 @@ current index. This message is related to ==to:do:== which is defined in class
 >>> 2
 ]]]
 
-For ordered collections, the message ==reverseDo:== walks the collection in the
-reverse order.
+For ordered collections, the message ==reverseDo:== walks the collection in the reverse order.
 
-The following code shows an interesting message: ==do:separatedBy:== which
-executes the second block only in between two elements.
+The following code shows an interesting message: ==do:separatedBy:== which executes the second block only in between two elements.
 
 [[[testcase=true
 | res |
@@ -1045,10 +854,7 @@ String streamContents: [ :stream |
 
 !!!!Dictionaries
 
-When the message ==do:== is sent to a dictionary, the elements taken into
-account are the values, not the associations. The proper messages to use are
-==keysDo:==, ==valuesDo:==, and ==associationsDo:==, which iterate respectively
-on keys, values or associations.
+When the message ==do:== is sent to a dictionary, the elements taken into account are the values, not the associations. The proper messages to use are ==keysDo:==, ==valuesDo:==, and ==associationsDo:==, which iterate respectively on keys, values or associations.
 
 [[[testcase=true
 colors := Dictionary newFrom: { #yellow -> Color yellow. #blue -> Color blue. #red -> Color red }.
@@ -1057,16 +863,11 @@ colors valuesDo: [ :value | Transcript show: value; cr ].
 colors associationsDo: [:value | Transcript show: value; cr].
 ]]]
 
-
 !!! Collecting results (==collect:==)
 
-If you want to apply a function to the elements of a collection and get a new
-collection with the results, rather than using ==do:==, you are probably better
-off using ==collect:==, or one of the other iterator methods. Most of these can
-be found in the ==enumerating== protocol of ==Collection== and its subclasses.
+If you want to apply a function to the elements of a collection and get a new collection with the results, rather than using ==do:==, you are probably better off using ==collect:==, or one of the other iterator methods. Most of these can be found in the ==enumerating== protocol of ==Collection== and its subclasses.
 
-Imagine that we want a collection containing the doubles of the elements in
-another collection. Using the method ==do:== we must write the following:
+Imagine that we want a collection containing the doubles of the elements in another collection. Using the method ==do:== we must write the following:
 
 [[[testcase=true
 | double |
@@ -1076,18 +877,14 @@ double
 >>> an OrderedCollection(2 4 6 8 10 12)
 ]]]
 
-The message ==collect:== executes its argument block for each element and
-returns a new collection containing the results. Using ==collect:== instead, the
-code is much simpler:
+The message ==collect:== executes its argument block for each element and returns a new collection containing the results. Using ==collect:== instead, the code is much simpler:
 
 [[[testcase=true
 #(1 2 3 4 5 6) collect: [ :e | 2 * e ]
 >>> #(2 4 6 8 10 12)
 ]]]
 
-The advantages of ==collect:== over ==do:== are even more important in the
-following example, where we take a collection of integers and generate as a
-result a collection of absolute values of these integers:
+The advantages of ==collect:== over ==do:== are even more important in the following example, where we take a collection of integers and generate as a result a collection of absolute values of these integers:
 
 [[[testcase=true
 aCol :=  #( 2 -3 4 -35 4 -11).
@@ -1105,30 +902,23 @@ Contrast the above with the much simpler following expression:
 >>> #(2 3 4 35 4 11)
 ]]]
 
-A further advantage of the second solution is that it will also work for sets
-and bags. Generally you should avoid using ==do:==, unless you want to send
-messages to each of the elements of a collection.
+A further advantage of the second solution is that it will also work for sets and bags. Generally you should avoid using ==do:==, unless you want to send messages to each of the elements of a collection.
 
-Note that sending the message ==collect:== returns the same kind of collection
-as the receiver. For this reason the following code fails. (A ==String== cannot
-hold integer values.)
+Note that sending the message ==collect:== returns the same kind of collection as the receiver. For this reason the following code fails. (A ==String== cannot hold integer values.)
 
 [[[testcase=true
 'abc' collect: [ :ea | ea asciiValue ]
 >>> "error!"
 ]]]
 
-Instead we must first convert the string to an ==Array== or an
-==OrderedCollection==:
+Instead we must first convert the string to an ==Array== or an ==OrderedCollection==:
 
 [[[testcase=true
 'abc' asArray collect: [ :ea | ea asciiValue ]
 >>> #(97 98 99)
 ]]]
 
-Actually ==collect:== is not guaranteed to return a collection of exactly the
-same class as the receiver, but only the same ''species''. In the case of
-an ==Interval==, the species is an ==Array==!
+Actually ==collect:== is not guaranteed to return a collection of exactly the same class as the receiver, but only the same ''species''. In the case of an ==Interval==, the species is an ==Array==!
 
 [[[testcase=true
 (1 to: 5) collect: [ :ea | ea * 2 ]
@@ -1137,8 +927,7 @@ an ==Interval==, the species is an ==Array==!
 
 !!!Selecting and rejecting elements
 
-The message ==select:== returns the elements of the receiver that satisfy a
-particular condition:
+The message ==select:== returns the elements of the receiver that satisfy a particular condition:
 
 [[[testcase=true
 (2 to: 20) select: [ :each | each isPrime ]
@@ -1153,16 +942,14 @@ The message ==reject:== does the opposite:
 
 !!!!Identifying an element with ==detect:==
 
-The message ==detect:== returns the first element of the receiver that matches
-block argument.
+The message ==detect:== returns the first element of the receiver that matches block argument.
 
 [[[testcase=true
 'through' detect: [ :each | each isVowel ]
 >>> $o
 ]]]
 
-The message ==detect:ifNone:== is a variant of the method ==detect:==. Its
-second block is evaluated when there is no element matching the block.
+The message ==detect:ifNone:== is a variant of the method ==detect:==. Its second block is evaluated when there is no element matching the block.
 
 [[[testcase=true
 Smalltalk globals allClasses
@@ -1173,18 +960,11 @@ Smalltalk globals allClasses
 
 !!!!Accumulating results with ==inject:into:==
 
-Functional programming languages often provide a higher-order function called
-''fold'' or ''reduce'' to accumulate a result by applying some binary operator
-iteratively over all elements of a collection. In Pharo this is done by
-==Collection>>inject:into:==.
+Functional programming languages often provide a higher-order function called ''fold'' or ''reduce'' to accumulate a result by applying some binary operator iteratively over all elements of a collection. In Pharo this is done by ==Collection>>inject:into:==.
 
-The first argument is an initial value, and the second argument is a
-two-argument block which is applied to the result this far, and each element in
-turn.
+The first argument is an initial value, and the second argument is a two-argument block which is applied to the result this far, and each element in turn.
 
-A trivial application of ==inject:into:== is to produce the sum of a collection
-of numbers. In Pharo we could write this expression to sum the
-first 100 integers:
+A trivial application of ==inject:into:== is to produce the sum of a collection of numbers. In Pharo we could write this expression to sum the first 100 integers:
 
 [[[testcase=true
 (1 to: 100) inject: 0 into: [ :sum :each | sum + each ]
@@ -1203,13 +983,12 @@ factorial value: 10
 ]]]
 
 !!!Other high-order messages
-There are many other iterator messages. You can check the ==Collection== class.
-Here is a selection.
+
+There are many other iterator messages. You can check the ==Collection== class. Here is a selection.
 
 !!!!!! ==count:==
 
-The message ==count:== returns the number of elements satisfying a condition.
-The condition is represented as a boolean block.
+The message ==count:== returns the number of elements satisfying a condition. The condition is represented as a boolean block.
 
 [[[testcase=true
 Smalltalk globals allClasses
@@ -1219,8 +998,7 @@ Smalltalk globals allClasses
 
 !!!!!! ==includes:==
 
-The message ==includes:== checks whether the argument is contained in the
-collection.
+The message ==includes:== checks whether the argument is contained in the collection.
 
 [[[testcase=true
 | colors |
@@ -1231,14 +1009,12 @@ colors includes: Color blue.
 
 !!!!!! ==anySatisfy:==
 
-The message ==anySatisfy:== answers true if at least one element of the
-collection satisfies the condition represented by the argument.
+The message ==anySatisfy:== answers true if at least one element of the collection satisfies the condition represented by the argument.
 
 [[[testcase=true
 colors anySatisfy: [ :c | c red > 0.5 ]
 >>> true
 ]]]
-
 
 !!!A common mistake: using ==add:== result
 
@@ -1251,9 +1027,7 @@ collection
 >>> 2
 ]]]
 
-Here the variable ==collection== does not hold the newly created collection but
-rather the last number added. This is because the method ==add:== returns the
-element added and not the receiver.
+Here the variable ==collection== does not hold the newly created collection but rather the last number added. This is because the method ==add:== returns the element added and not the receiver.
 
 The following code yields the expected result:
 
@@ -1265,8 +1039,7 @@ collection
 >>> an OrderedCollection(1 2)
 ]]]
 
-You can also use the message ==yourself== to return the receiver of a cascade of
-messages:
+You can also use the message ==yourself== to return the receiver of a cascade of messages:
 
 [[[testcase=true
 | collection |
@@ -1276,8 +1049,7 @@ collection := OrderedCollection new add: 1; add: 2; yourself
 
 !!! A common mistake: Removing an element while iterating
 
-Another mistake you may make is to remove an element from a collection you are
-currently iterating over. The bugs created but such mistakes can be really difficult to spot because the iterating order may be change depending on the storage strategy of the collection. 
+Another mistake you may make is to remove an element from a collection you are currently iterating over. The bugs created but such mistakes can be really difficult to spot because the iterating order may be change depending on the storage strategy of the collection. 
 
 [[[testcase=true
 | range |
@@ -1301,12 +1073,8 @@ range
 
 !!! A common mitaske: Redefining ==\=== but not ==hash==
 
-A difficult error to spot is when you redefine ==\=== but not ==hash==. The
-symptoms are that you will lose elements that you put in sets or other strange
-behaviour. One solution proposed by Kent Beck is to use ==bitXor:== to redefine
-==hash==. Suppose that we want two books to be considered equal if their titles
-and authors are the same. Then we would redefine not only ==\=== but also
-==hash== as follows:
+A difficult error to spot is when you redefine ==\=== but not ==hash==. The symptoms are that you will lose elements that you put in sets or other strange behaviour. One solution proposed by Kent Beck is to use ==bitXor:== to redefine ==hash==. Suppose that we want two books to be considered equal if their titles
+and authors are the same. Then we would redefine not only ==\=== but also ==hash== as follows:
 
 [[[caption=Redefining ==\=== and ==hash==.
 Book >> = aBook
@@ -1317,14 +1085,11 @@ Book >> hash
    ^ title hash bitXor: authors hash
 ]]]
 
-Another nasty problem arises if you use a mutable object, i.e., an object
-that can change its hash value over time, as an element of a ==Set== or as a key
-to a ==Dictionary==. Don't do this unless you love debugging!
+Another nasty problem arises if you use a mutable object, i.e., an object that can change its hash value over time, as an element of a ==Set== or as a key to a ==Dictionary==. Don't do this unless you love debugging!
 
 !!!Chapter summary
 
-The collection hierarchy provides a common vocabulary for uniformly
-manipulating a variety of different kinds of collections.
+The collection hierarchy provides a common vocabulary for uniformly manipulating a variety of different kinds of collections.
 
 -A key distinction is between ==SequenceableCollection==s, which maintain their elements in a given order, ==Dictionary== and its subclasses, which maintain key-to-value associations, and ==Set==s and ==Bag==s, which are unordered.
 -You can convert most collections to another kind of collection by sending them the messages ==asArray==, ==asOrderedCollection==, etc...

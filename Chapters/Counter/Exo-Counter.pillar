@@ -177,7 +177,7 @@ As you now have your first green test, it's a good time to save your work.
 
 !!!Saving your code as a git repository with Iceberg
 
-Saving your work in the Pharo image is good, but it's not idea for sharing your work or collaborating with others. Much of modern software development is mediated through git, an open source version control system. Services such as GitHub are built on top of git, providing places where developers can work together building open source projects - like Pharo!
+Saving your work in the Pharo image is good, but it's not ideal for sharing your work or collaborating with others. Much of modern software development is mediated through git, an open-source version control system. Services such as GitHub are built on top of git, providing places where developers can work together building open source projects - like Pharo!
 
 Pharo works with git through the tool ""Iceberg"". This section will show you how to create a local git repository for your code, commit your changes to it, and also push those changes to a remote repository such as GitHub.
 
@@ -187,23 +187,23 @@ Open Iceberg through the ""Sources"" menu, or by hitting ==Cmd-O,I==.
 
 +Iceberg ''Repositories'' browser on a fresh image indicates that if you want to version modifications to Pharo itself you will have to tell Iceberg where the Pharo clone is located. But you do not care.>file://figures/Save1-EmptyIceberg.png|width=75|label=EmptyIceberg+
 
-You should now see something similar to Figure *@EmptyIceberg* which shows the top level Iceberg pane. It shows the Pharo project, and a few other projects that also come with your image, and indicates that it could not find a local repository for them by showing 'Local repository missing'. You do not have to worry about the Pharo project or having a local repository if you do not want to contribute to Pharo.
+You should now see something similar to Figure *@EmptyIceberg* which shows the top-level Iceberg pane. It shows the Pharo project, and a few other projects that also come with your image, and indicates that it could not find a local repository for them by showing 'Local repository missing'. You do not have to worry about the Pharo project or having a local repository if you do not want to contribute to Pharo.
 
 We're going to create a new project of our own.
 
-!!!!Add and configure a project
+!!!! Add and configure a project
 
 Press the button ==Add== to create a new project. Select 'New Repository' from the left and you should see a configuration pane similar to the one in Figure *@CreateProject*. Here we name our project, declare a directory on our local disk where the project's source should be saved, and also a subdirectory in the project itself which will be used to keep the Pharo code in -  conventionally this is the ==src== directory.
 
 +Add and create a project named MyCounter and with the ==src== subdirectory.>file://figures/Save2-CreateProject.png|label=CreateProject+
 
-!!!!Add your package to the project
+!!!! Add your package to the project
 
 Once added, the Iceberg ''Working copy'' browser should show you an empty pane because we still haven't added any packages to our project. Click on the ""Add package"" button and select the package ==MyCounter== as shown by Figure *@AddingPackage*.
 
 +Selecting the Add package iconic button,  add your package MyCounter to your project.>file://figures/Save3-AddingPackage.png|label=AddingPackage+
 
-!!!!Commit your changes
+!!!! Commit your changes
 
 Once you package is added, Iceberg shows you that there is uncommitted code in the packages managed by your project, as shown in Figure  *@SaveUncommited*. Press the ""Commit"" button. Iceberg will show you all the changes that are about to be saved (Figure *@SaveUncommited*). Enter a commit message and commit your changes.
 
@@ -380,4 +380,4 @@ Now you ''really'' saved your code  will be able to reload from another machine 
 
 !!! Conclusion
 
-In this tutorial you learned how to define packages, classes, methods, and tests. The workflow of programming that we chose for this first tutorial is similar to most of programming languages. However in Pharo, smart and agile developers use a different workflow: Test-Driven Development (TDD). We suggest you now to redo this whole exercise by defining a test first, executing it, defining a method in the debugger, and then repeating. Watch the second "Counter" video of the Pharo MOOC available at *http://mooc.pharo.org* to get a better understanding of the workflow.
+In this tutorial, you learned how to define packages, classes, methods, and tests. The workflow of programming that we chose for this first tutorial is similar to most programming languages. However, in Pharo, smart and agile developers use a different workflow: Test-Driven Development (TDD). We suggest you redo this whole exercise by defining a test first, executing it, defining a method in the debugger, and then repeating. Watch the second "Counter" video of the Pharo MOOC available at *http://mooc.pharo.org* to get a better understanding of the workflow.

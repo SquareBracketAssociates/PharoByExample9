@@ -16,28 +16,28 @@ Many aspects of Pharo's tooling have changed since the last edition, and we have
 
 !!!What is Pharo?
 
-Pharo is a modern, open-source, dynamically-typed language which supports live coding and is inspired by Smalltalk. Pharo and its ecosystem is composed of six fundamental elements:
+Pharo is a modern, open-source, dynamically-typed language that supports live coding and is inspired by Smalltalk. Pharo and its ecosystem are composed of six fundamental elements:
 
 - A dynamically-typed language with a syntax so simple it can fit on a postcard, yet it can still be read by people who are unfamiliar with it.
 - A live coding environment that allows the programmer to seamlessly modify their code as it executes.
 - A powerful IDE providing tools to help manage complex code and promote good design.
 - A rich library that creates an environment so powerful that it can be viewed as a virtual OS, including a very fast JITing VM and full access to OS libraries and features via its FFI.
 - A culture where changes and improvements are encouraged and highly valued.
-- A community that welcomes coders from any corner of the world, of any skill or experience, in any programming language.
+- A community that welcomes coders from any corner of the world, of any skill level or experience, in any programming language.
 
-Pharo strives to offer a lean, open platform for professional software development, as well as a robust and stable platform for research and development into dynamic languages and environments. Pharo serves as the reference implementation for the Seaside web development framework available at *http://www.seaside.st*.
+Pharo strives to offer a lean, open platform for professional software development, as well as a robust and stable platform for research and development into dynamic languages and environments. Pharo serves as the reference implementation for the Seaside web development framework, available at *http://www.seaside.st*.
 
-Pharo's core contains only code that has been contributed under the MIT license. The Pharo project started in March 2008 as a fork of Squeak (a modern implementation of Smalltalk-80), and the first 1.0 beta version was released on July 31, 2009. Since then Pharo has reached a new version every year or year and a half. The current version is Pharo 9.0, released in July 2021.
+Pharo's core contains only code that has been contributed under the MIT license. The Pharo project started in March 2008 as a fork of Squeak (a modern implementation of Smalltalk-80), and the first 1.0 beta version was released on July 31, 2009. Since then, Pharo has reached a new version every year or year and a half. The current version is Pharo 9.0, released in July 2021.
 
 Pharo is highly portable. Pharo can run on OS X, Windows, Linux, Android, iOS, and Raspberry Pi. Its virtual machine is written entirely in a subset of Pharo, making it easy to simulate, debug, analyze, and change from within Pharo itself. Pharo is the vehicle for a wide range of innovative projects, from multimedia applications and educational platforms to commercial web development environments.
 
-There is an important principle behind Pharo: Pharo does not just copy the past, it ''reinvents'' the essence of Smalltalk. However we realize that Big Bang style approaches that start from scratch rarely succeed. Pharo instead favors evolutionary and incremental changes. Rather than leaping for the final perfect solution in one big step, a multitude of small changes keeps even the bleeding edge relatively stable while allowing us to experiment with important new features and libraries. This facilitates contributions and rapid feedback from the community, on which Pharo relies on for its success. Finally, Pharo is not read-only: changes from the community are integrated daily. Pharo has around 100 contributors, based all over the world. You can have an impact on Pharo too! Just take a look at *http://github.com/pharo-project/pharo*.
+There is an important principle behind Pharo: Pharo does not just copy the past, it ''reinvents'' the essence of Smalltalk. However, we realize that Big Bang style approaches that start from scratch rarely succeed. Pharo instead favors evolutionary and incremental changes. Rather than leaping for the perfect solution in one big step, a multitude of small changes keeps even the bleeding edge relatively stable while allowing us to experiment with important new features and libraries. This facilitates contributions and rapid feedback from the community, which Pharo relies on for its success. Finally, Pharo is not read-only: changes from the community are integrated daily. Pharo has around 100 contributors, based all over the world. You can have an impact on Pharo too! Just take a look at *http://github.com/pharo-project/pharo*.
 
 !!!Who should read this book?
 
-This book will not teach you how to program. The reader should have some familiarity with programming languages. Some background with object-oriented programming would also be helpful.
+This book will not teach you how to program. The reader should have some familiarity with programming languages. Some background in object-oriented programming would also be helpful.
 
-The current book will introduce the Pharo programming environment, the language and the associated tools. You will be exposed to common idioms and practices, but the focus is on the technology, not on object-oriented design. We will show you good, illustrative examples as often as possible.
+The current book will introduce the Pharo programming environment, the language, and the associated tools. You will be exposed to common idioms and practices, but the focus is on the technology, not on object-oriented design. We will show you good, illustrative examples as often as possible.
 
 !!!!The Pharo MOOC
 
@@ -67,7 +67,6 @@ In addition, there are numerous other books on Smalltalk freely available  at *h
 
 Do not be frustrated by parts of Pharo that you do not immediately understand: ''You do not have to know everything''. Alan Knight expresses this as follows:
 
-
 ""''Try not to care''.""  Beginning Pharo programmers often have trouble because they think they need to understand all the details of how a thing works before they can use it. This means it takes quite a while before they can master ==Transcript show: 'Hello World'==. One of the great leaps in OO [object-oriented programming] is to be able to answer the question "How does this work?" with "I don't care".
 
 When you do not understand something, simple or complex, do not hesitate to ask us on our mailing lists (pharo-users@lists.pharo.org or pharo-dev@lists.pharo.org), IRC and Discord. We love questions and we welcome people of any skill.
@@ -92,7 +91,6 @@ The Pharo community is friendly and active. Here is a short list of resources th
 - Pharoers started a wiki on Pharo: *https://github.com/pharo-open-documentation/pharo-wiki>https://github.com/pharo-open-documentation/pharo-wiki*
 - An Awesome catalog is maintained with projects: *https://github.com/pharo-open-documentation/awesome-pharo>https://github.com/pharo-open-documentation/awesome-pharo*
 - If you hear about SmalltalkHub, *http://www.smalltalkhub.com/>http://www.smalltalkhub.com/* was the equivalent of SourceForge/GitHub for Pharo projects for about 10 years. Many extra packages and projects for Pharo lived there. Now the community is mainly using git repositories such as GitHub, GitLab, and Bitbucket.
-
 
 !!!Examples and exercises
 
@@ -131,8 +129,6 @@ testIncludes
     self assert: (full includes: 6).
     self assert: (empty includes: 5) not
 ]]] 
-
-
 
 !!!Acknowledgments
 

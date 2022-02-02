@@ -5,7 +5,7 @@ In this chapter we will explain in more detail how you can publish your project 
 
 We will not explain basic concepts like commit, push/pull, merging, or cloning, please refer to a Git tutorial for this. A strong prerequisite for reading this chapter is that you must be able to publish from the command line to your Git hosting service. If you cannot, do not expect Iceberg to fix it for you. If you have some problems with your SSH configuration (which is the default way to push using GitHub) you can either use HTTPS instead, or read the ''Manage your code with Iceberg'' booklet that you can find on *http://books.pharo.org*. Let us get started.
 
-!!!For the impatient
+!!! For the impatient
 
 If you do not want to read through everything below, and you feel pretty confident, here is an executive summary of how to get your code published:
 
