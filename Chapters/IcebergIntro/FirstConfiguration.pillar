@@ -43,7 +43,7 @@ Once you have pushed you can see that you have one remote as shown in Figure *@P
 +Once you pushed you changes to the remote repository.>file://figures/S15-PushedFromReport.png|width=75|label=PushedFromReport+
 
 
-!!! Configuring automatically Pharo to commit in HTTPS
+!!! Configuring Pharo to commit in HTTPS/SSH
 
 With recent version of github, you should use a token to connect using HTTPS to be able to commit to your repository.
 Now you can configure Pharo to store your token as well your github account authentification. 
