@@ -97,7 +97,6 @@ You can also use the Finder to search for methods with one or more arguments. Fo
 
 So far, we've seen a lot of tools that are useful when we're trying to ''find'' something in Pharo. Now let's take a look at some other other tools in Pharo, while we write a new method through the technique of ''Test-Driven Development''.
 
-
 !!! Conclusion
 
 - The ""Spotter"" is a powerful tool to navigate the system and find information.

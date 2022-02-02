@@ -2,11 +2,9 @@
 @cha:syntax
 
 Pharo adopts a syntax very close to that of its ancestor, Smalltalk.
-The syntax is designed so that program text can be read aloud as though it were a kind of
-pidgin English.
-The following method of the class ==Week== shows an example of the syntax.
-It checks whether ==DayNames== already contains the argument, i.e., if this argument represents a correct day name. 
-If this is the case, it will assign it to the class variable ==StartDay==.
+
+The syntax is designed so that program text can be read aloud as though it were a kind of pidgin English.
+The following method of the class ==Week== shows an example of the syntax. It checks whether ==DayNames== already contains the argument, i.e., if this argument represents a correct day name. If this is the case, it will assign it to the class variable ==StartDay==.
 
 [[[
 startDay: aSymbol
@@ -16,13 +14,9 @@ startDay: aSymbol
       ifFalse: [ self error: aSymbol, ' is not a recognised day name' ]
 ]]]
 
-Pharo's syntax is minimal. Essentially there is syntax only for sending messages (i.e., expressions). 
-Expressions are built up from a very small number of primitive elements (message sends, assignments, closures, returns...).
-There are only 6 reserved keywords, i.e., pseudo-variables, and there are no dedicated syntax constructs for control structures or declaring new classes.
-Instead, nearly everything is achieved by sending messages to objects.
-For instance, instead of an if-then-else control structure, conditionals are
-expressed as messages (such as ==ifTrue:==) sent to Boolean objects.
-New subclasses are created by sending a message to their superclass.
+Pharo's syntax is minimal. Essentially there is syntax only for sending messages (i.e., expressions). Expressions are built up from a very small number of primitive elements (message sends, assignments, closures, returns...). There are only 6 reserved keywords, i.e., pseudo-variables, and there are no dedicated syntax constructs for control structures or declaring new classes. Instead, nearly everything is achieved by sending messages to objects. 
+
+For instance, instead of an if-then-else control structure, conditionals are expressed as messages (such as ==ifTrue:==) sent to Boolean objects. New subclasses are created by sending a message to their superclass.
 
 !!! Syntactic elements
 
@@ -35,7 +29,6 @@ Expressions are composed of the following building blocks:
 # Block closures
 # Messages
 # Method returns
-
 
 We can see examples of the various syntactic elements in the table below.
 
@@ -64,50 +57,23 @@ We can see examples of the various syntactic elements in the table below.
 |==x := 2 . x := x + x==| two expressions separated by separator (==.==)
 |==Transcript show: 'hello'; cr==| two cascade messages separated by  (==;==)
 
+""Local variables."" ==startPoint== is a variable name, or identifier. By convention, identifiers are composed of words in "camelCase" (i.e., each word except the first starting with an upper case letter). The first letter of an instance variable, method or block parameters, or temporary variable must be lower case. This indicates to the reader that the variable has a private scope.
 
+""Shared variables."" Identifiers that start with upper case letters are global variables, class variables, pool dictionaries or class names. ==Transcript== is a global variable, an instance of the class ==ThreadSafeTranscript==.
 
-""Local variables."" ==startPoint== is a variable name, or identifier. By
-convention, identifiers are composed of words in "camelCase" (i.e., each word
-except the first starting with an upper case letter). The first letter of an
-instance variable, method or block parameters, or temporary variable must be lower
-case. This indicates to the reader that the variable has a private scope.
+""The message receiver."" ==self== is a pseudo-variable that refers to the object that receives the message (that led to the execution of the method using ==self==). It gives us a way send messages to it. We call ==self== "the receiver" because this object will receive the message that causes the method to be executed. Finally, ==self== is called a "pseudo-variable" since we cannot directly change its values or assign to it.
 
-""Shared variables."" Identifiers that start with upper case letters are global
-variables, class variables, pool dictionaries or class names. ==Transcript== is
-a global variable, an instance of the class ==ThreadSafeTranscript==.
+""Integers."" In addition to ordinary decimal integers like 42, Pharo also provides a radix notation. ==2r101== is 101 in radix 2 (i.e., binary), which is equal to decimal 5.
 
-""The message receiver."" ==self== is a pseudo-variable that refers to the object that receives 
-the message (that led to the execution of the method using ==self==).
-It gives us a way send messages to it. We call ==self== "the receiver" because this object
-will receive the message that causes the method to be executed. Finally, ==self== is called a
-"pseudo-variable" since we cannot directly change its values or assign to it.
+""Floating point numbers."" Such numbers can be specified with their base-ten exponent: ==2.4e7== is ==2.4 x 10^7==.
 
-""Integers."" In addition to ordinary decimal integers like 42, Pharo also
-provides a radix notation. ==2r101== is 101 in radix 2 (i.e., binary), which is
-equal to decimal 5.
+""Characters."" A dollar sign introduces a literal character: ==$a== is the literal for the character =='a'==. Instances of special, non-printing characters can be obtained by sending appropriately named messages to the ==Character== class, such as ==Character space== and ==Character tab==.
 
-""Floating point numbers."" Such numbers can be specified with their base-ten exponent:
-==2.4e7== is ==2.4 x 10^7==.
+""Strings."" Single quotes ==' '== are used to define a literal string. If you want a string with a single quote inside, just double the quote, as in =='G'\'day'==.
 
-""Characters."" A dollar sign introduces a literal character: ==$a== is the
-literal for the character =='a'==. Instances of special, non-printing characters can be
-obtained by sending appropriately named messages to the ==Character== class,
-such as ==Character space== and ==Character tab==.
+""Symbols."" Symbols are like Strings, in that they contain a sequence of characters. However, unlike a string, a literal symbol is guaranteed to be globally unique. There is only one ==Symbol== object ==#Hello== but there may be multiple ==String== objects with the value =='Hello'==.
 
-""Strings."" Single quotes ==' '== are used to define a literal string. If you
-want a string with a single quote inside, just double the quote, as in
-=='G'\'day'==.
-
-""Symbols."" Symbols are like Strings, in that they contain a sequence of
-characters. However, unlike a string, a literal symbol is guaranteed to be
-globally unique. There is only one ==Symbol== object ==#Hello== but there may be
-multiple ==String== objects with the value =='Hello'==.
-
-""Compile-time literal arrays."" They are defined by ==#( )==, surrounding space-separated
-literals. Everything within the parentheses must be a compile-time constant. For
-example, ==#(27 (true) abc 1+2)== is a literal array of 6 elements: the
-integer 27, the compile-time array containing the object ==true== (non-changeable Boolean), the symbol
-==#abc==, the integer 1, the symbol ==\+== and the integer 2. Note that this is the same as ==#(27 #(true) #abc 1 #+ 2)==.
+""Compile-time literal arrays."" They are defined by ==#( )==, surrounding space-separated literals. Everything within the parentheses must be a compile-time constant. For example, ==#(27 (true) abc 1+2)== is a literal array of 6 elements: the integer 27, the compile-time array containing the object ==true== (non-changeable Boolean), the symbol ==#abc==, the integer 1, the symbol ==\+== and the integer 2. Note that this is the same as ==#(27 #(true) #abc 1 #+ 2)==.
 
 ""Run-time dynamic arrays."" Curly braces =={ }== define a dynamic array whose elements are expressions, separated by periods, and evaluated at run-time.
 So =={ 1. 2. 1 + 2 }== defines an array with elements 1, 2, and 3 the result of evaluating ==1+2==.
@@ -115,18 +81,13 @@ So =={ 1. 2. 1 + 2 }== defines an array with elements 1, 2, and 3 the result of 
 ""Comments."" They are enclosed in double quotes \" \". "hello" is a comment, not a
 string, and is ignored by the Pharo compiler. Comments may span multiple lines but they cannot be nested.
 
-""Local variable definitions."" Vertical bars ==| |== enclose the declaration of
-one or more local variables before the beginning of a method or a block body.
+""Local variable definitions."" Vertical bars ==| |== enclose the declaration of one or more local variables before the beginning of a method or a block body.
 
 ""Assignment."" The two characters ==:= == specify that a variable refers to an object.
 
-""Blocks."" Square brackets ==[ ]== define a block, also known as a block
-closure or a lexical closure, which is a first-class object representing a
-function. As we shall see, blocks may take arguments (==[:i | ...]==) and can
-have local variables (==[| x | ...]==). Blocks also close over their definition environment, i.e., they can refer to variables that where reachable at the time of their definition.
+""Blocks."" Square brackets ==[ ]== define a block, also known as a block closure or a lexical closure, which is a first-class object representing a function. As we shall see, blocks may take arguments (==[:i | ...]==) and can have local variables (==[| x | ...]==). Blocks also close over their definition environment, i.e., they can refer to variables that where reachable at the time of their definition.
 
-""Pragmas and primitives."" ==< primitive: ... >== is a method annotation. This specific one denotes the invocation of a virtual
-machine (VM) primitive. In the case of a primitive the code following it, it either to explain what the primitive is doing (for essential primitives) or is executed only if the primitive fails (for optional primitive). The same syntax of a message within ==< >== is also used for other kinds of method annotations also called pragmas.
+""Pragmas and primitives."" ==< primitive: ... >== is a method annotation. This specific one denotes the invocation of a virtual machine (VM) primitive. In the case of a primitive the code following it, it either to explain what the primitive is doing (for essential primitives) or is executed only if the primitive fails (for optional primitive). The same syntax of a message within ==< >== is also used for other kinds of method annotations also called pragmas.
 
 ""Unary messages."" These consist of a single word (like ==factorial==) sent to
 a receiver (like 3). In ==3 factorial==, 3 is the receiver, and ==factorial== is
@@ -184,6 +145,7 @@ Here we give a brief overview on message kinds and ways for sending and executin
 
 
 !!!!Message precedence
+
 Unary messages have the highest precedence, then binary messages, and finally keyword messages, while brackets can be used to change the evaluation order.
 
 Thus, in the following example we first send ==factorial== to 3 which will give us result 6. Afterwards we send ==\+ 6== to 1 which gives the result 7, and finally we send ==raisedTo: 7== to 2.

@@ -1,10 +1,8 @@
 !!Getting Started with  Pharo
 @cha:getting
 
-
 In this chapter, you will learn how to start Pharo and the different files that make up a Pharo system and the roles they perform, learn about the different ways of interacting with the system, and discover some of the basic tools. You will also learn how to define a new method, create an object, and send it messages.
 The chapter shows (1) how to install Pharo and (2) how to launch Pharo.
-
 
 !!! Installing Pharo
 
@@ -13,7 +11,6 @@ Pharo does not need to install anything in your system, as it's perfectly capabl
 !!!! The Pharo Launcher
 
 Pharo Launcher is a cross-platform application that facilitates the management of multiple Pharo images and VMs. It is available as a free download from *http://pharo.org/download>http://pharo.org/download*.  Click the button for your operating system to download the appropriate Pharo Launcher; it contains everything you need to run Pharo.
-
 
 !!!! Zeroconf scripts
 
@@ -144,8 +141,6 @@ When you save your image the ==.image== file is updated with the snapshot of you
 
 It may seem like the image file should be the key mechanism for storing and managing software projects, but in practice that is not the case at all. There are much better tools for managing code and sharing software that is developed in a team. Images are useful, but you should be very cavalier about creating and throwing away images. Versioning tools such as Iceberg offer us a much better way to manage and share code. In addition, if you need to persist objects, you can use a package such as Fuel (a fast object binary serializer) or STON (a textual object serializer), or even use a database.
 
-
-
 !!!For the fast and furious
 
 Sometimes reading long chapters about a system that's as full of features as Pharo can be, well, ''boring''. If you've already got a working Pharo system installed on your computer, and you know a little bit about how everything works, you might want learn the basics by using ProfStef and then skip forward to the next chapter: a tutorial to define a simple counter and its associated tests. You can also watch the corresponding video available at *http://mooc.pharo.org*. 
@@ -167,7 +162,6 @@ This expression will trigger the ""ProfStef"" tutorial (as shown in Figure *@fig
 Congratulations! You have just sent your first message! Pharo is based on the concept of sending messages to objects. The Pharo objects are like your soldiers, just waiting for you to send them a message they can understand. We will see exactly how an object understands a message later on.
 
 +ProfStef is a simple interactive tutorial to learn about Pharo syntax.>file://figures/ProfStef.png|width=60|label=fig:ProfStef+
-
 
 !!!Chapter summary
 
