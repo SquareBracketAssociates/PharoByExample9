@@ -5,7 +5,8 @@ Here, we describe how to define a Baseline, a project map that you will use to d
 
 In the next chapter, we will show how to configure your project to get more out of the services offered within the Github ecosystem, such as Github Actions to automatically execute your tests.
 
-We start by showing you how you can commit your code if you did not create your remote repository first.
+We start by showing you how you can commit your code if you did not create your remote repository first. Then 
+we show you how to you can configure Pharo to manage a github token to commit using HTTPS.
 
 +Creating a local repository without pre-existing remote repository.>file://figures/S12-NewRepository.png|width=75|label=NewRepo+
 
@@ -40,6 +41,39 @@ Now you can push your changes and versions to the remote repository using the Pu
 Once you have pushed you can see that you have one remote as shown in Figure *@PushedFromReport*.
 
 +Once you pushed you changes to the remote repository.>file://figures/S15-PushedFromReport.png|width=75|label=PushedFromReport+
+
+
+!!! Configuring automatically Pharo to commit in HTTPS
+
+With recent version of github, you should use a token to connect using HTTPS to be able to commit to your repository.
+Now you can configure Pharo to store your token as well your github account authentification. 
+
+[[[
+StartupPreferencesLoader default executeAtomicItems: {
+    StartupAction 
+        name: 'Logo' 
+        code: [ PolymorphSystemSettings showDesktopLogo: false] .
+    StartupAction 
+        name: 'Git Settings' 
+        code: [ 
+            Iceberg enableMetacelloIntegration: true.
+            IceCredentialStore current
+                    storeCredential: (IcePlaintextCredentials new
+                    username: 'xxxxx';
+                    password: 'xxxx';
+                    host: 'github.com';
+                    yourself).        
+            IceCredentialStore current
+                storeCredential: (IceTokenCredentials new
+                    username: 'your-github-username';
+                    token: 'magictoken here ';
+                    yourself) 
+                forHostname: 'github.com'.
+            ]. 
+}
+]]]
+
+
 
 !!! Defining a ==BaselineOf==
 
