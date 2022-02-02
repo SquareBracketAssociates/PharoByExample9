@@ -79,6 +79,9 @@ StartupPreferencesLoader default executeAtomicItems: {
 ]]]
 
 
+You should place this file in the preference folder that depends on your OS. 
+You can find this place by using the ==Startup== menu. Note that you can configure this 
+for all or one specific version of Pharo.
 
 !!! Defining a ==BaselineOf==
 
