@@ -30,8 +30,8 @@ Notice that, when the ==Point== class is selected but no protocol or method is s
 %+The Boolean class with the comments section>file://figures/Boolean.png|width=100|label=fig:boolean+
 In addition the system supports the following mouse shortcuts:
 
-- ==Cmd-Click== on a word: open the definition of a class when the word is a class name. You get also the implementors of the message when you click on a selector that is in the body of a method.
-- ==Shift-Cmd-Click== on a word: open a list browser with all the refs of the class when the word is a class name. You get also the senders of the message when you click on a selector that is in the body of a method.
+- ==Cmd-Click== on a word (==Alt-Right click== on Windows and Linux): open the definition of a class when the word is a class name. You get also the implementors of the message when you click on a selector that is in the body of a method.
+- ==Shift-Cmd-Click== on a word (==Shift-Alt-Right click== on Windows and Linux): open a list browser with all the refs of the class when the word is a class name. You get also the senders of the message when you click on a selector that is in the body of a method.
 
 !!!!Using Spotter
 
