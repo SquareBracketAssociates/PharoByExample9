@@ -143,7 +143,7 @@ It may seem like the image file should be the key mechanism for storing and mana
 
 !!!For the fast and furious
 
-Sometimes reading long chapters about a system that's as full of features as Pharo can be, well, ''boring''. If you've already got a working Pharo system installed on your computer, and you know a little bit about how everything works, you might want learn the basics by using ProfStef and then skip forward to the next chapter: a tutorial to define a simple counter and its associated tests. You can also watch the corresponding video available at *http://mooc.pharo.org*. 
+Sometimes reading long chapters about a system that's as full of features as Pharo can be, well, ''boring''. If you've already got a working Pharo system installed on your computer, and you know a little bit about how everything works, you might want to learn the basics by using ProfStef and then skip forward to the next chapter: a tutorial to define a simple counter and its associated tests. You can also watch the corresponding video available at *http://mooc.pharo.org*. 
 
 To launch ProfStef type the following expression:
 
