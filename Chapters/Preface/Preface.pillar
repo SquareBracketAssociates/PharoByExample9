@@ -118,7 +118,7 @@ MyExampleSetTest >> testIncludes
     self assert: (empty includes: 5) not
 ]]] 
 
-And it you want to type it into Pharo you should type the following in the corresponding class.
+And if you want to type it into Pharo you should type the following in the corresponding class.
 
 [[[
 testIncludes
