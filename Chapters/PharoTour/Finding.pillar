@@ -7,9 +7,9 @@ In this short chapter we will show you some ways to find information in Pharo.
 
 There are ways to get to the class or method you're looking for in Pharo fast - very fast indeed. Later on we'll introduce you to ""Spotter"", one of the quickest ways to find an object in Pharo. But for now, while we're still learning, let's try taking the slow road by only using the System Browser to find the ==printString== method defined in the class ==Object==. At the end of the navigation, we will get the situation depicted in *@fig:systemBrowser2*:
 
--""Open the Browser"": Either by using the World Menu or the shortcut ==Cmd-O Cmd-W==. When a new System Browser window first opens, all panes but the leftmost are empty. This first pane lists all known ""packages"", which contain groups of related classes.
+-""Open the Browser"": Either by using the World Menu or the shortcut ==Cmd-O Cmd-B==. When a new System Browser window first opens, all panes but the leftmost are empty. This first pane lists all known ""packages"", which contain groups of related classes.
 -""Filter packages"": Type part of the name of the package in the left most filter. It filters the list of packages to be shown in the list above it. Type 'Kern' for example.
--""Expand the ==Kernel== package and select the ==Object== element"": When we select a package, it causes the second pane to show a list of all of the ""classes"" in the selected package. You should see the class hierarchy of ==ProtoObject==.
+-""Expand the ==Kernel== package and select the ==Objects== element"": When we select a package, it causes the second pane to show a list of all of the ""classes"" in the selected package. You should see the class hierarchy of ==ProtoObject==.
 -""Select the ==Object== class"": When a class is selected, the remaining two panes will be populated. The third pane displays the ""protocols"" of the currently selected class. These are convenient groupings of related methods which we'll discuss further later in the book. If no protocol is selected you should see all methods in the fourth pane.
 -""Select the ==printing== protocol"": You may have to scroll down to find it - ==Object== is a pretty important class and has lots of protocols. You can also click on the third pane and type ==pr==, to typeahead-find the ==printing== protocol. Now select it, and in the fourth pane you will see only the methods related to printing.
 -""Select the ==printString== method"": Now we see in the bottom pane the source code of the ==printString== method, shared by all objects in the system (except those that override it).
@@ -95,7 +95,7 @@ An asterisk at the beginning of a line in the list of classes indicates that thi
 
 You can also use the Finder to search for methods with one or more arguments. For example, if you are looking for a method that will find the greatest common factor of two integers, you might try ==25 . 35 . 5==. You can also give Finder multiple examples to narrow the search space; the help text in the bottom pane explains how.
 
-So far, we've seen a lot of tools that are useful when we're trying to ''find'' something in Pharo. Now let's take a look at some other other tools in Pharo, while we write a new method through the technique of ''Test-Driven Development''.
+So far, we've seen a lot of tools that are useful when we're trying to ''find'' something in Pharo. Now let's take a look at some other tools in Pharo, while we write a new method through the technique of ''Test-Driven Development''.
 
 !!! Conclusion
 
