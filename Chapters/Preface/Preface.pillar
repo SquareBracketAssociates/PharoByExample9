@@ -18,7 +18,7 @@ Many aspects of Pharo's tooling have changed since the last edition, and we have
 
 Pharo is a modern, open-source, dynamically-typed language that supports live coding and is inspired by Smalltalk. Pharo and its ecosystem are composed of six fundamental elements:
 
-- A dynamically-typed language with a syntax so simple it can fit on a postcard, yet it can still be read by people who are unfamiliar with it.
+- A dynamically-typed language with a minimalist syntax, similar to natural language writing, that can fit on a postcard and be read by people who are unfamiliar with it.
 - A live coding environment that allows the programmer to seamlessly modify their code as it executes.
 - A powerful IDE providing tools to help manage complex code and promote good design.
 - A rich library that creates an environment so powerful that it can be viewed as a virtual OS, including a very fast JITing VM and full access to OS libraries and features via its FFI.
