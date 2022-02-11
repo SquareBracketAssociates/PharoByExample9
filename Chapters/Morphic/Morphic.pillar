@@ -66,11 +66,9 @@ You get the same executing ==(Morph new color: Color orange) openInWorld==
 
 !!!Manipulating morphs
 
-Morphs are objects, so we can manipulate them like any other object in Pharo: by sending messages, we can change their properties, create new
-subclasses of Morph, and so on.
+Morphs are objects, so we can manipulate them like any other object in Pharo: by sending messages, we can change their properties, create new subclasses of Morph, and so on.
 
-Every morph, even if it is not currently open on the screen, has a position and a size. 
-For convenience, all morphs are considered to occupy a rectangular region of the screen; if they are irregularly shaped, their position and size are those of the smallest rectangular ''box'' that surrounds them, which is known as the morph's bounding box, or just its ''bounds''. 
+Every morph, even if it is not currently open on the screen, has a position and a size. For convenience, all morphs are considered to occupy a rectangular region of the screen; if they are irregularly shaped, their position and size are those of the smallest rectangular ''box'' that surrounds them, which is known as the morph's bounding box, or just its ''bounds''. 
 
 - The ==position== method returns a ==Point== that describes the location of the morph's upper left corner (or the upper left corner of its bounding box). The origin of the coordinate system is the screen's upper left corner, with ''y'' coordinates increasing ''down'' the screen and ''x'' coordinates increasing to the right.
 - The ==extent== method also returns a point, but this point specifies the width and height of the morph rather than a location.
@@ -88,9 +86,7 @@ position: (joe position + (10@3))== repeatedly (see Figure *@fig:moveJoe*).
 
 +Bill and Joe after 10 moves.>file://figures/moveJoe.png|width=65|label=fig:moveJoe+
 
-It is possible to do a similar thing with size. ==joe extent== answers joe's size; to have joe grow, execute ==joe extent: (joe extent \* 1.1)==.
-To change the color of a morph, send it the ==color:== message with the desired ==Color== object as argument, for instance, ==joe color: Color orange==. 
-To add transparency, try ==joe color: (Color orange alpha: 0.5)==.
+It is possible to do a similar thing with size. ==joe extent== answers joe's size; to have joe grow, execute ==joe extent: (joe extent \* 1.1)==. To change the color of a morph, send it the ==color:== message with the desired ==Color== object as argument, for instance, ==joe color: Color orange==. To add transparency, try ==joe color: (Color orange alpha: 0.5)==.
 
 To make bill follow joe, you can repeatedly execute this code:
 [[[language=smalltalk
@@ -98,21 +94,17 @@ bill position: (joe position + (100@0))
 ]]]
 
 If you move ==joe== using the mouse and then execute this code, bill will move so
-that it is 100 pixels to the right of ==joe==. 
-You can see the result on Figure *@fig:joeAndBillResult*.
-Nothing suprising.
+that it is 100 pixels to the right of ==joe==. You can see the result on Figure *@fig:joeAndBillResult*. Nothing suprising.
 
 +Bill follows Joe.>file://figures/joeAndBillResult.png|width=75|label=fig:joeAndBillResult+
-
 
 Note that you can delete the morphs you created by 
 - sending them the message delete
 - selecting the cross in halos that you can bring using Meta-Option click.
+
 !!!Composing morphs
 
-One way of creating new graphical representations is by placing one morph inside another. 
-This is called ''composition''; morphs can be composed to any depth.
-You can place a morph inside another by sending the message ==addMorph:== to the
+One way of creating new graphical representations is by placing one morph inside another. This is called ''composition''; morphs can be composed to any depth. You can place a morph inside another by sending the message ==addMorph:== to the
 container morph.
 
 Try adding a morph to another one as follows: 
@@ -124,12 +116,7 @@ balloon position: joe position.
 ]]]
 
 The last line positions the balloon at the same coordinates as joe. 
-Notice that the coordinates of the contained morph are still relative to the screen, not to
-the containing morph. 
-This absolute way of positioning morph is not really good and it makes programming morphs feels a bit odd. 
-But there are many  methods available to position a morph;
-browse the ==geometry== protocol of class ==Morph== to see for yourself. 
-For example, to center the balloon inside joe, execute ==balloon center: joe center==.
+Notice that the coordinates of the contained morph are still relative to the screen, not to the containing morph. This absolute way of positioning morph is not really good and it makes programming morphs feels a bit odd. But there are many  methods available to position a morph; browse the ==geometry== protocol of class ==Morph== to see for yourself. For example, to center the balloon inside joe, execute ==balloon center: joe center==.
 
 +The balloon is contained inside joe, the translucent orange morph.>file://figures/joeStar.png|width=30|label=fig:joeStar+
 
@@ -146,8 +133,7 @@ To do this you define a subclass of ==Morph== and override the ==drawOn:== metho
 
 The morphic framework sends the message ==drawOn:== to a morph when it needs to redisplay the morph on the screen. 
 The parameter to ==drawOn:== is a kind of ==Canvas==; the expected behaviour is that the morph will draw itself on that
-canvas, inside its bounds. 
-Let's use this knowledge to create a cross-shaped morph.
+canvas, inside its bounds. Let's use this knowledge to create a cross-shaped morph.
 
 Using the browser, define a new class ==CrossMorph== inheriting from ==Morph==:
 

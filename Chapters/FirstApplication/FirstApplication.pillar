@@ -55,7 +55,9 @@ Pharoers put a very high value on the readability of their code to help explain 
 
 !!!!Method comments
 
-There's been a tendency in the recent past to believe that well-written, expressive methods don't need comments; the intent and meaning should be obvious just by reading it. This is just plain wrong and encourages sloppiness. Of course, crufty and hard-to-understand code should be worked on, renamed, and refactored. A good comment does not excuse hard to read code. And obviously, writing comments for trivial methods makes no sense; a comment should not just be the code written again in English. Your comments should aim to be an explanation of what the method is doing, its context, and possibly the rationale behind its implementation. A reader should be comforted by your comment, is should show that what they assumed about the code was correct and should dispel any confusion they might have.
+There's been a tendency in the recent past to believe that well-written, expressive methods don't need comments; the intent and meaning should be obvious just by reading it. This is just plain wrong and encourages sloppiness. Of course, crufty and hard-to-understand code should be worked on, renamed, and refactored. 
+
+A good comment does not excuse hard to read code. And obviously, writing comments for trivial methods makes no sense; a comment should not just be the code written again in English. Your comments should aim to be an explanation of what the method is doing, its context, and possibly the rationale behind its implementation. A reader should be comforted by your comment, is should show that what they assumed about the code was correct and should dispel any confusion they might have.
 
 !!!!Class comments
 
@@ -129,7 +131,9 @@ Go to that Playground at the bottom of the pane and type the text ==self bounds:
 
 !!!!!The Morphic Halo
 
-The cell should appear near the top left-hand corner of the screen (as shown in Figure *@fig:LOCellOpenInWorld*) and exactly where its bounds say that it should appear - i.e. 200 pixels down from the top and 200 pixels in from the left. Meta-click (==Option-Shift-Click==) on the cell to bring up the ""Morphic Halo"". The Morphic halo represents a visual way to interact with a Morph, using the 'handles' that now surround the Morph. Move the cell with the brown handle (next to the top-right) and resize it with the yellow handle (bottom-right). Notice how the bounds reported by the inspector also change (you may have to click refresh to see the new bounds value). Delete the cell by clicking on the ==x== in the pink handle.
+The cell should appear near the top left-hand corner of the screen (as shown in Figure *@fig:LOCellOpenInWorld*) and exactly where its bounds say that it should appear - i.e. 200 pixels down from the top and 200 pixels in from the left. 
+
+Meta-click (==Option-Shift-Click==) on the cell to bring up the ""Morphic Halo"". The Morphic halo represents a visual way to interact with a Morph, using the 'handles' that now surround the Morph. Move the cell with the brown handle (next to the top-right) and resize it with the yellow handle (bottom-right). Notice how the bounds reported by the inspector also change (you may have to click refresh to see the new bounds value). Delete the cell by clicking on the ==x== in the pink handle.
 
 !!!Defining the class ==LOGame==
 
@@ -148,7 +152,7 @@ Here, we subclass ==BorderedMorph==. ==Morph== is the superclass of all of the g
 
 !!!Initializing our game
 
-Let's define an ==initialize== method for ==LOGame==. Type the following into the Browser as a method for ==LOGame== and ""Accept"" it.
+Let's define an ==initialize== method for ==LOGame==. Type the contents of *@scr:InitiGame* into the Browser as a method for ==LOGame== and ""Accept"" it.
 
 [[[lineNumber=false|caption=Initialize the game|label=scr:InitiGame
 LOGame >> initialize
