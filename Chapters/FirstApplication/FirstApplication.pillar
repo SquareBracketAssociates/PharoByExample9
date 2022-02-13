@@ -139,7 +139,7 @@ Meta-click (==Option-Shift-Click==) on the cell to bring up the ""Morphic Halo""
 
 Now let's create the other class that we need for the game, ==LOGame==.
 
-Make the class definition template visible in the Browser main window. Do this by clicking on the package name, or right-clicking on the Class pane. Edit the code so that it reads as in the Listing *@scr:DefineLOGame*, and accept it.
+Make the class definition template visible in the Browser main window. Do this by clicking on the package name, or right-clicking on the Class pane. Edit the code so that it reads as in Listing *@scr:DefineLOGame*, and accept it.
 
 [[[caption=Defining the LOGame class|label=scr:DefineLOGame
 BorderedMorph subclass: #LOGame
