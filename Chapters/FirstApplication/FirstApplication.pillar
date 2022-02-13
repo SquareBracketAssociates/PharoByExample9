@@ -30,7 +30,7 @@ At this point there are, of course, no classes in the new package. However, the 
 
 !!!Creating a new class
 
-Here's the new class definition we're going to use:
+The code in *@scr:ClassLOCell* contains the new class definition we're going to use:
 
 [[[caption= ==LOCell== class definition|label=scr:ClassLOCell
 SimpleSwitchMorph subclass: #LOCell
@@ -61,11 +61,11 @@ A good comment does not excuse hard to read code. And obviously, writing comment
 
 !!!!Class comments
 
-For the class comment, the Pharo offers you a template with some suggestions on what makes a good class comment. So, read it! The format is based on Class (or Candidate) Responsibility Collaborator cards (CRC cards), developed by Kent Beck and Ward Cunningham from many influences while they were working in Smalltalk in the 1980s (see their paper *"A Laboratory For Teaching Object-Oriented Thinking">https://c2.com/doc/oopsla89/paper.html* for more details). In a nutshell, the idea is to  state the ''responsibility'' of the class in a couple of sentences, and how it ''collaborates'' with other classes to achieve this. In addition, we can state the class' API (the main messages an object understands), give an example of the class being used (usually in Pharo we define examples as class methods), and some details about the internal representation or the rationale behind the implementation.
+For the class comment, Pharo offers you a template with some suggestions on what makes a good class comment. So, read it! The format is based on Class (or Candidate) Responsibility Collaborator cards (CRC cards), developed by Kent Beck and Ward Cunningham from many influences while they were working in Smalltalk in the 1980s (see their paper *"A Laboratory For Teaching Object-Oriented Thinking">https://c2.com/doc/oopsla89/paper.html* for more details). In a nutshell, the idea is to  state the ''responsibility'' of the class in a couple of sentences, and how it ''collaborates'' with other classes to achieve this. In addition, we can state the class' API (the main messages an object understands), give an example of the class being used (usually in Pharo we define examples as class methods), and some details about the internal representation or the rationale behind the implementation.
 
 !!!Adding methods to a class
 
-Now let's add some methods to our class. First, let's add this instance side method:
+Now let's add some methods to our class. First, let's add the Listing *@scr:InitLOCell* as instance side method:
 
 [[[caption=Initializing instance of LOCell|label=scr:InitLOCell
 LOCell >> initialize
@@ -133,13 +133,13 @@ Go to that Playground at the bottom of the pane and type the text ==self bounds:
 
 The cell should appear near the top left-hand corner of the screen (as shown in Figure *@fig:LOCellOpenInWorld*) and exactly where its bounds say that it should appear - i.e. 200 pixels down from the top and 200 pixels in from the left. 
 
-Meta-click (==Option-Shift-Click==) on the cell to bring up the ""Morphic Halo"". The Morphic halo represents a visual way to interact with a Morph, using the 'handles' that now surround the Morph. Move the cell with the brown handle (next to the top-right) and resize it with the yellow handle (bottom-right). Notice how the bounds reported by the inspector also change (you may have to click refresh to see the new bounds value). Delete the cell by clicking on the ==x== in the pink handle.
+Meta-click (==Option-Shift-Click==) on the cell to bring up the ""Morphic Halo"". The Morphic halo represents a visual way to interact with a Morph, using the 'handles' that now surround the Morph. Rotate the cell with the blue handle (next to the bottom-left) and resize it with the yellow handle (bottom-right). Notice how the bounds reported by the inspector also change (you may have to click refresh to see the new bounds value). Delete the cell by clicking on the ==x== in the pink handle.
 
 !!!Defining the class ==LOGame==
 
 Now let's create the other class that we need for the game, ==LOGame==.
 
-Make the class definition template visible in the Browser main window. Do this by clicking on the package name, or right-clicking on the Class pane. Edit the code so that it reads as follows, and accept it.
+Make the class definition template visible in the Browser main window. Do this by clicking on the package name, or right-clicking on the Class pane. Edit the code so that it reads as in Listing *@scr:DefineLOGame*, and accept it.
 
 [[[caption=Defining the LOGame class|label=scr:DefineLOGame
 BorderedMorph subclass: #LOGame
@@ -301,7 +301,7 @@ Place this method in a new protocol called ==game logic==. (Right-click in the p
 To complete the Lights Out game, we need to define two more methods in class
 ==LOCell== this time to handle mouse events.
 
-First, ==mouseAction:== is a simple accessor method:
+First, ==mouseAction:== in Listing *@scr:TypicalSetter* is a simple accessor method:
 
 [[[caption=A typical setter method|label=scr:TypicalSetter
 LOCell >> mouseAction: aBlock
@@ -356,7 +356,7 @@ Often, you can fix the code directly in the Debugger window and click ==Proceed=
 
 Execute ==LOGame new openInHand== again because if you use the old game instance it will still contain the blocks with the old logic.
 
-Now the game should work properly... or nearly so. If we happen to move the mouse between clicking and releasing, then the cell the mouse is over will also be toggled. This turns out to be behavior that we inherit from ==SimpleSwitchMorph==. We can fix this simply by overriding ==mouseMove:== to do nothing:
+Now the game should work properly... or nearly so. If we happen to move the mouse between clicking and releasing, then the cell the mouse is over will also be toggled. This turns out to be behavior that we inherit from ==SimpleSwitchMorph==. We can fix this simply by overriding ==mouseMove:== to do nothing as in Listing *@scr:MouseMove*
 
 [[[caption=Overriding mouse move actions|label=scr:MouseMove
 LOCell >> mouseMove: anEvent
@@ -386,6 +386,8 @@ If you're still reading this, we're now going to take a look at exporting your P
 !!!Saving code in a file
 
 You can also save the code of your package by writing it to a file, an action commonly called "filing out" by all Pharoers, Squeakers and related communities. The right-click menu in the Package pane will give you the option to select ""Extra > File Out"" the whole of the ==PBE-LightsOut== package. The resulting file is more or less human readable, but is really intended for computers, not humans. You can email this file to your friends, and they can "file it in" with their own image.
+
++File out the ==PBE-LightsOut== package.>file://figures/fileOut.png|width=85|label=fig:fileOut+
 
 File out the ==PBE-LightsOut== package (see Figure *@fig:fileOut*). You should now find a file named ==PBE-LightsOut.st== in the same folder on disk where your image is saved. Have a look at this file with a text editor to get a feel for what the code looks like when it's in a file. If you don't want to leave Pharo to look at the file, try inspecting =='PBE-LightsOut.st' asFileReference'== in a Playground.
 
