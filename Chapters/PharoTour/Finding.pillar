@@ -73,6 +73,8 @@ As we've already said, Spotter can also find methods. You can use the ==#Impleme
 
 Open the ""Finder"", either through the ""Browse"" menu on the menu bar, or through the World Menu. Type ==now== in the top left search box, cick ""Search"" (or just press the ==Enter== key). You should see a list of results similar to the one in Figure *@fig:finder*.
 
++The Finder tool>file://figures/finder.png|width=80|label=fig:finder+
+
 The Finder will display a list of all the method names that contain the substring "now". To scroll to ==now== itself, move the cursor to the list and type "n"; this type-ahead trick works in all scrolling windows. Expanding the "now" item shows you the classes that implement a method with this name. Selecting any one of them will display the source code for the implementation in the code pane on the bottom. It is also possible to search for the exact match, by typing =="now"== in the top left search bar; by using quotes you will only get the exact match. 
 
 !!!Finding Methods using Examples
