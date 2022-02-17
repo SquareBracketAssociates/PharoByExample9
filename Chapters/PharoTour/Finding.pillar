@@ -95,8 +95,6 @@ An asterisk at the beginning of a line in the list of classes indicates that thi
 
 You can also use the Finder to search for methods with one or more arguments. For example, if you are looking for a method that will find the greatest common factor of two integers, you might try ==25 . 35 . 5==. You can also give Finder multiple examples to narrow the search space; the help text in the bottom pane explains how.
 
-So far, we've seen a lot of tools that are useful when we're trying to ''find'' something in Pharo. Now let's take a look at some other tools in Pharo, while we write a new method through the technique of ''Test-Driven Development''.
-
 !!! Conclusion
 
 - The ""Spotter"" is a powerful tool to navigate the system and find information.
