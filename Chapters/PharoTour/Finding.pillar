@@ -73,6 +73,8 @@ As we've already said, Spotter can also find methods. You can use the ==#Impleme
 
 Open the ""Finder"", either through the ""Browse"" menu on the menu bar, or through the World Menu. Type ==now== in the top left search box, cick ""Search"" (or just press the ==Enter== key). You should see a list of results similar to the one in Figure *@fig:finder*.
 
++The Finder tool>file://figures/finder.png|width=80|label=fig:finder+
+
 The Finder will display a list of all the method names that contain the substring "now". To scroll to ==now== itself, move the cursor to the list and type "n"; this type-ahead trick works in all scrolling windows. Expanding the "now" item shows you the classes that implement a method with this name. Selecting any one of them will display the source code for the implementation in the code pane on the bottom. It is also possible to search for the exact match, by typing =="now"== in the top left search bar; by using quotes you will only get the exact match. 
 
 !!!Finding Methods using Examples
@@ -94,8 +96,6 @@ Click on the =='eureka' asUppercase -> 'EUREKA'== line, to show the list of clas
 An asterisk at the beginning of a line in the list of classes indicates that this method is the one that was actually used to obtain the desired result. So the asterisk in front of ==String== lets us know that the method ==asUppercase== defined in the class ==String== was executed and returned the result we wanted. The classes that do not have an asterisk are just the other implementors of ==asUppercase==, which share the method name but did ''not'' return the result you wanted. So the method ==asUppercase== defined in ==Character== was not executed in our example, because =='eureka'== is not a ==Character== instance (it's a ==String==).
 
 You can also use the Finder to search for methods with one or more arguments. For example, if you are looking for a method that will find the greatest common factor of two integers, you might try ==25 . 35 . 5==. You can also give Finder multiple examples to narrow the search space; the help text in the bottom pane explains how.
-
-So far, we've seen a lot of tools that are useful when we're trying to ''find'' something in Pharo. Now let's take a look at some other tools in Pharo, while we write a new method through the technique of ''Test-Driven Development''.
 
 !!! Conclusion
 

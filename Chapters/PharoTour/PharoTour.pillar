@@ -13,6 +13,8 @@ Try to remember that this is a ''quick'' tour of Pharo, a taster of the environm
 
 Once Pharo is running, you should see a single large window, possibly containing some open playground windows (see Figure *@fig:worldMenu*). You might notice a menu bar, but Pharo also makes use of context-dependent pop-up menus.
 
++World menu (left click) brings the world menu.>file://figures/worldMenu.png|width=60|label=fig:worldMenu+
+
 Clicking anywhere on the background of the Pharo window will display the ""World Menu"", which contains many of the Pharo tools, utilities, and settings.
 
 Take a minute to explore the World Menu. You will see a list containing many of Pharo's core tools, including the System Browser, the Playground, the package manager Iceberg, and many others. We will discuss them all in more detail in the coming chapters.
