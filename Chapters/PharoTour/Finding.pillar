@@ -39,7 +39,7 @@ The fastest (and probably the coolest) way to find a class is to use ""Spotter""
 
 +Using Spotter ==Shift-Enter== to browse the class ==Point==.>file://figures/spotter.png|width=80|label=fig:spotter+
 
-""Spotter"" offers several possibilities as shown in Figure *@fig:spotter*. You can specify to Spotter the kind of ''category'' you are interested in. For example, using ==#Classes== followed by the work you match against for, indicates that you are interested in classes.
+""Spotter"" offers several possibilities as shown in Figure *@fig:spotter*. You can specify to Spotter the kind of ''category'' you are interested in. For example, using ==#Classes== followed by the word you match against for, indicates that you are interested in classes.
 
 Figure *@fig:spotter2* shows how we can ask ""Spotter"" to show all the implementors of a given messages. We do not have to type the full category name. Other categories are
 
