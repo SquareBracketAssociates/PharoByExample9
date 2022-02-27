@@ -273,7 +273,7 @@ This time the test will turn ''yellow'', indicating a test failure - the test ra
 
 Now we have to write an initialization method that sets a default value of the ==count== instance variable. However, as we mentioned, the ==initialize== message is sent to the newly created instance. This means that the ==initialize== method should be defined on the ''instance side'', just like any method that is sent to an instance of ==Counter== (==increment== and ==decrement==). The ==initialize== method is responsible for setting up the default values of instance variables.
 
-And so, on the the instance side of ==Counter==, and in the ==initialization== protocol, write the following method (the body of this method is left blank. Fill it in!).
+And so, on the instance side of ==Counter==, and in the ==initialization== protocol, write the following method (the body of this method is left blank. Fill it in!).
 
 [[[
 Counter >> initialize
