@@ -81,7 +81,7 @@ The Finder will display a list of all the method names that contain the substrin
 
 Using the Finder you can look for classes or methods based on their names as mentioned above. You can also look for a string inside the whole method bodies, comments included. 
 
-But the Finder also offers a unique and powerful facility. At times you may have an inkling that a method exists, but have no idea what it might be called; you know how it should behave, but you don't know what it's called. But the Finder can still help! Suppose that you want find a method that up-cases a string (for example, transforming =='eureka'== into =='EUREKA'==). We can give Finder the inputs and expected outputs of a method and it will (try to) find it for you.
+But the Finder also offers a unique and powerful facility. At times you may have an inkling that a method exists, but have no idea what it might be called; you know how it should behave, but you don't know what it's called. But the Finder can still help! Suppose that you want to find a method that up-cases a string (for example, transforming =='eureka'== into =='EUREKA'==). We can give Finder the inputs and expected outputs of a method and it will (try to) find it for you.
 
 +Looking for a method that given the string =='eureka'== returns the string =='EUREKA'==.>file://figures/FinderEureka.png|width=80|label=fig:finder2+
 
