@@ -1,4 +1,4 @@
-!!A first application
+!! Building a little game
 @cha:firstApp
 
 In this chapter we will develop a simple game: Lights Out (*http://en.wikipedia.org/wiki/Lights_Out_(game)*). In doing so, we will increase our familiarity with the Browser, the Inspector, the Debugger, and versioning code with Iceberg. It's important to become proficient with these core tools. Once again, we will encourage you to take a test-first approach to developing this game by using Test-Driven Development.
@@ -202,7 +202,7 @@ We could use the same process but for now we'll stop to explain what we've done 
 
 Let's take a closer look at the ==initialize== method on a ==LOGame==.
 
-[[[lineNumber=true|caption=Initialize the game|label=scr:InitiGame
+[[[lineNumber=true|caption=Initialize the game|label=scr:InitiGame2
 LOGame >> initialize
 	| sampleCell width height n |
 	super initialize.

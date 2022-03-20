@@ -168,9 +168,9 @@ If you want to commit to a remote repository, you will have to add it using the 
 
 +Opening the repository browser let you add and browse branches as well as remote repositories.>file://figures/S13-OpeningRepository.png|width=75|label=OpeningRepositoryBrowser+
 
-Pressing the ""Add remote"" button adds a remote; you just need to fill in the information that you can find in your remote Git project. Figure *@OpeningRepositoryBrowser* shows it for the sample project using SSH and Figure *@OpeningRepositoryBrowser2* for HTTPS.
+Pressing the ""Add remote"" button adds a remote; you just need to fill in the information that you can find in your remote Git project. Figure *@OpeningRepositoryBrowser11* shows it for the sample project using SSH and Figure *@OpeningRepositoryBrowser2* for HTTPS.
 
-+Adding a remote using the ''Repository'' browser of your project (SSH version).>file://figures/S14-AddingRemote.png|width=50|label=OpeningRepositoryBrowser+
++Adding a remote using the ''Repository'' browser of your project (SSH version).>file://figures/S14-AddingRemote.png|width=50|label=OpeningRepositoryBrowser11+
 
 +Adding a remote using the ''Repository'' browser of your project (HTTP version).>file://figures/S14-AddingRemote-HTTP.png|width=50|label=OpeningRepositoryBrowser2+
 

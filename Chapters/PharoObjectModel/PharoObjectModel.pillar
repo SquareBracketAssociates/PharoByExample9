@@ -796,7 +796,7 @@ Another solution is to override the class method ==initialize== (we've seen this
 before in the Dog example).
 % in Scripts *@scr:dogCount* and *@scr:dogCount2*).
 
-[[[label=scr:colorClassInit|caption=Initializing the ==Color== class.
+[[[label=scr:colorClassInit2|caption=Initializing the ==Color== class.
 Color class >> initialize
     ...
     self initializeColorRegistry.

@@ -39,6 +39,14 @@
 
 \raggedbottom
 
+%%for www.BOD.fr
+\newcommand{\bodpage}{
+	\setstocksize{220mm}{155mm} % final trimmed book dimensions
+	\setbleed{5mm} % additional paper, before trimming
+	\setlrmarginsandblock{.85in}{.65in}{*}
+	\setulmarginsandblock{.75in}{.75in}{*}}
+\pagelayout{\bodpage}
+
 %%%
 %%% Fonts & paragraph typography
 %%%

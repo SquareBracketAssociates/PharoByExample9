@@ -1,4 +1,4 @@
-!!Developing a simple counter
+!!A first tutorial: Developing a simple counter
 @cha:counter
 
 To start off in Pharo, let's write a simple counter by following the steps given below. In this exercise you will learn how to create packages, classes, methods, instances, unit tests and more. This tutorial covers most of the important actions you will perform when developing in Pharo. You can also watch the companion videos available in the Pharo MOOC at *http://mooc.pharo.org*, which help illustrate this tutorial.
@@ -205,11 +205,11 @@ Once added, the Iceberg ''Working copy'' browser should show you an empty pane b
 
 !!!! Commit your changes
 
-Once you package is added, Iceberg shows you that there is uncommitted code in the packages managed by your project, as shown in Figure  *@SaveUncommited*. Press the ""Commit"" button. Iceberg will show you all the changes that are about to be saved (Figure *@SaveUncommited*). Enter a commit message and commit your changes.
+Once you package is added, Iceberg shows you that there is uncommitted code in the packages managed by your project, as shown in Figure  *@SaveUncommited*. Press the ""Commit"" button. Iceberg will show you all the changes that are about to be saved (Figure *@SaveUncommited2*). Enter a commit message and commit your changes.
 
 +Now Iceberg shows you that you did not commit your code.>file://figures/Save4-UncommitedChanges.png|label=SaveUncommited+
 
-+Iceberg shows you the changes about to be committed.>file://figures/Save5-FirstCommit.png|label=SaveUncommited+
++Iceberg shows you the changes about to be committed.>file://figures/Save5-FirstCommit.png|label=SaveUncommited2+
 
 !!!!Code saved
 

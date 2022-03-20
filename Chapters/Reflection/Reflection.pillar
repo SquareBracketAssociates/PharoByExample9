@@ -789,8 +789,8 @@ MorphTest run: #testOpenInWorld.
 
 How does this work? Let's have a look at ==Object>>haltIf:==. It first calls
 ==if:== with the condition to the ==Exception== class ==Halt==. This method
-itself will check if the condition is a symbol, which is true in this case and
-finally calls ==haltIfCallChain:contains:==
+itself checks if the condition is a symbol, which is true and
+ calls ==haltIf-CallChain:contains:==
 
 [[[
 Object >> haltIf: condition

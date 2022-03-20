@@ -60,17 +60,17 @@ StartupPreferencesLoader default executeAtomicItems: {
             Iceberg enableMetacelloIntegration: true.
             IceCredentialStore current
                     storeCredential: (IcePlaintextCredentials new
-                    username: 'xxxxx';
-                    password: 'xxxx';
+                    username: 'xxxxxJohnDoe';
+                    password: 'xxxPassOfJohnDoe';
                     host: 'github.com';
                     yourself).
             IceCredentialsProvider sshCredentials
                 username: 'git';
-                publicKey: 'Path to your private rsa.pub file (public key)';
-                privateKey: 'Path to your public rsa file (private key)'."
+                publicKey: 'Path to your public rsa file (public key)';
+                privateKey: 'Path to your private rsa file (private key)'.
             IceCredentialStore current
                 storeCredential: (IceTokenCredentials new
-                    username: 'your-github-username';
+                    username: 'xxxxxJohnDoe';
                     token: 'magictoken here ';
                     yourself) 
                 forHostname: 'github.com'.

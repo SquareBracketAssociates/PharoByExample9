@@ -51,7 +51,7 @@ The table below summarizes the standard protocols supported by most of the class
 | | ==with:with:with:with:==, ==withAll:==
 
 !!!The varieties of collections
-@sec:varieties
+@sec:varieties2
 
 Beyond this basic uniformity, there are many different kinds of collections either supporting different protocols or providing different behaviour for the same requests. Let us briefly observe some of the key differences:
 
