@@ -136,7 +136,7 @@ We would like to thank Alan Kay, Dan Ingalls and their team for making Squeak, a
 
 We would also like to thank Hilaire Fernandes and Serge Stinckwich who allowed us to translate parts of their columns on Smalltalk, and Damien Cassou for contributing the chapter on Streams. We especially thank Alexandre Bergel, Orla Greevy, Fabrizio Perin, Lukas Renggli, Jorge Ressia and Erwann Wernli for their detailed reviews. We thank the University of Bern, Switzerland, for graciously supporting this open-source project and for hosting the web site of this book for some years.
 
-We also thank the Pharo community for their enthusiastic support of this book project, as well as for all the translations of the first edition of ''Pharo by Example''.
+We also thank the Pharo community for their enthusiastic support of this book project, as well as for all the translations of the first edition of ''Pharo by Example''. 
 
 !!!Hyper special acknowledgments
 
@@ -146,8 +146,8 @@ Special thank to David Wickes for his massive copy-edit pass.
 
 Thanks to Adrian Sampaleanu, Manfred Kröhnert, Markus Schlager, Werner Kassens, Michael OKeefe, Aryeh Hoffman, Paul MacIntosh, Gaurav Singh, Jigyasa Grover, Craig Allen, Serge Stinckwich, avh-on1, Yuriy Timchuk, zio-pietro, Vivien Moreau, Liwei Chou for the typos and feedback. Special thanks to Damien Cassou and Cyril Ferlicot for their great help in the book update. 
 
-Finally we want to thank Inria for its steady and important financial support, and the RMoD team members for the constant energy pushing Pharo forward.
+Finally we want to thank Inria for its steady and important financial support, and the RMoD team members for the constant energy pushing Pharo forward. We want to thank also the Pharo consortium members. 
 
-Super special thanks to Damien Pollet for this great book template.
+Super special thanks to Damien Pollet for this great book template and Joseph Guégan for giving us the right to use his great picture of the Eckmuhl lighthouse' staircase.
 
 S. Ducasse, S. Kaplar, Gordana Rakic, and Q. Ducasse
