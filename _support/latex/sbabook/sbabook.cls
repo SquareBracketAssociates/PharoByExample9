@@ -19,17 +19,20 @@
     \settrims{#1}{#1}%
     \advance\stockheight 2\trimtop
     \advance\stockwidth  2\trimedge}
+
 \newcommand{\paperbackpage}{
   \stockustrade
   \setbleed{.125in}
   % \setbinding{5mm}
   \setlrmarginsandblock{.85in}{.65in}{*}
   \setulmarginsandblock{.75in}{.75in}{*}}
+  
 \newcommand{\spiralboundpage}{
   \stockaivus
   \setbleed{0pt}% trims not required (unless we deliver this via Lulu as well?)
   \setlrmarginsandblock{1.25in}{1.25in}{*}
   \setulmarginsandblock{.75in}{1in}{*}}
+
 \newcommand{\pagelayout}[1]{
   \providecommand{\setuppage}{#1}% set default page layout
   \setuppage\checkandfixthelayout
@@ -39,12 +42,14 @@
 
 \raggedbottom
 
+
 %%for www.BOD.fr
 \newcommand{\bodpage}{
 	\setstocksize{220mm}{155mm} % final trimmed book dimensions
 	\setbleed{5mm} % additional paper, before trimming
 	\setlrmarginsandblock{.85in}{.65in}{*}
 	\setulmarginsandblock{.75in}{.75in}{*}}
+	
 \pagelayout{\bodpage}
 
 %%%
@@ -203,7 +208,7 @@
   \renewcommand*{\partnumfont}  {\normalfont\huge\sffamily}
   \renewcommand*{\parttitlefont}{\normalfont\Huge\sffamily}
   \chapterstyle{sba}
-  \setsecheadstyle      {\LARGE\sffamily\bfseries}
+  \setsecheadstyle      {\LARGE\sffamily\bfseries} %\hspace{0.2cm} for shifting to the right but ugly
   \setsubsecheadstyle   {\Large\sffamily\bfseries}
   \setsubsubsecheadstyle{\Large\sffamily}
   \setparaheadstyle     {\sffamily\bfseries}
@@ -211,7 +216,8 @@
   \setsecnumformat{%
     \llap{\mdseries
       \csname the##1\endcsname
-      \quad}}
+%\quad replaced for bod with 
+\hskip0.4em}}
 }
 
 \headstyles{sba}
