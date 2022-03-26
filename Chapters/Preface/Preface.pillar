@@ -7,7 +7,7 @@ Many aspects of Pharo's tooling have changed since the last edition, and we have
 - We have reorganized the beginning of the book to get shorter chapters.
 - We have introduced a new 'first contact' chapter with a simple counter example. This lets the reader see the most important operations to define a class, its tests, and save its code.
 - We briefly cover the new system browser, Calypso, as well as the Pharo Launcher.
-- We have introduced one new chapter covering Iceberg and package management. Supplementing this is a new book on Pharo and git, available at *http://books.pharo.org*.
+- We have introduced a new chapter covering Iceberg and package management. A larger book on Pharo and git is available at *http://books.pharo.org*.
 - We added a new chapter on Traits.
 - We have simplified the SUnit chapter, since a companion book is now available at *http://books.pharo.org/*
 - We have revised parts of the book that were wrong in previous editions, such as the Morphic chapter; the current version is a considerable improvement over ''Pharo by Example 5''.
