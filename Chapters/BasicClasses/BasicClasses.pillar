@@ -106,7 +106,7 @@ It is not really a problem but when you write new code, you should be aware of t
 Note that the message ==printOn:== is not the same as ==storeOn:==. The message
 ==storeOn:== writes to its argument stream an expression that can be used to
 recreate the receiver. This expression is executed when the stream is read using
-the message ==readFrom:==. On the other hand, the message ==printOn:== just
+the message ==readFrom:==. On the other hand, the message ==storeOn:== just
 returns a textual version of the receiver. Of course, it may happen that this
 textual representation may represent the receiver as a self-evaluating
 expression.
