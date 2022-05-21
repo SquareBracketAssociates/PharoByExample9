@@ -31,7 +31,7 @@ The following terminology will help us:
 A message is always sent to a receiver, which can be a single literal, a block or a variable or the result of evaluating another message.
 To help you identify the receiver of a message, we will underline it for you. We will also surround each message send with an ellipse and number message sends starting from the first one that will be sent to help you see the order in which messages are sent.
 
-+Two messages: ==Color yellow== and ==aMorph color: Color yellow==.>/figures/uKeyUnOne.png|label=fig:ellipse|width=50+
++Two messages: ==Color yellow== and ==aMorph color: Color yellow==.>file://figures/uKeyUnOne.png|label=fig:ellipse|width=50+
 
 Figure *@fig:ellipse* represents two message sends, ==Color yellow== and ==aMorph color: Color yellow==, hence there are two ellipses. The message send ==Color yellow== is executed first so its ellipse is numbered ==1==.  There are two receivers: ==aMorph== which receives the message ==color: ...== and ==Color== which receives the message ==yellow==. Both receivers are underlined.
 
@@ -192,7 +192,7 @@ In this  figure, the message ==yellow== is an unary message and the message ==co
 However as message sends in parentheses are sent first, putting (unnecessary) parentheses around ==Color yellow== just emphasizes that it will be sent first.
 The rest of the section illustrates each of these points.
 
-+Unary messages are sent first so Color yellow is sent. This returns a color object which is passed as argument of the message aPen color:.>/figures/uKeyUn.png|label=fig:uKeyUn+
++Unary messages are sent first so Color yellow is sent. This returns a color object which is passed as argument of the message aPen color:.>file://figures/uKeyUn.png|label=fig:uKeyUn+
 
 
 !!!!Unary > Binary > Keywords
