@@ -437,8 +437,9 @@ SystemNavigation default browseAllImplementorsOf: #ifTrue:
 
 +Browse all implementations of ==ifTrue:==.>file://figures/implementors.png|label=fig:implementors+
 
-Particularly useful are the methods ==browseAllSelect:== and
-==browseMethodsWithSourceString:matchCase:==. Here are two different ways to
+Particularly useful are the methods ==browseAllSelect:== and     
+ ==browseMethodsWith== ==SourceString:matchCase:==. 
+Here are two different ways to
 browse all methods in the system that perform super sends (the first way is
 rather brute force, the second way is better and eliminates some false
 positives):
@@ -489,9 +490,7 @@ aClass methodDict keys select: [ :aMethod |
 
 A compiled method does not simply store the bytecode of a method. It is also an
 object that provides numerous useful methods for querying the system. One such
-method is ==isAbstract== (which tells if the method sends
-==subclassResponsibility==). We can use it to identify all the abstract methods
-of a class.
+method is ==isAbstract== (which tells if the method sends ==subclassResponsibility==). We can use it to identify all the abstract methods of a class.
 
 [[[testcase=true
 | aClass |
@@ -1054,8 +1053,7 @@ object (see Figure *@fig:DynamicAccessors*).
 +Dynamically creating accessors.>file://figures/DynamicAccessors.pdf|label=fig:DynamicAccessors+
 
 (1) We send ==x== to ==myDA==, (2) the message is looked up in the class, and
-(3) not found in the class hierarchy. (4) This causes ==self doesNotUnderstand:
-\#x== to be sent back to the object, (5) triggering a new lookup. This time
+(3) not found in the class hierarchy. (4) This causes ==self doesNotUnderstand: \#x== to be sent back to the object, (5) triggering a new lookup. This time
 ==doesNotUnderstand:== is found immediately in ==DynamicAccessors==, (6) which
 asks its class to compile the string =='x ^ x'==. The ==compile== method is
 looked up (7), and (8) finally found in ==Behavior==, which (9-10) adds the new
