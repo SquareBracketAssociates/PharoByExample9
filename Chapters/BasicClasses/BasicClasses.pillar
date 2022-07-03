@@ -308,7 +308,7 @@ Normally it is a bad idea to query an object for its class, or to ask it which m
 Instead of making decisions based on the class of object, you should simply send a message
 to the object and let it decide (on the basis of its class) how it should
 behave. 
-Client of an object should not query the object to decide with messages to send it. 
+Client of an object should not query the object to decide which messages to send it. 
 The "Don't Ask, Tell" is an important cornerstone of good object-oriented design.
 So watch out if you need to use these messages. 
 
