@@ -27,7 +27,7 @@ Pharo offers three ways to interact with the system using a mouse or other point
 
 ""action-click"" (or right-click): this is the next most used button. It is used to bring up a contextual menu that offers different sets of actions depending on where the mouse is pointing (see Figure *@fig:operating*). If you do not have a multi-button mouse, then normally you would configure action-click to be performed when clicking the mouse button and holding down the control modifier.
 
-""meta-click"": Finally, you may meta-click on any object displayed in the image to activate the "Morphic halo", an array of handles that are used to perform operations on the on-screen objects themselves, such as inspecting or resizing them (see Figure *@fig:halos*). If you let the mouse linger over a handle, a help balloon will explain its function. In Pharo, how you meta-click depends on your operating system: either you must hold ==Ctrl-Shift== or ==Alt-Shift== (on Windows or Linux) or ==Option-Shift== (on macOS) while clicking.
+""meta-click"": Finally, you may meta-click on any object displayed in the image to activate the "Morphic halo", an array of handles that are used to perform operations on the on-screen objects themselves, such as inspecting or resizing them (see Figure *@fig:halos*). If you let the mouse linger over a handle, a help balloon will explain its function. In Pharo, how you meta-click depends on your operating system: either you must hold ==Ctrl-Shift== or ==Alt-Shift== (on Windows or Linux) or ==Option-Shift-Cmd== (on macOS) while clicking.
 
 +Action Click (right click) brings the contextual menu.>file://figures/operating.png|width=60|label=fig:operating+
 
