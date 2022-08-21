@@ -9,7 +9,7 @@ Many aspects of Pharo's tooling have changed since the last edition, and we have
 - We briefly cover the new system browser, Calypso, as well as the Pharo Launcher.
 - We have introduced a new chapter covering Iceberg and package management. A larger book on Pharo and git is available at *http://books.pharo.org*.
 - We added a new chapter on Traits.
-- We have simplified the SUnit chapter, since a companion book is now available at *http://books.pharo.org/*
+- We have simplified the SUnit chapter, since a companion book is now available at *http://books.pharo.org/*.
 - We have revised parts of the book that were wrong in previous editions, such as the Morphic chapter; the current version is a considerable improvement over ''Pharo by Example 5''.
 
 ''Pharo by Example'' has received many edits, modifications and updates to bring it into line with the current version of Pharo. It does not magically update itself; improvements are the result of many people's hard work; one does not simply change a '5.0' to a '9'. This is why I decided, as one of the original and main authors of the book over the years, to invite Sebastijan, Gordana and Quentin to be listed as authors of ''Pharo by Example 9''.
